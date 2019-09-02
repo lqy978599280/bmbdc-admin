@@ -55,36 +55,6 @@
     text-decoration: none;
   }
 
-  $top: top;
-  $bottom: bottom;
-  $left: left;
-  $right: right;
-  $leftright: ($left, $right);
-  %w100 {
-    width: 100%;
-  }
-
-  %h100 {
-    height: 100%;
-  }
-
-  %cursor {
-    cursor: pointer;
-  }
-
-  html, body, #loyout, .el-container, #asideNav, ul.el-menu {
-    @extend %h100;
-  }
-
-  @mixin set-value($side, $value) {
-    @each $prop in $leftright {
-      #{$side}-#{$prop}: $value;
-    }
-  }
-
-  #elmain {
-    background-color: #f0f2f5;
-  }
 
 
 </style>
