@@ -1,11 +1,19 @@
 <template>
-    $END$
+  <div>
+    <template v-for="(child,index) in menuData">
+      <el-submenu v-if="child.children.length > 0" :index="child.path">
+      </el-submenu>
+      <el-menu-item v-else :index="child.path">
+      </el-menu-item>
+    </template>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "menutree"
-    }
+  export default {
+    name: 'menuTree',
+    props: ['menuData']
+  }
 </script>
 
 <style scoped>
