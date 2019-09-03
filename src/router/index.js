@@ -16,7 +16,7 @@ Vue.use(Router)
 let routeName
 let defaultRouter = [
   { path: '/',
-    redirect: '/index',
+    redirect: '/login',
     hidden: true,
     children: []
   },
