@@ -6,12 +6,15 @@
         :default-active="activeIndex"
         class="el-menu-demo"
         mode="horizontal"
-        background-color="gainsboro"
+        background-color="#eee"
         height="40px"
         @select="handleSelect">
 
         <el-submenu index="1">
-          <template slot="title">用户名</template>
+          <template slot="title">
+            <i class="my-iconcount"></i>
+            {{name}}
+          </template>
           <el-menu-item index="1-1">个人中心</el-menu-item>
           <el-menu-item index="1-2">修改密码</el-menu-item>
           <el-menu-item index="1-3" @click="lout">退出</el-menu-item>
@@ -33,7 +36,8 @@
         data() {
             return {
                 activeIndex: '1',
-                activeIndex2: '1'
+                activeIndex2: '1',
+                name:"管理员"
             };
         },
         methods: {

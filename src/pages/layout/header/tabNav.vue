@@ -18,30 +18,10 @@
             return {
                 editableTabsValue2: '6',
                 editableTabs2: [{
-                    title: 'Tab 1',
+                    title: '首页',
                     name: '1',
-                    content: 'Tab 1 content'
-                }, {
-                    title: 'Tab 2',
-                    name: '2',
-                    content: 'Tab 2 content'
-                }, {
-                    title: 'Tab 3',
-                    name: '3',
-                    content: 'Tab 3 content'
-                }, {
-                    title: 'Tab 4',
-                    name: '4',
-                    content: 'Tab 4 content'
-                }, {
-                    title: 'Tab 5',
-                    name: '5',
-                    content: 'Tab 5 content'
-                }, {
-                    title: 'Tab 6',
-                    name: '6',
-                    content: 'Tab 6 content'
-                },],
+                    content: ''
+                }],
                 tabIndex: 6
             }
         },

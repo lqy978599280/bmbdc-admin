@@ -8,28 +8,29 @@
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      background-color="#545c64"
-      text-color="#fff"
+      background-color="#03152A"
+      text-color=" #5e6d82 "
+      router
     >
-      <el-menu-item index="1">
+      <el-menu-item index="mainIndex">
           <i class="el-icon-star-off"></i>
           <span slot="title">首页</span>
 
 
       </el-menu-item>
-      <el-submenu index="2">
+      <el-submenu index="system">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span >系统管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">菜单管理</el-menu-item>
-          <el-menu-item index="1-2">角色管理</el-menu-item>
+          <el-menu-item index="index" >菜单管理</el-menu-item>
+          <el-menu-item index="index" >角色管理</el-menu-item>
           <el-menu-item index="1-3">用户管理</el-menu-item>
-          <el-menu-item index="1-4">部门管理</el-menu-item>
-          <el-menu-item index="1-5">字典管理</el-menu-item>
-          <el-menu-item index="1-6">登录日志</el-menu-item>
-          <el-menu-item index="1-7">消息管理</el-menu-item>
+          <el-menu-item index="depts">部门管理</el-menu-item>
+          <el-menu-item index="sysconfigs">字典管理</el-menu-item>
+          <el-menu-item index="syslogs">登录日志</el-menu-item>
+          <el-menu-item index="messages">消息管理</el-menu-item>
         </el-menu-item-group>
 
       </el-submenu>
@@ -76,7 +77,7 @@
 
       <el-submenu index="7">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-edit-outline"></i>
           <span >飞手社工管理</span>
         </template>
         <el-menu-item-group>
@@ -88,7 +89,7 @@
 
       <el-submenu index="8">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-edit-outline"></i>
           <span >全景社工管理</span>
         </template>
         <el-menu-item-group>
@@ -100,7 +101,7 @@
 
       <el-submenu index="9">
       <template slot="title">
-        <i class="el-icon-edit"></i>
+        <i class="el-icon-edit-outline"></i>
         <span >房源社工管理</span>
       </template>
       <el-menu-item-group>
@@ -112,7 +113,7 @@
 
       <el-submenu index="10">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-edit-outline"></i>
           <span >房产经纪人管理</span>
         </template>
         <el-menu-item-group>
@@ -140,29 +141,12 @@
                 this.selectmenu(val)
             }
         },
-        //   methods: {
-        //     selectmenu (key) {
-        //       let router = this.$store.getters.routers
-        //       let name = ''
-        //       let navTitle = function (path, routerARR) {
-        //         for (let i = 0; i < routerARR.length; i++) {
-        //           if (routerARR[i].children.length > 0 || routerARR[i].path === path) {
-        //             if (routerARR[i].path === path && routerARR[i].children.length < 1) {
-        //               name = routerARR[i].name
-        //               break
-        //             }
-        //             navTitle(path, routerARR[i].children)
-        //           }
-        //         }
-        //         return name
-        //       }
-        //       this.$store.dispatch('addTab', {
-        //         title: navTitle(key, router),
-        //         path: key
-        //       })
-        //     }
-        //   }
-        // }
+          methods: {
+            selectmenu (key) {
+
+            }
+          }
+
     }
 </script>
 
@@ -170,30 +154,32 @@
   @import url("//unpkg.com/element-ui@2.0.11/lib/theme-chalk/index.css");
 
   .el-aside {
-    background-color: #444;
+    background-color:#03152A ;
     color: #333;
     text-align: left;
-    height: 100vh;
+
   }
 
   .el-aside::-webkit-scrollbar {
-    width: 5px;
+    width: 0;
   }
 
   .el-aside::-webkit-scrollbar-thumb {
-    background-color: rgba(200, 200, 200, 0.55);
+    background-color: rgba(230, 230, 230, 0.85);
     border-radius: 3px;
   }
 
   .logo-name {
     display: flex;
     justify-content: center;
-    margin: 20px
+    padding: 20px;
+    background-color: #03152A;
   }
 
   .el-menu-vertical-demo {
-    height: 85vh;
+
     width: 100%;
+
   }
 
   .el-menu {

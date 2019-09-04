@@ -6,7 +6,7 @@
         <el-header>
           <layoutHeader></layoutHeader>
         </el-header>
-        <el-main></el-main>
+        <el-main>    <router-view/></el-main>
       </el-container>
     </el-container>
   </div>
@@ -49,28 +49,38 @@
 
   .el-header {
 
-    background-color: #fff;
+    background-color:#f2f2f2;
     color: #333;
     line-height: 60px ;
     padding-left: 0;
     padding-right: 0;
-
+    border-bottom: 1px solid rgb(216, 220, 229)
   }
 
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    float: left;
+  /*.el-aside {*/
+  /*  background-color: #D3DCE6;*/
+  /*  color: #333;*/
+  /*  text-align: center;*/
+  /*}*/
+  .el-container{
+    height: 100vh;
   }
-
   .el-main {
-    background-color: #fff;
+    background-color: #f2f2f2;
     color: #333;
-    text-align: center;
-    line-height: 160px;
+    max-height: 100vh;
+    /*margin-top:10px ;*/
+    /*border-top: 1px solid gainsboro;*/
+    /*border-left: 1px solid gainsboro;*/
+  }
+  .el-main::-webkit-scrollbar {
+    width: 5px;
   }
 
+  .el-main::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.75);
+    border-radius: 3px;
+  }
   body > .el-container {
     margin-bottom: 40px;
   }

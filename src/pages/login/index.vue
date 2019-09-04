@@ -39,6 +39,7 @@
         },
         methods:{
             submitForm(e){
+                if(this.account == "Admin"&&this.password =="123456"&&this.code==this.random)
                 this.$router.push('/index')
             }
         }
