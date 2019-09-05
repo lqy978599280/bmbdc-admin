@@ -4,20 +4,20 @@
       <el-input class="bgc" type="text" placeholder="菜单管理"  v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
-      <menuEdit :data="form" :dialogFormVisible="dialogadd" @getdialogfv="getdialogfv" :name="name[0]"></menuEdit>
-      <menuEdit :data="tableData[index]" :dialogFormVisible="dialogedit" @getdialogfv="getdialogfv" :name="name[1]"></menuEdit>
+      <menuEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :name="name[0]"></menuEdit>
+      <menuEdit :data="tableData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :name="name[1]"></menuEdit>
     </div>
     <el-table
       class="bgc"
       :data="tableData"
     >
 
-      <singleMenu :data="this.tableData[0]"></singleMenu>
-      <singleMenu :data="this.tableData[1]"></singleMenu>
-      <singleMenu :data="this.tableData[2]"></singleMenu>
-      <singleMenu :data="this.tableData[3]"></singleMenu>
-      <singleMenu :data="this.tableData[4]"></singleMenu>
-      <singleMenu :data="this.tableData[5]"></singleMenu>
+      <singleMenu :data="this.tableData[0]" :coltype="this.columntype[0]"></singleMenu>
+      <singleMenu :data="this.tableData[1]" :coltype="this.columntype[1]"></singleMenu>
+      <singleMenu :data="this.tableData[2]" :coltype="this.columntype[2]"></singleMenu>
+      <singleMenu :data="this.tableData[3]" :coltype="this.columntype[3]"></singleMenu>
+      <singleMenu :data="this.tableData[4]" :coltype="this.columntype[4]"></singleMenu>
+      <singleMenu :data="this.tableData[5]" :coltype="this.columntype[5]"></singleMenu>
 
 
       <el-table-column label="操作" width="250">
@@ -55,11 +55,40 @@
                 search:'',
                 index:0,
                 name:["添加菜单","编辑菜单"],
+                columntype:[
+                  {
+                    label: '菜单名称',
+                    width: '110',
+                    type: 'menuname',
+                  },
+                  { label: '菜单编码',
+                    width: '110',
+                    type: 'code',
+                  },
+                  {
+                    label: '父级菜单编码',
+                    width: '110',
+                    type: 'fa_code',
+                  },
+                  {
+                    label: '请求地址',
+                    width: '110',
+                    type: 'path',
+                  },
+                  {
+                    label: '是否菜单',
+                    width: '110',
+                    type: 'menuif',
+                  },
+                  {
+                    label: '状态',
+                    width: '110',
+                    type: 'status',
+                  }
+                ],
                 tableData: [
                     {
-                        label: '菜单名称',
-                        width: '110',
-                        type: 'menuname',
+
                         menuname: '首页',
                         code: 'index',
                         fa_code: "",
@@ -68,9 +97,7 @@
                         status:"启用"
                     },
                     {
-                        label: '菜单编码',
-                        width: '110',
-                        type: 'code',
+
                         menuname: '系统管理',
                         code: 'system',
                         fa_code: "0",
@@ -80,9 +107,7 @@
 
                     },
                     {
-                        label: '父级菜单编码',
-                        width: '110',
-                        type: 'fa_code',
+
                         menuname: '菜单管理',
                         code: 'menus',
                         fa_code: "system",
@@ -91,9 +116,7 @@
                         status:"启用"
                     },
                     {
-                        label: '请求地址',
-                        width: '110',
-                        type: 'path',
+
                         menuname: '角色管理',
                         code: 'roles',
                         fa_code: "system",
@@ -102,9 +125,7 @@
                         status:"启用"
                     },
                     {
-                        label: '是否菜单',
-                        width: '110',
-                        type: 'menuif',
+
                         menuname: '部门管理',
                         code: 'depts',
                         fa_code: "system",
@@ -113,9 +134,7 @@
                         status:"启用"
                     },
                     {
-                        label: '状态',
-                        width: '110',
-                        type: 'status',
+
                         menuname: '字典管理',
                         code: 'sysconfigs',
                         fa_code: "system",
@@ -167,17 +186,28 @@
             handleEdit(index) {
                 this.index=index
                 this.dialogedit=true;
-                // console.log(index, row);
+                console.log(index);
                 // console.log(this.$route.path);
 
             },
-            handleDelete(index, row) {
-                console.log(index, row);
+            handleDelete(index) {
+
+                this.tableData.splice(index,1)
             },
             getdialogfv(val){
                 this.dialogedit=val;
                 this.dialogadd=val;
-            }
+            },
+            dialogcommit(val,data){
+                this.dialogedit=val;
+                this.dialogadd=val;
+              this.tableData.push(data)
+            },
+          dialogeditcommit(val,data){
+            this.dialogedit=val;
+            this.dialogadd=val;
+            this.tableData[this.index]=data;
+          }
         }
     }
 </script>

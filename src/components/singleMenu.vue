@@ -1,7 +1,7 @@
 <template>
   <el-table-column
-    :label = "data.label"
-    :width = "data.width">
+    :label = "coltype.label"
+    :width = "coltype.width">
     <template slot-scope="scope" >
       <span style="margin-left: 10px" >{{type == 'menuname'?scope.row.menuname: type=='code'? scope.row.code:type=='fa_code'?scope.row.fa_code:type=='path'?scope.row.path:type=='menuif'?scope.row.menuif:type=='status'?scope.row.status:''}}</span>
     </template>
@@ -12,10 +12,12 @@
     export default {
         name: "singleMenu",
         props: {
+          coltype:{
+              label:'',
+              width:'',
+              type:'',
+            },
             data: {
-                label:'',
-                width:'',
-                type:'',
                 menuname: '',
                 code: '',
                 fa_code: "",
@@ -26,16 +28,16 @@
         },
         data(){
             return {
-                type : this.data.type
+                type : this.coltype.type
             }
         },
-        computed:{
-            class: function () {
-                console.log(this.data.type);
-                return this.data.type
-
-            }
-        }
+        // computed:{
+        //     class: function () {
+        //         console.log(this.data.type);
+        //         return this.data.type
+        //
+        //     }
+        // }
     }
 </script>
 
