@@ -9,23 +9,23 @@
       default-active="2"
       class="el-menu-vertical-demo"
       background-color="#03152A"
-      text-color=" #5e6d82 "
+      text-color="rgba(255, 255, 255, 0.7)"
       router
     >
-      <el-menu-item index="mainIndex">
-          <i class="el-icon-star-off"></i>
+      <el-menu-item index="index">
+          <i class="fa fa-eercast"></i>
           <span slot="title">首页</span>
 
 
       </el-menu-item>
       <el-submenu index="system">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="fa fa-cog fa-2x"></i>
           <span >系统管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="index" >菜单管理</el-menu-item>
-          <el-menu-item index="index" >角色管理</el-menu-item>
+          <el-menu-item index="menus" >菜单管理</el-menu-item>
+          <el-menu-item index="roles" >角色管理</el-menu-item>
           <el-menu-item index="1-3">用户管理</el-menu-item>
           <el-menu-item index="depts">部门管理</el-menu-item>
           <el-menu-item index="sysconfigs">字典管理</el-menu-item>
@@ -36,7 +36,7 @@
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="fa fa-home fa-2x"></i>
           <span >房源管理</span>
         </template>
         <el-menu-item-group>
@@ -46,7 +46,7 @@
 
       <el-submenu index="4">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="fa fa-linode "></i>
           <span >小区信息管理</span>
         </template>
         <el-menu-item-group>
@@ -56,7 +56,7 @@
       </el-submenu>
       <el-submenu index="5">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="fa fa-address-card-o"></i>
           <span >会员信息管理</span>
         </template>
         <el-menu-item-group>
@@ -66,7 +66,7 @@
 
       <el-submenu index="6">
         <template slot="title">
-          <i class="el-icon-edit"></i>
+          <i class="fa fa-tachometer"></i>
           <span >广告信息管理</span>
         </template>
         <el-menu-item-group>
@@ -77,7 +77,7 @@
 
       <el-submenu index="7">
         <template slot="title">
-          <i class="el-icon-edit-outline"></i>
+          <i class="fa fa-superpowers"></i>
           <span >飞手社工管理</span>
         </template>
         <el-menu-item-group>
@@ -89,7 +89,7 @@
 
       <el-submenu index="8">
         <template slot="title">
-          <i class="el-icon-edit-outline"></i>
+          <i class="fa fa-wpexplorer"></i>
           <span >全景社工管理</span>
         </template>
         <el-menu-item-group>
@@ -101,7 +101,7 @@
 
       <el-submenu index="9">
       <template slot="title">
-        <i class="el-icon-edit-outline"></i>
+        <i class="fa fa-university"></i>
         <span >房源社工管理</span>
       </template>
       <el-menu-item-group>
@@ -113,7 +113,7 @@
 
       <el-submenu index="10">
         <template slot="title">
-          <i class="el-icon-edit-outline"></i>
+          <i class="fa fa-users"></i>
           <span >房产经纪人管理</span>
         </template>
         <el-menu-item-group>
@@ -143,7 +143,24 @@
         },
           methods: {
             selectmenu (key) {
-
+                let router = this.$store.getters.routers
+                let name = this.$route.name
+                // let navTitle = function (path, routerARR) {
+                //     for (let i = 0; i < routerARR.length; i++) {
+                //         if (routerARR[i].children.length > 0 || routerARR[i].path === path) {
+                //             if (routerARR[i].path === path && routerARR[i].children.length < 1) {
+                //                 name = routerARR[i].name
+                //                 break
+                //             }
+                //             navTitle(path, routerARR[i].children)
+                //         }
+                //     }
+                //     return name
+                // }
+                this.$store.dispatch('addTab', {
+                    title: name,
+                    path: key
+                })
             }
           }
 
@@ -184,5 +201,9 @@
 
   .el-menu {
     border-right: 0;
+  }
+  i{
+    font-size: 22px;
+    margin-right: 5px;
   }
 </style>

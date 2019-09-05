@@ -1,50 +1,98 @@
 <template>
   <div>
-    <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab">
-      <el-tab-pane
-        v-for="(item, index) in editableTabs2"
-        :key="item.name"
-        :label="item.title"
-        :name="item.name"
-      >
-
-      </el-tab-pane>
-    </el-tabs>
+    <div class="tabnavBox">
+      <transition-group name="list" tag="ul" class="tabnavout">
+        <li v-for="(item, index) in $store.getters.tabnavBox"
+            :key="item.title" class="tabnav"
+            :class="{ active: $route.path === item.path }">
+          <router-link :to="item.path" class="link" @click="" >{{item.title}}</router-link>
+          <i @click="removeTab(item)" class="el-icon-error" v-if="index!==0"></i>
+        </li>
+      </transition-group>
+    </div>
   </div>
 </template>
+
 <script>
     export default {
-        data() {
+        name: 'tabNav',
+        data () {
             return {
-                editableTabsValue2: '6',
-                editableTabs2: [{
-                    title: '首页',
-                    name: '1',
-                    content: ''
-                }],
-                tabIndex: 6
+
             }
         },
         methods: {
-            removeTab(targetName) {
-                let tabs = this.editableTabs2;
-                let activeName = this.editableTabsValue2;
-                if (activeName === targetName) {
-                    tabs.forEach((tab, index) => {
-                        if (tab.name === targetName) {
-                            let nextTab = tabs[index + 1] || tabs[index - 1];
-                            if (nextTab) {
-                                activeName = nextTab.name;
-                            }
-                        }
-                    });
-                }
-                this.editableTabsValue2 = activeName;
-                this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
+            // openMenu (item, e, index) {
+            //     if (index === 0) {
+            //         return false
+            //     }
+            //     this.rightMenuShow = true
+            //     this.left = e.clientX + 10
+            //     this.top = e.clientY
+            //     this.$store.dispatch('openMenu', item)
+            // },
+            removeTab (tabItem) {
+                this.$store.dispatch('removeTab', {tabItem, fullPath: this.$route.fullPath, router: this.$router})
             }
         }
+
     }
 </script>
-<style scoped lang="stylus">
 
+<style  scoped>
+  .tabnavout{
+    max-width: 800px;
+    overflow-y: scroll;
+    height: 50px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    /*border-right: 1px solid rgb(216, 220, 229);*/
+  }
+  .tabnavout::-webkit-scrollbar{
+    width: 0;
+    height: 5px;
+  }
+  .tabnavout::-webkit-scrollbar-thumb {
+     background-color: rgba(100, 100, 100, 0.75);
+     border-radius: 3px;
+   }
+  .tabnav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    list-style: none;
+    border: 1px solid rgb(216, 220, 229);
+    margin: 0 3px ;
+    padding:0 10px;
+    transition: 0.6s;
+  }
+  .link{
+    text-decoration:none;
+    color: rgb(153, 153, 153);
+    font-size: 14px ;
+
+  }
+
+  .active{
+    background-color:  #409eff;
+    transition: 0.1s;
+  }
+  .active >.link{
+    color: white;
+  }
+  .active > i{
+    color: white;
+  }
+  .tabnav>i{
+    font-size: 12px;
+    padding-left: 10px;
+  }
+  .tabnav>i:hover{
+    cursor: pointer;
+    color: red;
+  }
 </style>

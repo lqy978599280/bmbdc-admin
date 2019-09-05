@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input type="text" placeholder="菜单管理"  v-model="search"></el-input>
-      <el-button class="search">搜索</el-button>
-      <el-button class="add">添加</el-button>
+      <el-input class="bgc" type="text" placeholder="菜单管理"  v-model="search"></el-input>
+      <el-button class="search bgc">搜 索</el-button>
+      <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
+      <menuEdit :data="form" :dialogFormVisible="dialogadd" @getdialogfv="getdialogfv" :name="name[0]"></menuEdit>
+      <menuEdit :data="tableData[index]" :dialogFormVisible="dialogedit" @getdialogfv="getdialogfv" :name="name[1]"></menuEdit>
     </div>
     <el-table
+      class="bgc"
       :data="tableData"
     >
 
@@ -21,12 +24,13 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑
+            @click="handleEdit(scope.$index)">编 辑
           </el-button>
+
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除
+            @click="handleDelete(scope.$index, scope.row)">删 除
           </el-button>
         </template>
       </el-table-column>
@@ -39,20 +43,24 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
+    import menuEdit from "../../components/menuEdit";
 
     export default {
         components: {
-            singleMenu
+            singleMenu,
+            menuEdit
         },
         data() {
             return {
                 search:'',
+                index:0,
+                name:["添加菜单","编辑菜单"],
                 tableData: [
                     {
                         label: '菜单名称',
                         width: '110',
-                        type: 'menu',
-                        menu: '首页',
+                        type: 'menuname',
+                        menuname: '首页',
                         code: 'index',
                         fa_code: "",
                         path: "",
@@ -63,7 +71,7 @@
                         label: '菜单编码',
                         width: '110',
                         type: 'code',
-                        menu: '系统管理',
+                        menuname: '系统管理',
                         code: 'system',
                         fa_code: "0",
                         path: "#",
@@ -75,7 +83,7 @@
                         label: '父级菜单编码',
                         width: '110',
                         type: 'fa_code',
-                        menu: '菜单管理',
+                        menuname: '菜单管理',
                         code: 'menus',
                         fa_code: "system",
                         path: "/menu",
@@ -86,7 +94,7 @@
                         label: '请求地址',
                         width: '110',
                         type: 'path',
-                        menu: '角色管理',
+                        menuname: '角色管理',
                         code: 'roles',
                         fa_code: "system",
                         path: "/roles",
@@ -97,7 +105,7 @@
                         label: '是否菜单',
                         width: '110',
                         type: 'menuif',
-                        menu: '部门管理',
+                        menuname: '部门管理',
                         code: 'depts',
                         fa_code: "system",
                         path: "/depts",
@@ -108,7 +116,7 @@
                         label: '状态',
                         width: '110',
                         type: 'status',
-                        menu: '字典管理',
+                        menuname: '字典管理',
                         code: 'sysconfigs',
                         fa_code: "system",
                         path: "/sysconfigs",
@@ -117,7 +125,7 @@
                     },
                     {
 
-                        menu: '登录日志',
+                        menuname: '登录日志',
                         code: 'syslogs',
                         fa_code: "system",
                         path: "/syslogs",
@@ -126,22 +134,49 @@
                     },
                     {
 
-                        menu: '消息管理',
+                        menuname: '消息管理',
                         code: 'messages',
                         fa_code: "system",
                         path: "/messages",
                         menuif: "是",
                         status:"启用"
-                    }]
+                    }],
+                dialogadd: false,
+                dialogedit: false,
+                form: {
+                    menuname: '',
+                    code: '',
+                    fa_code: '',
+                    path: '',
+                    menuif: '',
+                    status: ''
+                }
             }
         },
+        mounted(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.6:8081/admin/menus/selectAllMenus?page=10&size=20')
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         methods: {
-            handleEdit(index, row) {
-                console.log(index, row);
-                console.log(this.$route.path);
+            handleEdit(index) {
+                this.index=index
+                this.dialogedit=true;
+                // console.log(index, row);
+                // console.log(this.$route.path);
+
             },
             handleDelete(index, row) {
                 console.log(index, row);
+            },
+            getdialogfv(val){
+                this.dialogedit=val;
+                this.dialogadd=val;
             }
         }
     }
@@ -157,6 +192,13 @@
   /*  display: flex;*/
   /*  justify-content: center;*/
   /*}*/
+  .bgc{
+    background: #fff;
+    -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.2);
+
+  }
   .main-top{
     display: flex;
     justify-self: left;
@@ -165,35 +207,28 @@
   }
 
    .el-input{
-     width: 200px ;
+     width: 300px ;
      margin-right: 20px;
      border-radius: 5px;
-     background: #fff;
-     -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
-     border-color: rgba(0, 0, 0, 0.2);
 
+     font-size: 13px;
    }
-   .main-top>.el-button{
-     background: #fff;
-     -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);
-     border-color: rgba(0, 0, 0, 0.2);
+   .search,.add{
+     font-size: 14px;
+     padding:8px 15px;
    }
+
+
+
   .el-table {
     border:1px solid gainsboro;
     padding: 10px;
     border-radius: 10px;
     border-bottom: 0;
-    /*-moz-box-shadow:10px 8px 7px #666075;*/
-    /*-webkit-box-shadow:10px 8px 20px #666075;*/
-    background: #fff;
-    -webkit-box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.2);
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-family: Arial,serif;
   }
   .el-table ::-webkit-scrollbar {
-
     width: 10px;
     height:7px;
   }

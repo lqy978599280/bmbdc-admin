@@ -7,7 +7,7 @@ import ElementUI from 'element-ui'
 import store from './vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import './assets/icon/iconfont.css'
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAxios,axios)

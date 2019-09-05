@@ -51,10 +51,11 @@
 
     background-color:#f2f2f2;
     color: #333;
-    line-height: 60px ;
+    line-height: 50px ;
+    height:50px!important;
     padding-left: 0;
     padding-right: 0;
-    border-bottom: 1px solid rgb(216, 220, 229)
+    border-bottom: 1px solid rgb(216, 220, 229);
   }
 
   /*.el-aside {*/

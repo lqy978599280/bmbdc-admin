@@ -3,7 +3,7 @@
     :label = "data.label"
     :width = "data.width">
     <template slot-scope="scope" >
-      <span style="margin-left: 10px" >{{type == 'menu'?scope.row.menu: type=='code'? scope.row.code:type=='fa_code'?scope.row.fa_code:type=='path'?scope.row.path:type=='menuif'?scope.row.menuif:type=='status'?scope.row.status:''}}</span>
+      <span style="margin-left: 10px" >{{type == 'menuname'?scope.row.menuname: type=='code'? scope.row.code:type=='fa_code'?scope.row.fa_code:type=='path'?scope.row.path:type=='menuif'?scope.row.menuif:type=='status'?scope.row.status:''}}</span>
     </template>
   </el-table-column>
 </template>
@@ -16,7 +16,7 @@
                 label:'',
                 width:'',
                 type:'',
-                menu: '',
+                menuname: '',
                 code: '',
                 fa_code: "",
                 path: "",

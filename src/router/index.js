@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import CommerViews from '@/pages/commerViews'
+import menus from "../pages/system/menus";
 import Login from '@/pages/login/index'
 import Layout from '@/pages/layout/layout'
 import HomeMain from '@/pages/index/mainIndex'
@@ -42,10 +43,10 @@ let defaultRouter = [
         children: []
       },
       {
-        path: '/system',
+        path: '/menus',
         iconCls: 'fa fa-dashboard',
-        name: '主页',
-        component: system,
+        name: '菜单管理',
+        component: menus,
         children: []
       },
     ]

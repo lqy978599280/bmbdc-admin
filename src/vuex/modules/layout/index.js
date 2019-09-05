@@ -7,8 +7,11 @@ export default {
     rightNav: {},
     tabnavBox: [
       {
-        title: 'home',
+        title: '首页',
         path: '/index'
+      },{
+        title: '菜单管理',
+        path: '/menus'
       }
     ]
   },
