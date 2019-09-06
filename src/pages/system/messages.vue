@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <router-view/>
-  </div>
+<div>
+  消息管理
+</div>
 </template>
 
 <script>
     export default {
-        name: "system"
+        name: "messages"
     }
 </script>
 

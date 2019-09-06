@@ -1,9 +1,36 @@
 <template>
   <el-table-column
     :label = "coltype.label"
-    :width = "coltype.width">
+    :width = "coltype.width"
+    align="center"
+  >
     <template slot-scope="scope" >
-      <span style="margin-left: 10px" >{{type == 'menuname'?scope.row.menuname: type=='code'? scope.row.code:type=='fa_code'?scope.row.fa_code:type=='path'?scope.row.path:type=='menuif'?scope.row.menuif:type=='status'?scope.row.status:''}}</span>
+      <span style="text-align: center;display: inline-block;width:100%" >{{
+        type=="name"?scope.row.name:
+        type=="code"?scope.row.code:
+        type=="parentid"?scope.row.parentid:
+        type=="url"?scope.row.url:
+        type=="isMenu"?scope.row.isMenu:
+        type=="icon"?scope.row.icon:
+        type=="remark"?scope.row.remark:
+        type=="rolename"?scope.row.rolename:
+        type=="account"?scope.row.account:
+        type=="dept"?scope.row.dept:
+        type=="phone"?scope.row.phone:
+        type=="status"?scope.row.status:
+        type=="email"?scope.row.email:
+        type=="sex"?scope.row.sex:
+        type=="password"?scope.row.password:
+        type=="deptname"?scope.row.deptname:
+        type=="parentdeptname"?scope.row.parentdeptname:
+        type=="areaname"?scope.row.areaname:
+        type=="address"?scope.row.address:
+        type=="deptleadername"?scope.row.deptleadername:
+        type=="configcode"?scope.row.configcode:
+        type=="confignum"?scope.row.confignum:
+        type=="describe"?scope.row.describe:''
+
+        }}</span>
     </template>
   </el-table-column>
 </template>
@@ -17,27 +44,13 @@
               width:'',
               type:'',
             },
-            data: {
-                menuname: '',
-                code: '',
-                fa_code: "",
-                path: "",
-                menuif: "",
-                status:""
-            }
         },
         data(){
             return {
-                type : this.coltype.type
+                type : this.coltype.type,
+
             }
-        },
-        // computed:{
-        //     class: function () {
-        //         console.log(this.data.type);
-        //         return this.data.type
-        //
-        //     }
-        // }
+        }
     }
 </script>
 

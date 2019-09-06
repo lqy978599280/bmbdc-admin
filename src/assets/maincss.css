@@ -1,0 +1,54 @@
+@import url("//unpkg.com/element-ui@2.0.11/lib/theme-chalk/index.css");
+*{
+  font-weight: 500;
+}
+/*.box {*/
+/*  width: 90%;*/
+/*  height: 90%;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*}*/
+/*.bgc{*/
+/*  background: #fff;*/
+/*  -webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);*/
+/*  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2);*/
+/*  border-color: rgba(0, 0, 0, 0.2);*/
+
+/*}*/
+.main-top{
+  display: flex;
+  justify-self: left;
+  padding-bottom: 10px;
+  background-color: #f2f2f2;
+}
+
+.el-input{
+  width: 300px ;
+  margin-right: 20px;
+  border-radius: 5px;
+
+  font-size: 13px;
+}
+.search,.add{
+  font-size: 14px;
+  padding:8px 15px;
+}
+
+
+
+.el-table {
+  border:1px solid gainsboro;
+  padding: 10px;
+  border-radius: 10px;
+  border-bottom: 0;
+  font-size: 12px;
+  font-family: Arial,serif;
+}
+.el-table ::-webkit-scrollbar {
+  width: 10px;
+  height:7px;
+}
+.el-table ::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.75);
+  border-radius: 3px;
+}

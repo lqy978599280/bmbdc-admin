@@ -8,8 +8,8 @@
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      background-color="#03152A"
-      text-color="rgba(255, 255, 255, 0.7)"
+      background-color="#fff"
+      text-color="rgba(0, 0, 0, 0.7)"
       router
     >
       <el-menu-item index="index">
@@ -26,7 +26,7 @@
         <el-menu-item-group>
           <el-menu-item index="menus" >菜单管理</el-menu-item>
           <el-menu-item index="roles" >角色管理</el-menu-item>
-          <el-menu-item index="1-3">用户管理</el-menu-item>
+          <el-menu-item index="users">用户管理</el-menu-item>
           <el-menu-item index="depts">部门管理</el-menu-item>
           <el-menu-item index="sysconfigs">字典管理</el-menu-item>
           <el-menu-item index="syslogs">登录日志</el-menu-item>
@@ -46,7 +46,7 @@
 
       <el-submenu index="4">
         <template slot="title">
-          <i class="fa fa-linode "></i>
+          <i class="fa fa-map-signs "></i>
           <span >小区信息管理</span>
         </template>
         <el-menu-item-group>
@@ -56,7 +56,7 @@
       </el-submenu>
       <el-submenu index="5">
         <template slot="title">
-          <i class="fa fa-address-card-o"></i>
+          <i class="fa fa-drivers-license"></i>
           <span >会员信息管理</span>
         </template>
         <el-menu-item-group>
@@ -77,7 +77,7 @@
 
       <el-submenu index="7">
         <template slot="title">
-          <i class="fa fa-superpowers"></i>
+          <i class="fa fa-paper-plane"></i>
           <span >飞手社工管理</span>
         </template>
         <el-menu-item-group>
@@ -89,7 +89,7 @@
 
       <el-submenu index="8">
         <template slot="title">
-          <i class="fa fa-wpexplorer"></i>
+          <i class="fa fa-leaf"></i>
           <span >全景社工管理</span>
         </template>
         <el-menu-item-group>
@@ -171,7 +171,7 @@
   @import url("//unpkg.com/element-ui@2.0.11/lib/theme-chalk/index.css");
 
   .el-aside {
-    background-color:#03152A ;
+    background-color:#fff ;
     color: #333;
     text-align: left;
 
@@ -190,7 +190,7 @@
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color: #03152A;
+    background-color: #fff;
   }
 
   .el-menu-vertical-demo {
@@ -203,7 +203,7 @@
     border-right: 0;
   }
   i{
-    font-size: 22px;
+    font-size: 16px;
     margin-right: 5px;
   }
 </style>

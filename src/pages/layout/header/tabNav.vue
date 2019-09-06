@@ -72,9 +72,9 @@
   }
   .link{
     text-decoration:none;
-    color: rgb(153, 153, 153);
-    font-size: 14px ;
-
+    color: rgba(80, 80, 80,0.8);
+    font-size: 13px ;
+    font-weight: 600;
   }
 
   .active{

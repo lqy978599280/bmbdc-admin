@@ -17,10 +17,12 @@ export default {
     padding: 0;
   }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: '隶体' ,'Avenir', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  letter-spacing: 1px;
   color: #2c3e50;
 }
 </style>

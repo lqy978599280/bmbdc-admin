@@ -5,11 +5,21 @@ import menus from "../pages/system/menus";
 import Login from '@/pages/login/index'
 import Layout from '@/pages/layout/layout'
 import HomeMain from '@/pages/index/mainIndex'
-import system from "../pages/system/system";
+
 import layout from "../pages/layout/layout";
+import commerViews from "../pages/commerViews";
+
+
 const Icon = () => import('@/pages/icon/index')
 const Upload = () => import('@/pages/upload/upload')
 const NotFound = () => import('@/page404')
+const roles = ()=> import('@/pages/system/roles')
+const depts = ()=> import('@/pages/system/depts')
+const sysconfigs = ()=> import('@/pages/system/sysconfigs')
+const syslogs = ()=> import('@/pages/system/syslogs')
+const messages = ()=> import('@/pages/system/messages')
+const system = ()=> import('@/pages/system/system')
+const users = ()=> import('@/pages/system/users')
 
 
 
@@ -17,7 +27,8 @@ Vue.use(Router)
 let routeName
 
 let defaultRouter = [
-  { path: '/',
+  {
+    path: '/',
     redirect: '/login',
     hidden: true,
     children: []
@@ -43,12 +54,62 @@ let defaultRouter = [
         children: []
       },
       {
-        path: '/menus',
+        path: '/system',
         iconCls: 'fa fa-dashboard',
-        name: '菜单管理',
-        component: menus,
-        children: []
+        name: '系统管理',
+        component: system,
+        children: [
+          {
+            path: '/menus',
+            iconCls: 'fa fa-dashboard',
+            name: '菜单管理',
+            component: menus,
+            children: []
+          },
+          {
+            path: '/roles',
+            iconCls: 'fa fa-dashboard',
+            name: '角色管理',
+            component: roles,
+            children: []
+          },
+          {
+            path: '/users',
+            iconCls: 'fa fa-dashboard',
+            name: '用户管理',
+            component: users,
+            children: []
+          },
+          {
+            path: '/depts',
+            iconCls: 'fa fa-dashboard',
+            name: '部门管理',
+            component: depts,
+            children: []
+          },
+          {
+            path: '/sysconfigs',
+            iconCls: 'fa fa-dashboard',
+            name: '字典管理',
+            component: sysconfigs,
+            children: []
+          },
+          {
+            path: '/syslogs',
+            iconCls: 'fa fa-dashboard',
+            name: '登录日志',
+            component: syslogs,
+            children: []
+          },
+          {
+            path: '/messages',
+            iconCls: 'fa fa-dashboard',
+            name: '消息管理',
+            component: messages,
+            children: []
+          }]
       },
+
     ]
   },
   {
@@ -141,7 +202,8 @@ let addRouter = [
       }
     ]
   },
-  { path: '*',  // 通配符拦截放在最后，不存在的路由全都指向404页面
+  {
+    path: '*',  // 通配符拦截放在最后，不存在的路由全都指向404页面
     redirect: '/404',
     hidden: true,
     children: []

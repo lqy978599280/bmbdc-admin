@@ -1,4 +1,3 @@
-
 export default {
   state: {
     isCollapse: false,
@@ -9,14 +8,17 @@ export default {
       {
         title: '首页',
         path: '/index'
-      },{
-        title: '菜单管理',
-        path: '/menus'
+      }, {
+        title: '角色管理',
+        path: '/roles'
+      }, {
+        title: '用户管理',
+        path: '/users'
       }
     ]
   },
   mutations: {
-    addTab (state, arg) {
+    addTab(state, arg) {
       state.isActive = arg.path
       for (let i = 0; i < state.tabnavBox.length; i++) {
         if (state.tabnavBox[i].path === arg.path) {
@@ -28,10 +30,10 @@ export default {
         path: arg.path
       })
     },
-    openMenu (state, arg) {
+    openMenu(state, arg) {
       state.rightNav = arg
     },
-    removeTab (state, arg) {
+    removeTab(state, arg) {
       let index = state.tabnavBox.findIndex(function (value, key) {
         return value.path === arg.tabItem.path
       })
@@ -41,7 +43,7 @@ export default {
         arg.router.push(tabActive.path)
       }
     },
-    removeOtherTab (state, arg) {
+    removeOtherTab(state, arg) {
       state.tabnavBox = [{
         title: 'home',
         path: '/index'
@@ -53,7 +55,7 @@ export default {
       state.tabnavBox.push(arg.tabItem)
       arg.router.push(arg.tabItem.path)
     },
-    collapse (state, arg) {
+    collapse(state, arg) {
       state.isCollapse = !state.isCollapse
       if (state.logoShow) {
         setTimeout(function () {
@@ -65,19 +67,19 @@ export default {
     },
   },
   actions: {
-    addTab ({commit}, arg) {
+    addTab({commit}, arg) {
       commit('addTab', arg)
     },
-    openMenu ({commit}, arg) {
+    openMenu({commit}, arg) {
       commit('openMenu', arg)
     },
-    removeTab ({commit}, arg) {
+    removeTab({commit}, arg) {
       commit('removeTab', arg)
     },
-    removeOtherTab ({commit}, arg) {
+    removeOtherTab({commit}, arg) {
       commit('removeOtherTab', arg)
     },
-    collapse ({commit}, arg) {
+    collapse({commit}, arg) {
       commit('collapse', arg)
     },
   }
