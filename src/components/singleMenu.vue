@@ -8,14 +8,15 @@
       <span style="text-align: center;display: inline-block;width:100%" >{{
         type=="name"?scope.row.name:
         type=="code"?scope.row.code:
-        type=="parentid"?scope.row.parentid:
+        type=="parentCode"?scope.row.parentCode:
         type=="url"?scope.row.url:
-        type=="isMenu"?scope.row.isMenu:
+        type=="isMenu"?scope.row.isMenu :
         type=="icon"?scope.row.icon:
         type=="remark"?scope.row.remark:
-        type=="rolename"?scope.row.rolename:
-        type=="account"?scope.row.account:
-        type=="dept"?scope.row.dept:
+        type=="roleName"?scope.row.roleName:
+        type=="userName"?scope.row.userName:
+        type=="deptName"?scope.row.deptName:
+        type=="realName"?scope.row.realName:
         type=="phone"?scope.row.phone:
         type=="status"?scope.row.status:
         type=="email"?scope.row.email:

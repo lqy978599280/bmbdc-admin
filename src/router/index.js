@@ -20,7 +20,7 @@ const syslogs = ()=> import('@/pages/system/syslogs')
 const messages = ()=> import('@/pages/system/messages')
 const system = ()=> import('@/pages/system/system')
 const users = ()=> import('@/pages/system/users')
-
+const forgetpassword = ()=>import('@/pages/login/forgetpassword')
 
 
 Vue.use(Router)
@@ -36,6 +36,13 @@ let defaultRouter = [
   {
     path: '/login',
     component: Login,
+    name: '',
+    hidden: true,
+    children: []
+  },
+  {
+    path: '/passwordforget',
+    component: forgetpassword,
     name: '',
     hidden: true,
     children: []

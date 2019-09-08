@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogif" :before-close='dialogfv'>
-    <el-form :model="getdata">
+  <el-dialog :title="title" :visible.sync="dialogif" :before-close='dialogfv'   >
+    <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="菜单名称*" :label-width="formLabelWidth">
         <el-input v-model="getdata.name" auto-complete="off"></el-input>
       </el-form-item>
@@ -8,40 +8,32 @@
         <el-input v-model="getdata.code" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="父级菜单编码*" :label-width="formLabelWidth">
-        <el-input
-          v-model="getdata.parentid"
-          auto-complete="off"
+        <el-select v-model="getdata.parentCode" placeholder="请选择">
+          <el-option
+            v-for="item in selectParent"
+            :key="item.id"
+            :label="item.name"
+            :value="item.code"
+          >
+            <span style="float: left">{{ item.name }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.code }}</span>
+          </el-option>
+        </el-select>
 
-        ></el-input>
       </el-form-item>
-      <el-dialog title="选择父级菜单编码" :visible.sync="showparent" :modal-append-to-body='false'>
-        <!--        <el-tree-->
-        <!--          :props="treedata"-->
-        <!--          :load="loadNode"-->
-        <!--          lazy-->
-        <!--          show-checkbox-->
-        <!--          @check-change="handleCheckChange">-->
-        <!--        </el-tree>-->
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogfv">取 消</el-button>
-          <el-button type="primary" @click="dialogcommit">确 定</el-button>
-        </div>
-      </el-dialog>
-      <el-form-item label="请求地址*" :label-width="formLabelWidth">
+
+      <el-form-item label="请求地址" :label-width="formLabelWidth">
         <el-input v-model="getdata.url" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item label="是否菜单*" :label-width="formLabelWidth">
-        <el-select v-model="getdata.isMenu" placeholder="请选择是否菜单">
-          <el-option label="是" value="是"></el-option>
-          <el-option label="否" value="否"></el-option>
-        </el-select>
+        <el-radio v-model="getdata.isMenu" label="是" value="1">是</el-radio>
+        <el-radio v-model="getdata.isMenu" label="否" value="0">否</el-radio>
+
       </el-form-item>
       <el-form-item label="图标地址" :label-width="formLabelWidth">
-        <el-select v-model="getdata.icon" placeholder="请选择状态">
-          <el-option label="启用" value="启用"></el-option>
-          <el-option label="未启用" value="未启用"></el-option>
-        </el-select>
+        <el-input v-model="getdata.icon" auto-complete="off"></el-input>
+
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -59,12 +51,14 @@
             data: {
                 name: '',
                 code: '',
-                parentid: '',
+                parentCode: '',
                 url: '',
                 isMenu: '',
                 status: '',
                 icon: '',
                 id: '',
+                parentid:''
+
             },
             dialogFormVisible: '',
             title: ''
@@ -73,18 +67,18 @@
             dialogif: function () {
                 return this.dialogFormVisible
             },
-            // editdata:function () {
-            //     return this.data
-            // }
+
         },
         watch: {
             "dialogFormVisible": function () {
                 this.getdata.name = this.data.name
                 this.getdata.code = this.data.code
+                this.getdata.parentCode = this.data.parentCode
                 this.getdata.parentid = this.data.parentid
                 this.getdata.url = this.data.url
                 this.getdata.isMenu = this.data.isMenu
                 this.getdata.icon = this.data.icon
+                this.getdata.id =this.data.id
             }
 
         },
@@ -93,72 +87,91 @@
                 getdata: {
                     name: '',
                     code: '',
-                    parentid: '',
+                    parentCode: '',
                     url: '',
-                    isMenu: '',
+                    isMenu:  '',
                     status: '',
                     icon:'',
-                    data:'',
+                    id:'',
+                    parentid:''
+
                 },
                 formLabelWidth: '120px',
-                showparent: false,
-                // treedata: {
-                //     label: 'name',
-                //     children: 'zones'
-                // },
-                // count: 1
+                selectParent:[]
             }
+        },
+        mounted(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.5:8081/admin/menus/selectAllMenuOfParentid')
+                .then((response)=> {
+                    // console.log(response);
+                    this.selectParent = response.data.data.result;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         },
         methods: {
             dialogfv() {
                 this.$emit('getdialogfv', !this.dialogif)
+                this.getdata = {
+                    name: '',
+                    code: '',
+                    parentCode: '',
+                    url: '',
+                    isMenu:  '',
+                    status: '',
+                    icon:'',
+                    id:'',
+                    parentid:''
+
+                }
             },
             dialogcommit() {
                 this.data.name = this.getdata.name
                 this.data.code = this.getdata.code
-                this.data.parentid = this.getdata.parentid
+                this.data.parentCode = this.getdata.parentCode
+                this.getdata.parentid = this.data.parentid
                 this.data.url = this.getdata.url
                 this.data.isMenu = this.getdata.isMenu
+                this.data.status = this.getdata.status
                 this.data.icon = this.getdata.icon
-                if(this.data.code||this.data.name||this.data.parentid||this.data.url||this.data.isM)
-                this.$emit('dialogcommit', !this.dialogif, this.data)
+                this.data.id = this.getdata.id
+                if(this.data.code==='') {
+                    this.$message({
+                        message: "请填写菜单编码",
+                        type: "warning",
+                        duration: 1000
+                    })
+                }
+                else if(this.data.name==='') {
+                    this.$message({
+                        message: "请填写菜单名称",
+                        type: "warning",
+                        duration: 1000
+                    })
+                } else if(this.data.parentCode==='') {
+                    this.$message({
+                        message: "请选择父级",
+                        type: "warning",
+                        duration: 1000
+                    })
+                } else if(this.data.isMenu==='') {
+                    this.$message({
+                        message: "请选择是否菜单",
+                        type: "warning",
+                        duration: 1000
+                    })
+                }
+                else{
+
+                    this.$emit('dialogcommit', !this.dialogif, this.data,)
+
+                }
+
             },
-            // handleCheckChange(data, checked, indeterminate) {
-            //     console.log(data, checked, indeterminate);
-            // },
-            // handleNodeClick(data) {
-            //     console.log(data);
-            // }
-            // loadNode(node, resolve) {
-            //     if (node.level === 0) {
-            //         return resolve([{ name: 'region1' }, { name: 'region2' }]);
-            //     }
-            //     if (node.level > 3) return resolve([]);
-            //
-            //     var hasChild;
-            //     if (node.data.name === 'region1') {
-            //         hasChild = true;
-            //     } else if (node.data.name === 'region2') {
-            //         hasChild = false;
-            //     } else {
-            //         hasChild = Math.random() > 0.5;
-            //     }
-            //
-            //     setTimeout(() => {
-            //         var data;
-            //         if (hasChild) {
-            //             data = [{
-            //                 name: 'zone' + this.count++
-            //             }, {
-            //                 name: 'zone' + this.count++
-            //             }];
-            //         } else {
-            //             data = [];
-            //         }
-            //
-            //         resolve(data);
-            //     }, 500);
-            // }
+
         }
     }
 

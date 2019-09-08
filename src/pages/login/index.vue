@@ -1,7 +1,10 @@
 <template>
   <div class="box">
     <div class="login">
-      <img src="" alt="">
+      <div class="imgbox">
+        <img src="../../assets/logo.png" alt="logo">
+
+      </div>
       <el-form   label-width="100px" class="demo-ruleForm">
         <el-form-item label="帐号" >
           <el-input type="text" placeholder="请输入帐号"  v-model="account"></el-input>
@@ -11,14 +14,14 @@
         </el-form-item>
         <el-form-item label="验证码"  >
           <div class="codeBox">
-            <el-input type="text" placeholder="请输入帐验证码" v-model="code" class="code"></el-input>
-            <label>{{random}}</label>
+            <el-input type="text" placeholder="请输入验证码" v-model="code" class="code"></el-input>
+            <label  @click="change">{{random}}</label>
           </div>
 
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
-          <el-button @click="resetForm('ruleForm2')">忘记密码</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm2')">登 录</el-button>
+          <el-button @click="resetForm()">忘记密码</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -33,7 +36,7 @@
             return {
                 account:"Admin",
                 password:'123456',
-                random:Math.round(Math.random()*1000000),
+                random:Math.round(Math.random()*899999+100000),
                 code:''
             };
         },
@@ -41,6 +44,13 @@
             submitForm(e){
                 if(this.account == "Admin"&&this.password =="123456"&&this.code==this.random)
                 this.$router.push('/index')
+            },
+            change:function () {
+                this.random=Math.round(Math.random()*899999+100000)
+            },
+            resetForm(){
+                this.$router.push('/passwordforget')
+
             }
         }
     }
@@ -52,9 +62,18 @@
     display flex
     align-items center
     height 100vh
+
     .login
       width 400px
       margin 0 auto
+      padding-right: 40px;
+      border 1px solid gainsboro
+      padding-bottom 20px
+      background-color: #f2f2f2
+      .imgbox
+        display flex
+        justify-content center
+        margin 60px 0 40px 0
       .codeBox
         display flex
         justify-content space-between
@@ -71,6 +90,7 @@
           border-radius 4px
           box-sizing border-box
           letter-spacing 1.5px
+          user-select none
 
 
 </style>

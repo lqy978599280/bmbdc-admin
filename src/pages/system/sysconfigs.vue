@@ -6,7 +6,7 @@
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
       <!--      <menuEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></menuEdit>-->
       <!--      <menuEdit :data="filetrtableData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></menuEdit>-->
-      <!--      <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>-->
+            <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
       class="bgc"
@@ -110,6 +110,34 @@
                 }
             }
         },
+        methods:{
+            handleDelete(index,row) {
+                this.dialogdel =true
+                this.del_id=row.id
+            },
+            getdialogfv(val){
+                this.dialogedit=val;
+                this.dialogadd=val;
+                this.dialogdel=val;
+            },
+            commitdel(val,id){
+                this.dialogdel=val;
+                const axios = require('axios');
+                // console.log( row.id instanceof Integer )
+                axios.get('http://192.168.1.6:8081/admin/menus/updateMenuStatus', {params: {id: id}})
+                    .then((response) => {
+                        this.$message({
+                            message: "删除成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.tableData = response.data.data.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
     }
 </script>
 

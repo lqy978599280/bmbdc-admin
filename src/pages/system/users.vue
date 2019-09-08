@@ -4,13 +4,13 @@
       <el-input class="bgc" type="text" placeholder="菜单名称/请求地址"  v-model="search"></el-input>
       <el-button class="search bgc" >搜 索</el-button>
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
-      <!--      <menuEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></menuEdit>-->
-      <!--      <menuEdit :data="filetrtableData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></menuEdit>-->
-      <!--      <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>-->
+            <userEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></userEdit>
+            <userEdit :data="userData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></userEdit>
+            <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
       class="bgc"
-      :data="rolesdata"
+      :data="userData"
     >
             <div v-for="data in columntype" >
               <singleMenu :coltype="data"></singleMenu>
@@ -51,12 +51,12 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
-    import menuEdit from "../../components/menuEdit";
+    import userEdit from "../../components/userEdit";
     import dialogdel from "../../components/del"
     export default {
         components: {
             singleMenu,
-            menuEdit,
+            userEdit,
             dialogdel
         },
         data() {
@@ -68,12 +68,12 @@
                 columntype:[
                     { label: '角色名称',
                         width: '100',
-                        type: 'rolename',
+                        type: 'roleName',
                     },
                     {
                         label: '登录账号',
                         width: '80',
-                        type: 'account',
+                        type: 'userName',
                     },
                     { label: '登录密码',
                         width: '80',
@@ -81,14 +81,14 @@
                     },
                     { label: '姓名',
                         width: '80',
-                        type: 'name',
+                        type: 'realName',
                     },
                     { label: '所属部门名称',
-                        width: '100',
-                        type: 'dept',
+                        width: '110',
+                        type: 'deptName',
                     },
                     { label: '手机号码',
-                        width: '100',
+                        width: '110',
                         type: 'phone',
                     },
                     { label: '状态',
@@ -104,17 +104,19 @@
                         type: 'sex',
                     }
                 ],
-                rolesdata: [
+                userData: [
                     {
-                        name:"李青云",
-                        rolename:"系统管理员",
+                        realName:"李青云",
+                        roleName:"系统管理员",
                         sex:"男",
-                        account:"lqy",
+                        userName:"lqy",
                         password:"123456",
-                        dept:"技术部门",
+                        deptName:"技术部门",
                         status:"启用",
                         phone:"17757552613",
-                        email:"978599280@qq.com"
+                        email:"978599280@qq.com",
+                        id:''
+
                     }
 
                 ],
@@ -124,17 +126,107 @@
                 dialogdel:false,
                 del_id:'',
                 form: {
+                    realName: '',
+                    roleName: '',
+                    sex: '',
+                    userName: '',
+                    password: '',
+                    status: '',
+                    deptName:'',
+                    email:'',
+                    phone:'',
+                    id:''
+                }
+            }
+        },
+        methods:{
+            handleEdit(index) {
+                this.index=index
+                this.dialogedit=true;
+            },
+            handleDelete(index,row) {
+                this.dialogdel =true
+                this.del_id=row.id
+            },
+            getdialogfv(val){
+                this.dialogedit=val;
+                this.dialogadd=val;
+                this.dialogdel=val;
+            },
+            dialogcommit(val,data){
+                const axios = require('axios');
+                this.dialogedit=val;
+                this.dialogadd=val;
+                // this.tableData.push(data)
+                this.form= {
                     name: '',
                     code: '',
-                    parentid: '',
+                    parentcode: '',
                     url: '',
                     isMenu: '',
                     status: '',
                     icon:'',
                     id:'',
+                    parentid:''
                 }
-            }
-        },
+                console.log(data);
+                axios.post('http://192.168.1.5:8081/admin/menus/insertMenu',data)
+                    .then( (response) =>{
+                        console.log(response);
+                        this.$message({
+                            message: "添加成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.tableData = response.data.data.result;
+
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            dialogeditcommit(val,data){
+                const axios = require('axios');
+                this.dialogedit=val;
+                this.dialogadd=val;
+                console.log(data);
+                this.tableData[this.index]=data;
+                console.log(this.tableData[this.index]);
+                axios.post('http://192.168.1.5:8081/admin/menus/updateMenu',data)
+                    .then( (response)=> {
+                        console.log(response);
+                        this.$message({
+                            message: "修改成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.tableData = response.data.data.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            commitdel(val,id){
+                this.dialogdel=val;
+                const axios = require('axios');
+                // console.log( row.id instanceof Integer )
+                axios.get('http://192.168.1.5:8081/admin/menus/updateMenuStatus', {params: {id: id}})
+                    .then((response) => {
+
+                        this.$message({
+                            message: "删除成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.tableData = response.data.data.result;
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+        }
     }
 </script>
 

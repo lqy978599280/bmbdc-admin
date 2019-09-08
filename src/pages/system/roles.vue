@@ -4,13 +4,13 @@
       <el-input class="bgc" type="text" placeholder="菜单名称/请求地址"  v-model="search"></el-input>
       <el-button class="search bgc" >搜 索</el-button>
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
-<!--      <menuEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></menuEdit>-->
-<!--      <menuEdit :data="filetrtableData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></menuEdit>-->
-<!--      <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>-->
+      <rolesEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></rolesEdit>
+      <rolesEdit :data="filterRolesData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></rolesEdit>
+      <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
       class="bgc"
-      :data="rolesdata"
+      :data="rolesData"
     >
       <!--      <div v-for="data in columntype" >-->
       <!--        <singleMenu :coltype="data"></singleMenu>-->
@@ -31,7 +31,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleDelete(scope.$index, scope.row)">权限配置
+            @click="authority(scope.$index, scope.row)">权限配置
           </el-button>
           <el-button
           size="mini"
@@ -51,20 +51,22 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
-    import menuEdit from "../../components/menuEdit";
-    import dialogdel from "../../components/del"
+    import rolesEdit from "../../components/rolesEdit";
+    import dialogdel from "../../components/del";
+    import authority from "../../components/authority";
     export default {
         components: {
             singleMenu,
-            menuEdit,
-            dialogdel
+            rolesEdit,
+            dialogdel,
+            authority
         },
         data() {
             return {
                 searching:'',
                 search:'',
                 index:0,
-                title:["添加菜单","编辑菜单"],
+                title:["添加角色","编辑角色"],
                 columntype:[
                     {
                         label: '角色名称',
@@ -76,23 +78,7 @@
                         type: 'remark',
                     }
                 ],
-                rolesdata: [
-                    {
-                        name:"系统管理员",
-                        remark:""
-                    },
-                    {
-                        name:"财务管理员",
-                        remark:""
-                    },
-                    {
-                        name:"房源审核人员",
-                        remark:""
-                    },
-                    {
-                        name:"社工审核人员",
-                        remark:""
-                    },
+                rolesData: [
 
                 ],
 
@@ -102,16 +88,109 @@
                 del_id:'',
                 form: {
                     name: '',
-                    code: '',
-                    parentid: '',
-                    url: '',
-                    isMenu: '',
-                    status: '',
-                    icon:'',
+                    remark: '',
+
                     id:'',
                 }
             }
         },
+        computed:{
+            filterRolesData:function (){
+                return     this.rolesData.filter( (rolesData) => {
+                    return rolesData.name.match(this.search) || rolesData.remark.match(this.search)
+                })
+            }
+        },
+
+        created(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.5:8081/admin/roles/selectAllRoles?page=10&size=20')
+                .then((response)=> {
+                    console.log(response);
+                    this.rolesData = response.data.data.rolesList;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+        },
+        methods:{
+            handleEdit(index) {
+                this.index=index
+                this.dialogedit=true;
+            },
+            handleDelete(index,row) {
+                this.dialogdel =true
+                this.del_id=row.id
+            },
+            getdialogfv(val){
+                this.dialogedit=val;
+                this.dialogadd=val;
+                this.dialogdel=val;
+            },
+            dialogcommit(val,data){
+                const axios = require('axios');
+                this.dialogedit=val;
+                this.dialogadd=val;
+                // this.tableData.push(data)
+                this.form= {
+                    name: '',
+                    remark: '',
+                    id:'',
+                }
+                axios.post('http://192.168.1.5:8081/admin/roles/insertRole',data)
+                    .then( (response) =>{
+                        this.$message({
+                            message: "添加成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.rolesData = response.data.data.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            dialogeditcommit(val,data){
+                const axios = require('axios');
+                this.dialogedit=val;
+                this.dialogadd=val;
+                this.rolesData[this.index]=data;
+                axios.post('http://192.168.1.5:8081/admin/roles/updateRole',data)
+                    .then( (response)=> {
+                        this.$message({
+                            message: "修改成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.rolesData = response.data.data.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            commitdel(val,id){
+                this.dialogdel=val;
+                const axios = require('axios');
+                // console.log( row.id instanceof Integer )
+                axios.get('http://192.168.1.5:8081/admin/roles/deleteRole', {params: {id: id}})
+                    .then((response) => {
+                        this.$message({
+                            message: "删除成功",
+                            type: "success",
+                            duration: 1000
+                        })
+                        this.rolesData = response.data.data.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            authority(){
+
+            }
+        }
     }
 </script>
 

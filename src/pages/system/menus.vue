@@ -77,7 +77,7 @@
                     {
                         label: '父级菜单编码',
                         width: '110',
-                        type: 'parentid',
+                        type: 'parentCode',
                     },
                     {
                         label: '请求地址',
@@ -91,7 +91,7 @@
                     },
                     {
                         label: '图标地址',
-                        width: '110',
+                        width: '130',
                         type: 'icon',
                     }
                 ],
@@ -169,12 +169,13 @@
                 form: {
                     name: '',
                     code: '',
-                    parentid: '',
+                    parentCode: '',
                     url: '',
                     isMenu: '',
                     status: '',
                     icon:'',
                     id:'',
+                    parentid:''
                 }
             }
         },
@@ -189,22 +190,23 @@
 
         created(){
             const axios = require('axios');
-            axios.get('http://192.168.1.6:8081/admin/menus/selectAllMenus?page=10&size=20')
+            axios.get('http://192.168.1.5:8081/admin/menus/selectAllMenus?page=10&size=20')
                 .then((response)=> {
+                    console.log(response);
                     this.tableData = response.data.data.menusMap;
+                    this.changeIsMenu()
+
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+
+
         },
         methods: {
             handleEdit(index) {
-
                 this.index=index
-
                 this.dialogedit=true;
-
-                // console.log(this.$route.path);
             },
             handleDelete(index,row) {
               this.dialogdel =true
@@ -223,21 +225,37 @@
                 this.form= {
                     name: '',
                     code: '',
-                    parentid: '',
+                    parentCode: '',
                     url: '',
                     isMenu: '',
                     status: '',
                     icon:'',
                     id:'',
+                    parentid:''
                 }
-                axios.post('http://192.168.1.6:8081/admin/menus/insertMenu',data)
+                let type = false;
+                axios.post('http://192.168.1.5:8081/admin/menus/insertMenu',data)
                     .then( (response) =>{
-                        this.$message({
-                            message: "添加成功",
-                            type: "success",
-                            duration: 1000
-                        })
+                        console.log(response);
+                        if(response.data.message === '新增菜单信息成功')
+                        { type=true }
+                        if(type){
+                            this.$message({
+                                message: "添加成功",
+                                type: "success",
+                                duration: 1000
+                            })
+                        }
+                        else
+                            this.$message.error(response.data.message)
                         this.tableData = response.data.data.result;
+                        this.changeIsMenu()
+                        // this.$message({
+                        //     message: response.data.message,
+                        //     type: "warning",
+                        //     duration: 1000
+                        // })
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -247,15 +265,20 @@
                 const axios = require('axios');
                 this.dialogedit=val;
                 this.dialogadd=val;
+                console.log(data);
                 this.tableData[this.index]=data;
-                axios.post('http://192.168.1.6:8081/admin/menus/updateMenu',data)
+                console.log(this.tableData[this.index]);
+                axios.post('http://192.168.1.5:8081/admin/menus/updateMenu',data)
                     .then( (response)=> {
+                        console.log(response);
                         this.$message({
                             message: "修改成功",
                             type: "success",
                             duration: 1000
                         })
                         this.tableData = response.data.data.result;
+                        this.changeIsMenu()
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -265,22 +288,29 @@
                 this.dialogdel=val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.6:8081/admin/menus/updateMenuStatus', {params: {id: id}})
+                axios.get('http://192.168.1.5:8081/admin/menus/updateMenuStatus', {params: {id: id}})
                     .then((response) => {
+
                         this.$message({
                             message: "删除成功",
                             type: "success",
                             duration: 1000
                         })
                         this.tableData = response.data.data.result;
+                        this.changeIsMenu()
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            changeIsMenu(){
+                for(let i =0 ;i<this.tableData.length;i++){
+                    if(this.tableData[i].isMenu===0)
+                        this.tableData[i].isMenu='否'
+                    else
+                        this.tableData[i].isMenu='是'
+                }
             }
-            // filter:function () {
-            //     this.search=this.searching
-            // }
         }
     }
 </script>

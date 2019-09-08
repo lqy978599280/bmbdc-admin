@@ -24,45 +24,50 @@
           <span >系统管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="menus" >菜单管理</el-menu-item>
-          <el-menu-item index="roles" >角色管理</el-menu-item>
-          <el-menu-item index="users">用户管理</el-menu-item>
-          <el-menu-item index="depts">部门管理</el-menu-item>
-          <el-menu-item index="sysconfigs">字典管理</el-menu-item>
-          <el-menu-item index="syslogs">登录日志</el-menu-item>
-          <el-menu-item index="messages">消息管理</el-menu-item>
+          <el-menu-item class="sec" index="menus" >菜单管理</el-menu-item>
+          <el-menu-item class="sec" index="roles" >角色管理</el-menu-item>
+          <el-menu-item class="sec" index="users">用户管理</el-menu-item>
+          <el-menu-item class="sec" index="depts">部门管理</el-menu-item>
+          <el-menu-item class="sec" index="sysconfigs">系统配置管理</el-menu-item>
+          <el-menu-item class="sec" index="syslogs">登录日志</el-menu-item>
+          <el-menu-item class="sec" index="messages">消息管理</el-menu-item>
         </el-menu-item-group>
 
       </el-submenu>
-      <el-submenu index="3">
+      <el-menu-item index="3">
         <template slot="title">
           <i class="fa fa-home fa-2x"></i>
           <span >房源管理</span>
         </template>
-        <el-menu-item-group>
-          <el-menu-item index="2-1">二手房列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
 
+      </el-menu-item>
+      <el-menu-item index="5">
+        <template slot="title">
+          <i class="fa fa-drivers-license"></i>
+          <span >会员信息管理</span>
+        </template>
+
+      </el-menu-item>
+      <el-menu-item index="block">
+
+        <template slot="title">
+          <i class="fa fa-pie-chart"></i>
+          <span >区域信息管理</span>
+        </template>
+
+      </el-menu-item>
       <el-submenu index="4">
         <template slot="title">
           <i class="fa fa-map-signs "></i>
           <span >小区信息管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1">小区列表</el-menu-item>
+          <el-menu-item class="sec" index="3-1">飞手派单管理</el-menu-item>
+          <el-menu-item class="sec" index="3-1">小区信息管理</el-menu-item>
         </el-menu-item-group>
 
       </el-submenu>
-      <el-submenu index="5">
-        <template slot="title">
-          <i class="fa fa-drivers-license"></i>
-          <span >会员信息管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="4-1">会员列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+
 
       <el-submenu index="6">
         <template slot="title">
@@ -70,10 +75,35 @@
           <span >广告信息管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="5-1">广告位置列表</el-menu-item>
-          <el-menu-item index="5-2">广告列表</el-menu-item>
+          <el-menu-item class="sec" index="5-1">广告位置列表</el-menu-item>
+          <el-menu-item class="sec" index="5-2">广告列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-submenu index="head">
+        <template slot="title">
+          <i class="fa fa-fire"></i>
+          <span >头条信息管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="5-1">头条分类信息管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">头条信息管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="weituo">
+        <template slot="title">
+          <i class="fa fa-magnet"></i>
+          <span >委托管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="5-1">委托买房管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">带看房管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">定金合同管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">网签过户管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">银行按揭管理</el-menu-item>
+          <el-menu-item class="sec" index="5-2">全景拍摄管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
 
       <el-submenu index="7">
         <template slot="title">
@@ -81,8 +111,8 @@
           <span >飞手社工管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="6-1">飞手社工列表</el-menu-item>
-          <el-menu-item index="6-2">申请列表</el-menu-item>
+          <el-menu-item class="sec" index="6-1">飞手社工列表</el-menu-item>
+          <el-menu-item class="sec" index="6-2">申请列表</el-menu-item>
           <el-menu-item index="6-3">订单列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -93,9 +123,9 @@
           <span >全景社工管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="7-1">全景社工列表</el-menu-item>
-          <el-menu-item index="7-2">申请列表</el-menu-item>
-          <el-menu-item index="7-3">订单列表</el-menu-item>
+          <el-menu-item class="sec" index="7-1">全景社工列表</el-menu-item>
+          <el-menu-item class="sec" index="7-2">申请列表</el-menu-item>
+          <el-menu-item class="sec" index="7-3">订单列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -105,9 +135,9 @@
         <span >房源社工管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="8-1">房源社工列表</el-menu-item>
-        <el-menu-item index="8-2">申请列表</el-menu-item>
-        <el-menu-item index="8-3">订单列表</el-menu-item>
+        <el-menu-item class="sec" index="8-1">房源社工列表</el-menu-item>
+        <el-menu-item class="sec" index="8-2">申请列表</el-menu-item>
+        <el-menu-item class="sec" index="8-3">订单列表</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
 
@@ -117,9 +147,9 @@
           <span >房产经纪人管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="9-1">房产经纪人列表</el-menu-item>
-          <el-menu-item index="9-2">申请列表</el-menu-item>
-          <el-menu-item index="9-3">订单列表</el-menu-item>
+          <el-menu-item class="sec" index="9-1">房产经纪人列表</el-menu-item>
+          <el-menu-item class="sec" index="9-2">申请列表</el-menu-item>
+          <el-menu-item class="sec" index="9-3">订单列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -205,5 +235,8 @@
   i{
     font-size: 16px;
     margin-right: 5px;
+  }
+  .sec{
+    padding-left: 60px!important;
   }
 </style>

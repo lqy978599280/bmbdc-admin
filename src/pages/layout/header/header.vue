@@ -80,7 +80,10 @@
     margin: 10px;
     cursor: pointer;
   }
-
+  .el-dropdown-menu__item{
+    padding: 0 15px;
+    border-radius: 5px;
+  }
   .right {
     margin-right: 5px;
     float: right;
