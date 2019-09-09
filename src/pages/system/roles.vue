@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="菜单名称/请求地址"  v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="角色名称"  v-model="search" ></el-input>
       <el-button class="search bgc" >搜 索</el-button>
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
       <rolesEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></rolesEdit>
@@ -10,14 +10,14 @@
     </div>
     <el-table
       class="bgc"
-      :data="rolesData"
+      :data="filterRolesData"
     >
-      <!--      <div v-for="data in columntype" >-->
-      <!--        <singleMenu :coltype="data"></singleMenu>-->
-      <!--      </div>-->
+            <div v-for="data in columntype" >
+              <singleMenu :coltype="data"></singleMenu>
+            </div>
 
-      <singleMenu  :coltype="this.columntype[0]"></singleMenu>
-      <singleMenu  :coltype="this.columntype[1]"></singleMenu>
+<!--      <singleMenu  :coltype="this.columntype[0]"></singleMenu>-->
+<!--      <singleMenu  :coltype="this.columntype[1]"></singleMenu>-->
 
 
 
@@ -68,18 +68,35 @@
                 index:0,
                 title:["添加角色","编辑角色"],
                 columntype:[
+                    { label: '备注',
+                        width: '110',
+                        type: 'remark',
+                    },
                     {
                         label: '角色名称',
                         width: '110',
                         type: 'name',
                     },
-                    { label: '备注',
-                        width: '110',
-                        type: 'remark',
-                    }
+
                 ],
                 rolesData: [
-
+                    // {
+                    //     name: '125553',
+                    //     remark: '',
+                    //     id:'',
+                    // },{
+                    //     name: '124123',
+                    //     remark: '',
+                    //     id:'',
+                    // },{
+                    //     name: '12344',
+                    //     remark: '',
+                    //     id:'',
+                    // },{
+                    //     name: '1233',
+                    //     remark: '',
+                    //     id:'',
+                    // }
                 ],
 
                 dialogadd: false,
@@ -89,25 +106,28 @@
                 form: {
                     name: '',
                     remark: '',
-
                     id:'',
                 }
             }
         },
         computed:{
             filterRolesData:function (){
-                return     this.rolesData.filter( (rolesData) => {
-                    return rolesData.name.match(this.search) || rolesData.remark.match(this.search)
+                return     this.rolesData.filter( (data) => {
+                    return data.name.match(this.search)
                 })
             }
         },
-
-        created(){
+        updated(){
+            console.log(this.search);
+            console.log(this.filterRolesData);
+        },
+        mounted(){
             const axios = require('axios');
             axios.get('http://192.168.1.5:8081/admin/roles/selectAllRoles?page=10&size=20')
                 .then((response)=> {
                     console.log(response);
                     this.rolesData = response.data.data.rolesList;
+                    console.log(this.rolesData);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -141,11 +161,8 @@
                 }
                 axios.post('http://192.168.1.5:8081/admin/roles/insertRole',data)
                     .then( (response) =>{
-                        this.$message({
-                            message: "添加成功",
-                            type: "success",
-                            duration: 1000
-                        })
+                        this.message(response)
+
                         this.rolesData = response.data.data.result;
                     })
                     .catch(function (error) {
@@ -156,14 +173,13 @@
                 const axios = require('axios');
                 this.dialogedit=val;
                 this.dialogadd=val;
+                console.log(data);
                 this.rolesData[this.index]=data;
                 axios.post('http://192.168.1.5:8081/admin/roles/updateRole',data)
                     .then( (response)=> {
-                        this.$message({
-                            message: "修改成功",
-                            type: "success",
-                            duration: 1000
-                        })
+                        this.message(response)
+
+                        this.message(response)
                         this.rolesData = response.data.data.result;
                     })
                     .catch(function (error) {
@@ -176,16 +192,25 @@
                 // console.log( row.id instanceof Integer )
                 axios.get('http://192.168.1.5:8081/admin/roles/deleteRole', {params: {id: id}})
                     .then((response) => {
-                        this.$message({
-                            message: "删除成功",
-                            type: "success",
-                            duration: 1000
-                        })
+                        this.message(response)
+
                         this.rolesData = response.data.data.result;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            message(response){
+                let type = false;
+                if (response.data.code === 0) {
+                    type = "success"
+                }
+                else type = "warning"
+                this.$message({
+                    message: response.data.message,
+                    type: type,
+                    duration: 1000
+                })
             },
             authority(){
 

@@ -26,11 +26,11 @@
         <el-input v-model="getdata.url" auto-complete="off"></el-input>
       </el-form-item>
 
-      <el-form-item label="是否菜单*" :label-width="formLabelWidth">
-        <el-radio v-model="getdata.isMenu" label="是" value="1">是</el-radio>
-        <el-radio v-model="getdata.isMenu" label="否" value="0">否</el-radio>
+<!--      <el-form-item label="是否菜单*" :label-width="formLabelWidth">-->
+<!--      <el-radio v-model="getdata.isMenu" label="是" >是</el-radio>-->
+<!--      <el-radio v-model="getdata.isMenu" label="否" >否</el-radio>-->
 
-      </el-form-item>
+<!--      </el-form-item>-->
       <el-form-item label="图标地址" :label-width="formLabelWidth">
         <el-input v-model="getdata.icon" auto-complete="off"></el-input>
 
@@ -132,7 +132,7 @@
                 this.data.name = this.getdata.name
                 this.data.code = this.getdata.code
                 this.data.parentCode = this.getdata.parentCode
-                this.getdata.parentid = this.data.parentid
+                this.data.parentid = this.getdata.parentid
                 this.data.url = this.getdata.url
                 this.data.isMenu = this.getdata.isMenu
                 this.data.status = this.getdata.status
@@ -154,12 +154,6 @@
                 } else if(this.data.parentCode==='') {
                     this.$message({
                         message: "请选择父级",
-                        type: "warning",
-                        duration: 1000
-                    })
-                } else if(this.data.isMenu==='') {
-                    this.$message({
-                        message: "请选择是否菜单",
                         type: "warning",
                         duration: 1000
                     })

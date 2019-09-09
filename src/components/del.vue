@@ -28,11 +28,11 @@
         },
         methods: {
             handleClose() {
-                del:false
+                this.del=false
                 this.$emit('getdialogfv', !this.dialogif)
             },
             deletd() {
-                del:false
+                this.del=false
                 this.$emit('commitdel', !this.dialogif,this.del_id)
 
             }

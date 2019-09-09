@@ -98,21 +98,21 @@
                 }
             },
             dialogcommit() {
-                this.getdata.userName = this.data.userName
-                this.getdata.password = this.data.password
-                this.getdata.deptName = this.data.deptName
-                this.getdata.realName = this.data.realName
-                this.getdata.phone = this.data.phone
-                this.getdata.sex = this.data.sex
-                this.getdata.email = this.data.email
-                this.getdata.id = this.data.id
-                if(this.data.name==='') {
-                    this.$message({
-                        message: "请填写角色编码",
-                        type: "warning",
-                        duration: 1000
-                    })
-                }
+                this.data.userName = this.getdata.userName
+                this.data.password = this.getdata.password
+                this.data.deptName = this.getdata.deptName
+                this.data.realName = this.getdata.realName
+                this.data.phone = this.getdata.phone
+                this.data.sex = this.getdata.sex
+                this.data.email = this.getdata.email
+                this.data.id = this.getdata.id
+                // if(this.data.name==='') {
+                //     this.$message({
+                //         message: "请填写角色编码",
+                //         type: "warning",
+                //         duration: 1000
+                //     })
+                // }
 
                 else{
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.data)

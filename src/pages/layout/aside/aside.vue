@@ -6,7 +6,7 @@
       <p v-else><img src="../../../assets/logo.png" alt="logo"></p>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="this.$route.path.replace('/','')"
       class="el-menu-vertical-demo"
       background-color="#fff"
       text-color="rgba(0, 0, 0, 0.7)"
@@ -34,7 +34,7 @@
         </el-menu-item-group>
 
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="houseRes">
         <template slot="title">
           <i class="fa fa-home fa-2x"></i>
           <span >房源管理</span>
@@ -85,8 +85,8 @@
           <span >头条信息管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item class="sec" index="5-1">头条分类信息管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">头条信息管理</el-menu-item>
+          <el-menu-item class="sec" index="headClass">头条分类信息管理</el-menu-item>
+          <el-menu-item class="sec" index="headInformation">头条信息管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="weituo">

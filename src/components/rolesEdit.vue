@@ -5,7 +5,7 @@
         <el-input v-model="getdata.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="备注" :label-width="formLabelWidth">
-        <el-input v-model="getdata.rem" auto-complete="off"></el-input>
+        <el-input type="textarea" size="small" v-model="getdata.remark" auto-complete="off"></el-input>
       </el-form-item>
 
 
@@ -71,7 +71,7 @@
                 this.data.remark = this.getdata.remark
                 if(this.data.name==='') {
                     this.$message({
-                        message: "请填写角色编码",
+                        message: "请填写角色名称",
                         type: "warning",
                         duration: 1000
                     })

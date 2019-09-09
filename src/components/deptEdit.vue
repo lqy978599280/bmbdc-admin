@@ -2,26 +2,47 @@
   <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'   >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="部门名称*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.userName" auto-complete="off"></el-input>
+        <el-input v-model="getdata.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="上级部门名称*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.password" auto-complete="off"></el-input>
+        <el-select v-model="getdata.parentName" placeholder="请选择">
+          <el-option
+            v-for="item in selectParent"
+            :key="item.id"
+            :label="item.name"
+            :value='item.name+"_"+item.id'
+          >
+            <span style="float: left">{{ item.name }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="所属部门名称" :label-width="formLabelWidth">
-        <el-input v-model="getdata.deptName" auto-complete="off"></el-input>
+      <el-form-item label="所属区域名称" :label-width="formLabelWidth" >
+        <el-select v-model="getdata.areaName" filterable placeholder="请选择">
+          <el-option
+            v-for="item in selectArea"
+            :key="item.id"
+            :label="item.mergershortname"
+            :value="item.mergershortname"
+          >
+            <span style="float: left">{{ item.mergershortname }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="姓名" :label-width="formLabelWidth">
-        <el-input v-model="getdata.realName" auto-complete="off"></el-input>
+      <el-form-item label="详细地址" :label-width="formLabelWidth">
+        <el-input v-model="getdata.address" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机号码" :label-width="formLabelWidth">
+      <el-form-item label="部门负责人姓名" :label-width="formLabelWidth">
+        <el-input v-model="getdata.managerName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话" :label-width="formLabelWidth">
         <el-input v-model="getdata.phone" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="性别" :label-width="formLabelWidth">
-        <el-input v-model="getdata.sex" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" :label-width="formLabelWidth">
-        <el-input v-model="getdata.email" auto-complete="off"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="状态" :label-width="formLabelWidth">-->
+<!--        <el-radio v-model="getdata.isMenu" label="启用" ></el-radio>-->
+<!--        <el-radio v-model="getdata.isMenu" label="未启用" ></el-radio>-->
+<!--      </el-form-item>-->
 
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -37,14 +58,14 @@
         name: "menuEdit",
         props: {
             data: {
-                userName: '',
-                password: '',
-                deptName:'',
-                realName:'',
-                phone:'',
-                sex:'',
-                email:'',
-                id:'',
+                name: '',
+                parentName: '',
+                areaName: '',
+                address: '',
+                managerName: '',
+                status: '',
+                phone: '',
+                id: '',
             },
             dialogFormVisible: '',
             title: ''
@@ -57,32 +78,53 @@
         },
         watch: {
             "dialogFormVisible": function () {
-                this.getdata.userName = this.data.userName
-                this.getdata.password = this.data.password
-                this.getdata.deptName = this.data.deptName
-                this.getdata.realName = this.data.realName
+                this.getdata.parentName = this.data.parentName
+                this.getdata.areaName = this.data.areaName
+                this.getdata.name = this.data.name
+                this.getdata.address = this.data.address
+                this.getdata.managerName = this.data.managerName
+                this.getdata.status = this.data.status
                 this.getdata.phone = this.data.phone
-                this.getdata.sex = this.data.sex
-                this.getdata.email = this.data.email
                 this.getdata.id = this.data.id
             }
+
+        },
+        mounted(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.5:8081/admin/depts/selectAllDepts?page=1&size=100')
+                .then((response)=> {
+                    // console.log(response);
+                    this.selectParent = response.data.data.deptList;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            axios.get('http://192.168.1.5:8081/admin/depts/findAllArea')
+                .then((response)=> {
+                    // console.log(response);
+                    this.selectArea = response.data.data.areaList;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
 
         },
         data() {
             return {
                 getdata: {
 
-                    userName: '',
-                    password: '',
-                    deptName:'',
-                    realName:'',
-                    phone:'',
-                    sex:'',
-                    email:'',
-                    id:'',
+                    name: '',
+                    parentName: '',
+                    areaName: '',
+                    address: '',
+                    managerName: '',
+                    status: '',
+                    phone: '',
+                    id: '',
                 },
                 formLabelWidth: '120px',
-
+                selectParent:[],
+                selectArea:[]
 
 
             }
@@ -93,22 +135,40 @@
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 this.getdata = {
                     name: '',
-                    remark: '',
-                    id:''
+                    parentName: '',
+                    areaName: '',
+                    address: '',
+                    managerName: '',
+                    status: '',
+                    phone: '',
+                    id: '',
                 }
+
             },
             dialogcommit() {
-                this.getdata.userName = this.data.userName
-                this.getdata.password = this.data.password
-                this.getdata.deptName = this.data.deptName
-                this.getdata.realName = this.data.realName
-                this.getdata.phone = this.data.phone
-                this.getdata.sex = this.data.sex
-                this.getdata.email = this.data.email
-                this.getdata.id = this.data.id
+                this.data.parentName = this.getdata.parentName
+                this.data.areaName = this.getdata.areaName
+                this.data.address = this.getdata.address
+                this.data.status = this.getdata.status
+                this.data.phone = this.getdata.phone
+                this.data.managerName = this.getdata.managerName
+                this.data.name = this.getdata.name
+                this.data.id = this.getdata.id
                 if(this.data.name==='') {
                     this.$message({
-                        message: "请填写角色编码",
+                        message: "请填写部门名称",
+                        type: "warning",
+                        duration: 1000
+                    })
+                } else  if(this.data.parentName==='') {
+                    this.$message({
+                        message: "请选择上级部门",
+                        type: "warning",
+                        duration: 1000
+                    })
+                }else  if(this.data.parentName.indexOf("_")!==-1) {
+                    this.$message({
+                        message: "部门名称不允许带有_",
                         type: "warning",
                         duration: 1000
                     })

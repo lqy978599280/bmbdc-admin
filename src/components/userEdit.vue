@@ -1,14 +1,24 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'   >
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="50%" :before-close='dialogfv'   >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="登录账号*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.userName" auto-complete="off"></el-input>
+        <el-input  v-model="getdata.userName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="登录密码*" :label-width="formLabelWidth">
+      <el-form-item label="密码(不填默认不变)" :label-width="formLabelWidth">
         <el-input v-model="getdata.password" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="所属部门名称" :label-width="formLabelWidth">
-        <el-input v-model="getdata.deptName" auto-complete="off"></el-input>
+      <el-form-item label="所属部门名称*" :label-width="formLabelWidth">
+        <el-select v-model="getdata.deptName" placeholder="请选择">
+          <el-option
+            v-for="item in selectParent"
+            :key="item.id"
+            :label="item.name"
+            :value='item.name+"_"+item.id'
+          >
+            <span style="float: left">{{ item.name }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="getdata.realName" auto-complete="off"></el-input>
@@ -17,7 +27,8 @@
         <el-input v-model="getdata.phone" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="性别" :label-width="formLabelWidth">
-        <el-input v-model="getdata.sex" auto-complete="off"></el-input>
+        <el-radio v-model="getdata.sex" label="男" value="1"></el-radio>
+        <el-radio v-model="getdata.sex" label="女" value="2"></el-radio>
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth">
         <el-input v-model="getdata.email" auto-complete="off"></el-input>
@@ -47,7 +58,7 @@
                 id:'',
             },
             dialogFormVisible: '',
-            title: ''
+            title: '',
         },
         computed: {
             dialogif: function () {
@@ -58,7 +69,7 @@
         watch: {
             "dialogFormVisible": function () {
                 this.getdata.userName = this.data.userName
-                this.getdata.password = this.data.password
+                this.getdata.password = ''
                 this.getdata.deptName = this.data.deptName
                 this.getdata.realName = this.data.realName
                 this.getdata.phone = this.data.phone
@@ -67,6 +78,17 @@
                 this.getdata.id = this.data.id
             }
 
+        },
+        mounted(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.5:8081/admin/depts/selectAllDepts?page=1&size=100')
+                .then((response)=> {
+                    // console.log(response);
+                    this.selectParent = response.data.data.deptList;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         data() {
             return {
@@ -81,8 +103,8 @@
                     email:'',
                     id:'',
                 },
-                formLabelWidth: '120px',
-
+                formLabelWidth: '180px',
+                selectParent:[]
 
 
             }
@@ -98,22 +120,28 @@
                 }
             },
             dialogcommit() {
-                this.getdata.userName = this.data.userName
-                this.getdata.password = this.data.password
-                this.getdata.deptName = this.data.deptName
-                this.getdata.realName = this.data.realName
-                this.getdata.phone = this.data.phone
-                this.getdata.sex = this.data.sex
-                this.getdata.email = this.data.email
-                this.getdata.id = this.data.id
-                if(this.data.name==='') {
+                this.data.userName = this.getdata.userName
+                this.data.password = this.getdata.password
+                this.data.deptName = this.getdata.deptName
+                this.data.realName = this.getdata.realName
+                this.data.phone = this.getdata.phone
+                this.data.sex = this.getdata.sex
+                this.data.email = this.getdata.email
+                this.data.id = this.getdata.id
+                if(this.data.userName==='') {
                     this.$message({
-                        message: "请填写角色编码",
+                        message: "请填写账号",
                         type: "warning",
                         duration: 1000
                     })
                 }
-
+                else if(this.data.deptName==='') {
+                    this.$message({
+                        message: "请选择部门",
+                        type: "warning",
+                        duration: 1000
+                    })
+                }
                 else{
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.data)
                 }

@@ -18,18 +18,23 @@
         type=="deptName"?scope.row.deptName:
         type=="realName"?scope.row.realName:
         type=="phone"?scope.row.phone:
-        type=="status"?scope.row.status:
         type=="email"?scope.row.email:
         type=="sex"?scope.row.sex:
-        type=="password"?scope.row.password:
-        type=="deptname"?scope.row.deptname:
-        type=="parentdeptname"?scope.row.parentdeptname:
-        type=="areaname"?scope.row.areaname:
+        type=="password"?"******":
+        type=="describe"?scope.row.describe:
+        type=="parentName"?scope.row.parentName:
+        type=="areaName"?scope.row.areaName:
         type=="address"?scope.row.address:
-        type=="deptleadername"?scope.row.deptleadername:
-        type=="configcode"?scope.row.configcode:
-        type=="confignum"?scope.row.confignum:
-        type=="describe"?scope.row.describe:''
+        type=="managerName"?scope.row.managerName:
+        type=="describe"?scope.row.describe:
+        type=="number"?scope.row.number:
+        type=="villageName"?scope.row.villageName:
+        type=="areaMeasure"?scope.row.areaMeasure:
+        type=="totalPrice"?scope.row.totalPrice:
+        type=="is_twoYear"?scope.row.is_twoYear:
+        type=="compose"?scope.row.compose:
+        type=="houseUsageName"?scope.row.houseUsageName:''
+
 
         }}</span>
     </template>

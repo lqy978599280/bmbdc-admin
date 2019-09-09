@@ -8,7 +8,7 @@ import HomeMain from '@/pages/index/mainIndex'
 
 import layout from "../pages/layout/layout";
 import commerViews from "../pages/commerViews";
-
+import houseRes from "../pages/houseRes/houseRes";
 
 const Icon = () => import('@/pages/icon/index')
 const Upload = () => import('@/pages/upload/upload')
@@ -21,6 +21,9 @@ const messages = ()=> import('@/pages/system/messages')
 const system = ()=> import('@/pages/system/system')
 const users = ()=> import('@/pages/system/users')
 const forgetpassword = ()=>import('@/pages/login/forgetpassword')
+const headClass = ()=>import('@/pages/headMessage/headClass')
+const headInformation = ()=>import('@/pages/headMessage/headInformation')
+
 
 
 Vue.use(Router)
@@ -55,68 +58,83 @@ let defaultRouter = [
     children: [
       {
         path: '/index',
-        iconCls: 'fa fa-dashboard',
         name: '主页',
         component: HomeMain,
         children: []
       },
       {
+        path: '/houseRes',
+        name: '房源管理',
+        component: houseRes,
+        children: []
+      },
+      {
         path: '/system',
-        iconCls: 'fa fa-dashboard',
         name: '系统管理',
-        component: system,
+        component: commerViews,
         children: [
           {
             path: '/menus',
-            iconCls: 'fa fa-dashboard',
             name: '菜单管理',
             component: menus,
             children: []
           },
           {
             path: '/roles',
-            iconCls: 'fa fa-dashboard',
             name: '角色管理',
             component: roles,
             children: []
           },
           {
             path: '/users',
-            iconCls: 'fa fa-dashboard',
             name: '用户管理',
             component: users,
             children: []
           },
           {
             path: '/depts',
-            iconCls: 'fa fa-dashboard',
             name: '部门管理',
             component: depts,
             children: []
           },
           {
             path: '/sysconfigs',
-            iconCls: 'fa fa-dashboard',
-            name: '字典管理',
+            name: '系统配置管理',
             component: sysconfigs,
             children: []
           },
           {
             path: '/syslogs',
-            iconCls: 'fa fa-dashboard',
             name: '登录日志',
             component: syslogs,
             children: []
           },
           {
             path: '/messages',
-            iconCls: 'fa fa-dashboard',
             name: '消息管理',
             component: messages,
             children: []
           }]
       },
-
+      {
+        path: '/headMessage',
+        name: '头条管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/headClass',
+            name: '头条分类信息管理',
+            component: headClass,
+            children: []
+          },
+          {
+            path: '/headInformation',
+            name: '头条信息管理',
+            component: headInformation,
+            children: []
+          },
+        ]
+      },
     ]
   },
   {
