@@ -28,11 +28,12 @@
         type=="managerName"?scope.row.managerName:
         type=="describe"?scope.row.describe:
         type=="number"?scope.row.number:
+        type=="value"?scope.row.value:
         type=="villageName"?scope.row.villageName:
         type=="areaMeasure"?scope.row.areaMeasure:
         type=="totalPrice"?scope.row.totalPrice:
         type=="is_twoYear"?scope.row.is_twoYear:
-        type=="compose"?scope.row.compose:
+        type=="compose"?scope.row.bedroom+'室'+scope.row.livingroom+'厅'+scope.row.washroom+'卫':
         type=="houseUsageName"?scope.row.houseUsageName:''
 
 

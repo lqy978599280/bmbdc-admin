@@ -3,9 +3,10 @@
     <div class="main-top">
       <el-input class="bgc" type="text" placeholder="房源编号/房东姓名/联系方式/小区名称"  v-model="search"></el-input>
       <el-button class="search bgc" >搜 索</el-button>
-      <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
-      <houseResEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></houseResEdit>
-      <houseResEdit :data="filterHouseResData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></houseResEdit>
+      <el-button class="add bgc" @click='add'>添 加</el-button>
+      <houseResEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]" :buttonClose="buttonClose" :buttonCommit="buttonCommit"></houseResEdit>
+      <houseResEdit :data="filterHouseResData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]" :buttonName="buttonName":buttonClose="buttonClose" :buttonCommit="buttonCommit"></houseResEdit>
+      <houseResEdit :data="filterHouseResData[index]" :dialogFormVisible="dialoginf" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[2]" :buttonName="buttonName":buttonClose="buttonClose" :buttonCommit="buttonCommit"></houseResEdit>
       <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
@@ -40,7 +41,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="authority(scope.$index, scope.row)">审 核
+            @click="information(scope.$index, scope.row)">审 核
           </el-button>
           <el-button
             size="mini"
@@ -75,7 +76,8 @@
                 searching:'',
                 search:'',
                 index:0,
-                title:["添加房源","编辑房源"],
+                title:["添加房源","编辑房源",'审核'],
+                buttonName:["取消",'确定'],
                 columntype:[
                     { label: '房源性质',
                         width: '100',
@@ -120,96 +122,13 @@
                     }
                 ],
                 houseResData: [
-                    {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: 'lqy',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    }, {
-                        name: '余林',
-                        number: 'FY80000001',
-                        compose: '2室1厅1卫',
-                        phone: '123456789',
-                        areaName: '浙江省杭州市西湖区',
-                        villageName: '雅仕苑',
-                        areaMeasure: '88',
-                        totalPrice: '440',
-                        is_twoYear: '是',
-                        houseUsageName: '普通住宅',
-                        id:'',
-                    },
+
                 ],
 
                 dialogadd: false,
                 dialogedit: false,
                 dialogdel:false,
+                dialoginf:false,
                 del_id:'',
                 form: {
                     name: '',
@@ -223,7 +142,12 @@
                     is_twoYear: '',
                     houseUsageName: '',
                     id:'',
-                }
+                    bedroom:'',
+                    livingroom:'',
+                    washroom:''
+                },
+                buttonClose:'',
+                buttonCommit:''
             }
         },
         computed:{
@@ -234,23 +158,38 @@
             }
         },
 
-        // created(){
-        //     const axios = require('axios');
-        //     axios.get('http://192.168.1.5:8081/admin/roles/selectAllRoles?page=10&size=20')
-        //         .then((response)=> {
-        //             console.log(response);
-        //             this.rolesData = response.data.data.rolesList;
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        //
-        //
-        // },
+        created(){
+            const axios = require('axios');
+            axios.get('http://192.168.1.5:8081/admin/house/selectAllHouse?page=10&size=20')
+                .then((response)=> {
+                    console.log(response);
+                    this.houseResData = response.data.data.houseList;
+                    this.change()
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+        },
         methods:{
+
+        add(){
+            this.dialogadd=true;
+            this.buttonClose='取消'
+            this.buttonCommit='确定'
+        },
+
+            information(){
+                this.dialoginf=true;
+                this.buttonClose='拒绝'
+                this.buttonCommit='通过'
+            },
             handleEdit(index) {
                 this.index=index
                 this.dialogedit=true;
+                this.buttonClose='取消'
+                this.buttonCommit='确定'
             },
             handleDelete(index,row) {
                 this.dialogdel =true
@@ -260,6 +199,7 @@
                 this.dialogedit=val;
                 this.dialogadd=val;
                 this.dialogdel=val;
+                this.dialoginf=val;
             },
             dialogcommit(val,data){
                 const axios = require('axios');
@@ -284,6 +224,8 @@
                         this.message(response)
 
                         this.rolesData = response.data.data.result;
+                        this.change()
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -299,8 +241,9 @@
                     .then( (response)=> {
                         this.message(response)
 
-                        this.message(response)
                         this.rolesData = response.data.data.result;
+                        this.change()
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -315,6 +258,8 @@
                         this.message(response)
 
                         this.rolesData = response.data.data.result;
+                        this.message(response)
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -334,7 +279,13 @@
             },
             authority(){
 
-            }
+            },
+            change(){
+                for (let i=0 ;i<this.houseResData.length;i++){
+                    this.houseResData[i].is_twoYear = this.houseResData[i].is_twoYear==true ? '是' : '否'
+                    // this.deptData[i].sex = this.deptData[i].sex==1 ? '男' : '女'
+                }
+            },
         }
     }
 </script>
