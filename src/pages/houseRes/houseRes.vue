@@ -142,9 +142,14 @@
                     is_twoYear: '',
                     houseUsageName: '',
                     id:'',
-                    bedroom:'',
-                    livingroom:'',
-                    washroom:''
+                    label:[],
+                    hasDevice:[],
+                    lng: 0,
+                    lat: 0,
+                    fix:'',
+                    direction:'',
+                    house:'',
+                    otherInformation:''
                 },
                 buttonClose:'',
                 buttonCommit:''
@@ -218,12 +223,20 @@
                     is_twoYear: '',
                     houseUsageName: '',
                     id:'',
+                    label:[],
+                    hasDevice:[],
+                    lng: '',
+                    lat: '',
+                    fix:'',
+                    direction:'',
+                    house:'',
+                    otherInformation:''
                 }
-                axios.post('http://192.168.1.5:8081/admin/roles/insertRole',data)
+                axios.post('http://192.168.1.5:8081/admin/house/insertOneHouseMessage',data)
                     .then( (response) =>{
                         this.message(response)
+                        this.houseResData = response.data.data.houseList;
 
-                        this.rolesData = response.data.data.result;
                         this.change()
 
                     })

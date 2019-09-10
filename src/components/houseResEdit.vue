@@ -290,8 +290,8 @@
                 id:'',
                 label:[],
                 hasDevice:[],
-                lng: 0,
-                lat: 0,
+                lng: '',
+                lat: '',
                 fix:'',
                 direction:'',
                 house:'',
@@ -328,6 +328,8 @@
                 this.getdata.houseUsageName = this.data.houseUsageName
                 this.getdata.id = this.data.id
                 this.getdata.totalPrice = this.data.totalPrice
+                this.getdata.label = this.data.label
+                this.getdata.hasDevice = this.data.hasDevice
             }
 
         },
@@ -343,6 +345,7 @@
                     this.matchingList= response.data.data.matchingList
                     this.areasList= response.data.data.areasList
                     this.villagesList= response.data.data.villagesList
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -433,8 +436,8 @@
                     id:'',
                     label:[],
                     hasDevice:[],
-                    lng: 0,
-                    lat: 0,
+                    lng: '',
+                    lat: '',
                     fix:'',
                     direction:'',
                     house:'',
@@ -453,6 +456,8 @@
                 this.data.houseUsageName = this.getdata.houseUsageName
                 this.data.id = this.getdata.id
                 this.data.totalPrice = this.getdata.totalPrice
+                this.data.label = this.getdata.label
+                this.data.hasDevice = this.getdata.hasDevice
                 if(this.data.name==='') {
                     this.$message({
                         message: "请填写角色编码",
