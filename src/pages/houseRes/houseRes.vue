@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="菜单名称/请求地址"  v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="房源编号/房东姓名/联系方式/小区名称"  v-model="search"></el-input>
       <el-button class="search bgc" >搜 索</el-button>
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
-<!--      <rolesEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></rolesEdit>-->
-<!--      <rolesEdit :data="filterHouseResData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></rolesEdit>-->
+      <houseResEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv" :title="title[0]"></houseResEdit>
+      <houseResEdit :data="filterHouseResData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit" @getdialogfv="getdialogfv" :title="title[1]"></houseResEdit>
       <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv" @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
@@ -18,7 +18,7 @@
 
 
 
-      <el-table-column label="操作" width="320">
+      <el-table-column label="操作" width="460">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -29,6 +29,14 @@
             @click="handleEdit(scope.$index)">编 辑
           </el-button>
 
+          <el-button
+            size="mini"
+            @click="authority(scope.$index, scope.row)">上 架
+          </el-button>
+          <el-button
+            size="mini"
+            @click="authority(scope.$index, scope.row)">下 架
+          </el-button>
           <el-button
             size="mini"
             type="primary"
@@ -52,13 +60,13 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
-    import rolesEdit from "../../components/rolesEdit";
+    import houseResEdit from "../../components/houseResEdit";
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
     export default {
         components: {
             singleMenu,
-            rolesEdit,
+            houseResEdit,
             dialogdel,
             authority
         },
@@ -79,19 +87,19 @@
                         type: 'number',
                     },
                     { label: '房东姓名',
-                        width: '100',
+                        width: '80',
                         type: 'name',
                     },
                     { label: '房东手机号码',
-                        width: '130',
+                        width: '120',
                         type: 'phone',
                     },
                     { label: '所在区域',
-                        width: '130',
+                        width: '120',
                         type: 'areaName',
                     },
                     { label: '小区名称',
-                        width: '110',
+                        width: '100',
                         type: 'villageName',
                     },
                     { label: '户型',
@@ -107,12 +115,8 @@
                         type: 'totalPrice',
                     },
                     { label: '是否满两年',
-                        width: '100',
+                        width: '90',
                         type: 'is_twoYear',
-                    },
-                    { label: '房源性质',
-                        width: '100',
-                        type: 'houseUsageName',
                     }
                 ],
                 houseResData: [
@@ -129,7 +133,7 @@
                         houseUsageName: '普通住宅',
                         id:'',
                     }, {
-                        name: '余林',
+                        name: 'lqy',
                         number: 'FY80000001',
                         compose: '2室1厅1卫',
                         phone: '123456789',
@@ -225,7 +229,7 @@
         computed:{
             filterHouseResData:function (){
                 return     this.houseResData.filter( (data) => {
-                    return data.name.match(this.search) || data.remark.match(this.search)
+                    return data.name.match(this.search) || data.number.match(this.search)|| data.phone.match(this.search)|| data.villageName.match(this.search)
                 })
             }
         },
