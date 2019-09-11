@@ -34,7 +34,9 @@
         type=="totalPrice"?scope.row.totalPrice:
         type=="is_twoYear"?scope.row.is_twoYear:
         type=="compose"?scope.row.bedroom+'室'+scope.row.livingroom+'厅'+scope.row.washroom+'卫':
-        type=="houseUsageName"?scope.row.houseUsageName:''
+        type=="houseUsageName"?scope.row.houseUsageName:
+        type=="time"?scope.row.time:
+        type=="passTime"?scope.row.passTime:''
 
 
         }}</span>

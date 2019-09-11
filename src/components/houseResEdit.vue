@@ -1,5 +1,7 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="780px":before-close='dialogfv'   >
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="780px" :before-close='dialogfv'   >
+    <passEdit :rejected="rejected" @getinnerDiafv="innerDiafv" @rejectedCommit="rejectedCommit"></passEdit>
+
     <div class="button">
       <el-button @click="show=1">基本信息</el-button>
       <el-button @click="show=2">图片信息</el-button>
@@ -7,11 +9,14 @@
     </div>
 
     <div class="basic" v-show="show===1">
-      <el-form :model="getdata" style="margin: 0 auto" >
-        <el-form-item label="房源编号*" :label-width="formLabelWidth">
-          <el-input v-model="getdata.number" auto-complete="off" style="width: 120px;"></el-input>
+      <el-form :model="getdata":disabled="readOnly" style="margin: 0 auto" >
+        <el-form-item label="房东姓名*" :label-width="formLabelWidth">
 
-          房东姓名* <el-input v-model="getdata.name" auto-complete="off" style="width: 90px;"></el-input>
+          <el-input v-model="getdata.name" auto-complete="off" style="width: 90px;"></el-input>
+          <div  v-show="title==='审核'" style="display: inline-block">
+            房源编号* <el-input v-model="getdata.number" auto-complete="off" style="width: 130px;"></el-input>
+
+          </div>
 &nbsp;
 
           房东手机号码<el-input v-model="getdata.phone" auto-complete="off" style="width: 120px;"></el-input>
@@ -22,12 +27,12 @@
         <el-form-item label="小区名称" :label-width="formLabelWidth">
           <el-select v-model="getdata.villageName"  filterable placeholder="可输入快捷搜索"  style="width: 200px;padding:0 0 0 10px">
           <el-option
-            v-for="item in areasList"
+            v-for="item in villagesList"
             :key="item.id"
-            :label="item.mergername"
-            :value='item.mergername+"_"+item.id'
+            :label="item.name"
+            :value='item.name+"_"+item.id'
           >
-            <span style="float: left">{{ item.mergername }}</span>
+            <span style="float: left">{{ item.name }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
           </el-option>
           </el-select>
@@ -56,13 +61,13 @@
         </el-form-item>
 
         <el-form-item label="门牌号" class="border" :label-width="formLabelWidth">
-          <el-input v-model="getdata.compose" auto-complete="off" style="width: 110px;">
+          <el-input v-model="getdata.building" auto-complete="off" style="width: 110px;">
             <template slot="append">幢</template>
           </el-input>
-          <el-input v-model="getdata.compose" auto-complete="off" style="width: 130px;">
+          <el-input v-model="getdata.unit" auto-complete="off" style="width: 130px;">
             <template slot="append">单元</template>
           </el-input>
-          <el-input v-model="getdata.compose" auto-complete="off" style="width: 110px;">
+          <el-input v-model="getdata.house" auto-complete="off" style="width: 110px;">
             <template slot="append">室</template>
           </el-input>
 
@@ -88,7 +93,7 @@
           <el-input v-model="getdata.washroom" auto-complete="off" style="width: 110px;">
           <template slot="append">卫</template>
         </el-input>
-          <el-input v-model="getdata.compose" auto-complete="off" style="width: 130px;">
+          <el-input v-model="getdata.balcony" auto-complete="off" style="width: 130px;">
           <template slot="append">阳台</template>
         </el-input>
 
@@ -99,7 +104,7 @@
 
           </el-input>
           &nbsp;&nbsp; &nbsp;
-          <el-input v-model="getdata.totalFloor" auto-complete="off" style="width: 180px;">
+          <el-input v-model="getdata.floorAll" auto-complete="off" style="width: 180px;">
           <template slot="prepend">共</template>
           <template slot="append">层</template>
 
@@ -109,7 +114,7 @@
         <el-form-item label="物业类型" :label-width="formLabelWidth">
             <el-select v-model="getdata.houseUsageName"  filterable placeholder="请选择"  style="width: 205px;padding-left: 10px;padding-right: 44px">
           <el-option
-            v-for="item in houseDecorateList"
+            v-for="item in houseUsageList"
             :key="item.id"
             :label="item.name"
             :value='item.name+"_"+item.id'
@@ -120,12 +125,12 @@
           </el-option>
         </el-select>
           建造年代
-          <el-input v-model="getdata.year" style="width: 130px;" auto-complete="off">
+          <el-input v-model="getdata.buildYear" style="width: 130px;" auto-complete="off">
             <template slot="append">年</template>
           </el-input>
         </el-form-item>
         <el-form-item label="朝向" :label-width="formLabelWidth">
-          <el-select v-model="getdata.direction"  filterable placeholder="请选择"  style="width: 205px;padding-left: 10px">
+          <el-select v-model="getdata.oriName"  filterable placeholder="请选择"  style="width: 205px;padding-left: 10px">
             <el-option
               v-for="item in houseOrientationList"
               :key="item.id"
@@ -139,7 +144,7 @@
           </el-select>
           &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
           装修程度
-          <el-select v-model="getdata.fix"  filterable placeholder="请选择"  style="width: 205px;padding-left: 10px">
+          <el-select v-model="getdata.decorateName"  filterable placeholder="请选择"  style="width: 205px;padding-left: 10px">
             <el-option
               v-for="item in houseDecorateList"
               :key="item.id"
@@ -163,8 +168,7 @@
           <div style="padding-left: 10px">
             经度
             <el-input v-model="getdata.lng" auto-complete="off"style="width: 130px"></el-input>
-            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-
+            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp
             纬度
             <el-input v-model="getdata.lat" auto-complete="off"style="width: 130px"></el-input>
             <el-button @click="map =!map" >获取经纬度</el-button>
@@ -187,15 +191,13 @@
         <el-form-item label="标签" :label-width="formLabelWidth">
 
               <el-checkbox-group
-              v-model="getdata.label"
+              v-model="getdata.tagNames"
               @change="changelabel">
 
                 <el-checkbox
                   v-for="item in tagList"
                   :key="item.id"
-                  :label="item.name"
-                  :value='item.name+"_"+item.id'
-
+                  :label='item.name+"_"+item.id'
                 >
                  {{item.name }}
                 </el-checkbox>
@@ -205,15 +207,13 @@
         </el-form-item>
         <el-form-item label="配套设施" :label-width="formLabelWidth">
           <el-checkbox-group
-            v-model="getdata.hasDevice"
+            v-model="getdata.matchingNames"
             @change="changelabel">
 
             <el-checkbox
               v-for="item in matchingList"
               :key="item.id"
-              :label="item.name"
-              :value='item.name+"_"+item.id'
-
+              :label='item.name+"_"+item.id'
             >
               {{item.name }}
             </el-checkbox>
@@ -223,8 +223,12 @@
 
 
       </el-form>
+
+
+
       <div slot="footer" class="footer">
-        <el-button @click="dialogfv">{{buttonClose}}</el-button>
+        <el-button @click="dialogfv" v-show="buttonClose!=='拒绝'">{{buttonClose}}</el-button>
+        <el-button @click="reject" v-show="buttonClose === '拒绝'">{{buttonClose}}</el-button>
         <el-button type="primary" @click="dialogcommit">{{buttonCommit}}</el-button>
       </div>
     </div>
@@ -271,6 +275,7 @@
   import VDistpicker from 'v-distpicker'
   import VueAMap from "vue-amap";
   import imgUpload from "./imgUpload";
+  import passEdit from "./passEdit";
   let amapManager = new VueAMap.AMapManager();
     export default {
 
@@ -279,7 +284,7 @@
             data: {
                 name: '',
                 number: '',
-                compose: '',
+                compose:'',
                 phone: '',
                 areaName: '',
                 villageName: '',
@@ -288,26 +293,37 @@
                 is_twoYear: '',
                 houseUsageName: '',
                 id:'',
-                label:[],
-                hasDevice:[],
+                buildYear:'',
+                matchingNames:[],
+                tagNames:[],
                 lng: '',
                 lat: '',
-                fix:'',
-                direction:'',
-                house:'',
+                decorateName:'',
+                oriName:'',
+                title:'',
                 otherInformation:'',
                 bedroom:'',
                 livingroom:'',
-                washroom:''
+                washroom:'',
+                balcony:'',
+                building:'',
+                unit:'',
+                house:'',
+                floor:'',
+                floorAll:'',
+                rejectReason:''
+
             },
             dialogFormVisible: '',
             title: '',
             buttonClose:'',
-            buttonCommit:''
+            buttonCommit:'',
+            readOnly:false
         },
         components:{
             VDistpicker,
-            imgUpload
+            imgUpload,
+            passEdit
         },
         computed: {
             dialogif: function () {
@@ -317,19 +333,9 @@
         },
         watch: {
             "dialogFormVisible": function () {
-                this.getdata.name = this.data.name
-                this.getdata.number = this.data.number
-                this.getdata.compose = this.data.compose
-                this.getdata.areaName = this.data.areaName
-                this.getdata.villageName = this.data.villageName
-                this.getdata.areaMeasure = this.data.areaMeasure
-                this.getdata.phone = this.data.phone
-                this.getdata.is_twoYear = this.data.is_twoYear
-                this.getdata.houseUsageName = this.data.houseUsageName
-                this.getdata.id = this.data.id
-                this.getdata.totalPrice = this.data.totalPrice
-                this.getdata.label = this.data.label
-                this.getdata.hasDevice = this.data.hasDevice
+
+               this.getdata = JSON.parse(JSON.stringify(this.data))
+
             }
 
         },
@@ -337,7 +343,7 @@
             const axios = require('axios');
             axios.get('http://192.168.1.5:8081/admin/house/selectAllHouseMessage?page=10&size=20')
                 .then((response)=> {
-                    console.log(response);
+                    // console.log(response);
                     this.houseUsageList= response.data.data.houseUsageList
                     this.houseOrientationList= response.data.data.houseOrientationList
                     this.houseDecorateList= response.data.data.houseDecorateList
@@ -355,7 +361,6 @@
             let self = this;
             return {
                 getdata: {
-
                     name: '',
                     number: '',
                     compose: '',
@@ -367,19 +372,32 @@
                     is_twoYear: '',
                     houseUsageName: '',
                     id:'',
-                    label:[],
-                    hasDevice:[],
-                    lng: 0,
-                    lat: 0,
-                    fix:'',
-                    direction:'',
+                    matchingNames:[],
+                    tagNames:[],
+                    lng: '',
+                    lat: '',
+                    decorateName:'',
+                    oriName:'',
+                    title:'',
+                    buildYear:'',
+
+                    otherInformation:'',
+                    bedroom:'',
+                    livingroom:'',
+                    washroom:'',
+                    balcony:'',
+                    building:'',
+                    unit:'',
                     house:'',
-                    otherInformation:''
+                    floor:'',
+                    floorAll:'',
+                    rejectReason:''
                 },
                 formLabelWidth: '120px',
                 show:1,
                 area:'',
                 map:false,
+                rejected: false,
                 areasList:[],
                 houseUsageList:[],
                 houseOrientationList:[],
@@ -420,54 +438,39 @@
         },
 
         methods: {
+            innerDiafv(){
+              this.rejected = false
+            },
+            rejectedCommit(reason){
+                this.rejected = false
+                this.getdata.rejectReason = reason
+
+            },
             dialogfv() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
-                this.getdata = {
-                    name: '',
-                    number: '',
-                    compose: '',
-                    phone: '',
-                    areaName: '',
-                    villageName: '',
-                    areaMeasure: '',
-                    totalPrice: '',
-                    is_twoYear: '',
-                    houseUsageName: '',
-                    id:'',
-                    label:[],
-                    hasDevice:[],
-                    lng: '',
-                    lat: '',
-                    fix:'',
-                    direction:'',
-                    house:'',
-                    otherInformation:''
-                }
+                this.getdata = {}
+            },
+            reject(){
+                this.rejected = true
+                this.$emit('getdialogfv', !this.dialogFormVisible)
+                this.getdata = {}
             },
             dialogcommit() {
-                this.data.name = this.getdata.name
-                this.data.number = this.getdata.number
-                this.data.compose = this.getdata.compose
-                this.data.areaName = this.getdata.areaName
-                this.data.villageName = this.getdata.villageName
-                this.data.areaMeasure = this.getdata.areaMeasure
-                this.data.phone = this.getdata.phone
-                this.data.is_twoYear= this.getdata.is_twoYear
-                this.data.houseUsageName = this.getdata.houseUsageName
-                this.data.id = this.getdata.id
-                this.data.totalPrice = this.getdata.totalPrice
-                this.data.label = this.getdata.label
-                this.data.hasDevice = this.getdata.hasDevice
-                if(this.data.name==='') {
+
+               // this.data = JSON.parse(JSON.stringify(this.getdata))
+                // this.getdata = {}
+
+                if(this.getdata.name==='') {
                     this.$message({
-                        message: "请填写角色编码",
+                        message: "请填写房东姓名",
                         type: "warning",
                         duration: 1000
                     })
                 }
 
                 else{
-                    this.$emit('dialogcommit', !this.dialogFormVisible, this.data)
+                    this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
+
                 }
 
             },
@@ -477,7 +480,8 @@
 
             },
             changelabel(){
-                console.log(this.getdata.hasDevice);
+                console.log(this.getdata.matchingNames);
+                console.log(this.getdata.tagNames);
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

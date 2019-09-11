@@ -117,17 +117,17 @@
                 })
             }
         },
-        updated(){
-            console.log(this.search);
-            console.log(this.filterRolesData);
-        },
+        // updated(){
+        //     console.log(this.search);
+        //     console.log(this.filterRolesData);
+        // },
         mounted(){
             const axios = require('axios');
             axios.get('http://192.168.1.5:8081/admin/roles/selectAllRoles?page=10&size=20')
                 .then((response)=> {
-                    console.log(response);
+                    // console.log(response);
                     this.rolesData = response.data.data.rolesList;
-                    console.log(this.rolesData);
+                    // console.log(this.rolesData);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -159,6 +159,7 @@
                     remark: '',
                     id:'',
                 }
+                console.log(data);
                 axios.post('http://192.168.1.5:8081/admin/roles/insertRole',data)
                     .then( (response) =>{
                         this.message(response)
@@ -179,7 +180,7 @@
                     .then( (response)=> {
                         this.message(response)
 
-                        this.message(response)
+                        // this.message(response)
                         this.rolesData = response.data.data.result;
                     })
                     .catch(function (error) {

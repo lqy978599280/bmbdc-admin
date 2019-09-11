@@ -23,6 +23,8 @@ const users = ()=> import('@/pages/system/users')
 const forgetpassword = ()=>import('@/pages/login/forgetpassword')
 const headClass = ()=>import('@/pages/headMessage/headClass')
 const headInformation = ()=>import('@/pages/headMessage/headInformation')
+const flyList = ()=>import('@/pages/fly/flyList')
+const orderManagement = ()=>import('@/pages/fly/orderManagement')
 
 
 
@@ -135,6 +137,26 @@ let defaultRouter = [
           },
         ]
       },
+      {
+        path: '/fly',
+        name: '飞手社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/flyList',
+            name: '飞手社工列表',
+            component: flyList,
+            children: []
+          },
+          {
+            path: '/orderManagement',
+            name: '订单管理',
+            component: orderManagement,
+            children: []
+          },
+        ]
+      },
+
     ]
   },
   {

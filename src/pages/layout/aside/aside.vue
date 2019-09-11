@@ -34,6 +34,7 @@
         </el-menu-item-group>
 
       </el-submenu>
+
       <el-menu-item index="houseRes">
         <template slot="title">
           <i class="fa fa-home fa-2x"></i>
@@ -41,6 +42,19 @@
         </template>
 
       </el-menu-item>
+
+      <el-submenu index="fly">
+        <template slot="title">
+          <i class="fa fa-paper-plane"></i>
+          <span >飞手社工管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="flyList">飞手社工列表</el-menu-item>
+          <el-menu-item class="sec" index="orderManagement">订单管理</el-menu-item>
+<!--          <el-menu-item class="sec" index="6-3">订单列表</el-menu-item>-->
+        </el-menu-item-group>
+      </el-submenu>
+
       <el-menu-item index="5">
         <template slot="title">
           <i class="fa fa-drivers-license"></i>
@@ -105,17 +119,7 @@
       </el-submenu>
 
 
-      <el-submenu index="7">
-        <template slot="title">
-          <i class="fa fa-paper-plane"></i>
-          <span >飞手社工管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="6-1">飞手社工列表</el-menu-item>
-          <el-menu-item class="sec" index="6-2">申请列表</el-menu-item>
-          <el-menu-item index="6-3">订单列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+
 
       <el-submenu index="8">
         <template slot="title">

@@ -101,72 +101,7 @@
                 ],
                 tableData: [],
                 total: 0,
-                // [
-                // {
-                //     menuname: '首页',
-                //     code: 'index',
-                //     fa_code: "",
-                //     path: "",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '系统管理',
-                //     code: 'system',
-                //     fa_code: "0",
-                //     path: "#",
-                //     menuif: "是",
-                //     status:"启用"
-                //
-                // },
-                // {
-                //     menuname: '菜单管理',
-                //     code: 'menus',
-                //     fa_code: "system",
-                //     path: "/menu",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '角色管理',
-                //     code: 'roles',
-                //     fa_code: "system",
-                //     path: "/roles",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '部门管理',
-                //     code: 'depts',
-                //     fa_code: "system",
-                //     path: "/depts",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '字典管理',
-                //     code: 'sysconfigs',
-                //     fa_code: "system",
-                //     path: "/sysconfigs",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '登录日志',
-                //     code: 'syslogs',
-                //     fa_code: "system",
-                //     path: "/syslogs",
-                //     menuif: "是",
-                //     status:"启用"
-                // },
-                // {
-                //     menuname: '消息管理',
-                //     code: 'messages',
-                //     fa_code: "system",
-                //     path: "/messages",
-                //     menuif: "是",
-                //     status:"启用"
-                // }],
+
                 dialogadd: false,
                 dialogedit: false,
                 dialogdel: false,
@@ -195,20 +130,7 @@
         },
 
         mounted() {
-            const axios = require('axios');
-            axios.get(`http://192.168.1.5:8081/admin/menus/selectAllMenus?page=${this.currentPage}&size=8`)
-                .then((response) => {
-                    console.log(response);
-                    this.tableData = response.data.data.menusMap;
-                    this.total = response.data.data.total
-                    this.changeIsMenu()
-                    console.log(this.tableData);
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
+            this.handleCurrentChange()
 
         },
         methods: {
@@ -247,7 +169,8 @@
                         // console.log(response);
                         this.message(response)
 
-                        this.tableData = response.data.data.result;
+                        this.handleCurrentChange()
+
                         this.changeIsMenu()
                         // this.$message({
                         //     message: response.data.message,
@@ -272,7 +195,8 @@
                         // console.log(response);
                         this.message(response)
 
-                        this.tableData = response.data.data.result;
+                        this.handleCurrentChange()
+
                         this.changeIsMenu()
 
                     })
@@ -288,7 +212,7 @@
                     .then((response) => {
 
                         this.message(response)
-                        this.tableData = response.data.data.result;
+                        this.handleCurrentChange()
                         this.changeIsMenu()
                     })
                     .catch(function (error) {
@@ -309,6 +233,8 @@
                     .then((response) => {
                         console.log(response);
                         this.tableData = response.data.data.menusMap;
+                        this.total = response.data.data.total
+
                         this.changeIsMenu()
 
                     })

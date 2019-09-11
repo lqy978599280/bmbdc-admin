@@ -1,11 +1,11 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'   >
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="550px" :before-close='dialogfv'   >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="角色名称*" :label-width="formLabelWidth">
         <el-input v-model="getdata.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="备注" :label-width="formLabelWidth">
-        <el-input type="textarea" size="small" v-model="getdata.remark" auto-complete="off"></el-input>
+        <el-input type="textarea" size="small" v-model="getdata.remark"rows="8" auto-complete="off" style="width: 80%"></el-input>
       </el-form-item>
 
 
@@ -38,8 +38,8 @@
         },
         watch: {
             "dialogFormVisible": function () {
-                this.getdata.name = this.data.name
-                this.getdata.remark = this.data.remark
+                this.getdata = JSON.parse(JSON.stringify(this.data))
+
             }
 
         },
@@ -51,6 +51,8 @@
                     id:''
                 },
                 formLabelWidth: '120px',
+
+
 
 
 
@@ -67,18 +69,17 @@
                 }
             },
             dialogcommit() {
-                this.data.name = this.getdata.name
-                this.data.remark = this.getdata.remark
-                if(this.data.name==='') {
+                // this.data = JSON.parse(JSON.stringify(this.getdata))
+                if(this.getdata.name==='') {
                     this.$message({
-                        message: "请填写角色名称",
+                        message: "请填写姓名",
                         type: "warning",
                         duration: 1000
                     })
                 }
 
                 else{
-                    this.$emit('dialogcommit', !this.dialogFormVisible, this.data)
+                    this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
                 }
 
             },
