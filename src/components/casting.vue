@@ -49,7 +49,7 @@
         },
         mounted(){
             const  axios = require('axios')
-            axios.get('http://192.168.1.5:8081/admin/roles/selectAllRoles?page=10&size=20')
+            axios.get(`${this.global.config.url}/admin/roles/selectAllRoles?page=10&size=20`)
                 .then((response)=> {
                     // console.log(response);
                     this.roleList = response.data.data.rolesList;

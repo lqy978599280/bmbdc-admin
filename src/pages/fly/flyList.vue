@@ -144,7 +144,7 @@
 
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/house/selectAllHouse?page=10&size=20')
+            axios.get(`${this.global.config.url}/admin/house/selectAllHouse?page=10&size=20`)
                 .then((response)=> {
                     // console.log(response);
                     this.flyData = response.data.data.houseList;
@@ -195,7 +195,7 @@
                     remark: '',
                     id:'',
                 }
-                axios.post('http://192.168.1.5:8081/admin/roles/insertRole',data)
+                axios.post(`${this.global.config.url}/admin/roles/insertRole`,data)
                     .then( (response) =>{
                         this.message(response)
 
@@ -211,7 +211,7 @@
                 this.dialogadd=val;
                 console.log(data);
                 this.flyData[this.index]=data;
-                axios.post('http://192.168.1.5:8081/admin/roles/updateRole',data)
+                axios.post(`${this.global.config.url}/admin/roles/updateRole`,data)
                     .then( (response)=> {
                         this.message(response)
 
@@ -226,7 +226,7 @@
                 this.dialogdel=val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/roles/deleteRole', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/roles/deleteRole`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
 

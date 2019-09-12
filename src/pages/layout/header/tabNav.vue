@@ -43,7 +43,7 @@
   .tabnavout{
     max-width: 800px;
     overflow-y: scroll;
-    height: 50px;
+    height: 60px;
     white-space: nowrap;
     display: flex;
     align-items: center;

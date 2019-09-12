@@ -91,7 +91,7 @@
         },
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/depts/selectAllDepts?page=1&size=100')
+            axios.get(`${this.global.config.url}/admin/depts/selectAllDepts?page=1&size=100`)
                 .then((response)=> {
                     // console.log(response);
                     this.selectParent = response.data.data.deptList;
@@ -99,7 +99,7 @@
                 .catch(function (error) {
                     console.log(error);
                 });
-            axios.get('http://192.168.1.5:8081/admin/depts/findAllArea')
+            axios.get(`${this.global.config.url}/admin/depts/findAllArea`)
                 .then((response)=> {
                     // console.log(response);
                     this.selectArea = response.data.data.areaList;
@@ -160,19 +160,20 @@
                         type: "warning",
                         duration: 1000
                     })
-                } else  if(this.data.parentName==='') {
+                } else  if(this.data.name==='') {
                     this.$message({
                         message: "请选择上级部门",
                         type: "warning",
                         duration: 1000
                     })
-                }else  if(this.data.parentName.indexOf("_")!==-1) {
-                    this.$message({
-                        message: "部门名称不允许带有_",
-                        type: "warning",
-                        duration: 1000
-                    })
                 }
+                // else if(this.data.parentName.indexOf("_")!==-1) {
+                //     this.$message({
+                //         message: "部门名称不允许带有_",
+                //         type: "warning",
+                //         duration: 1000
+                //     })
+                // }
 
                 else{
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.data)

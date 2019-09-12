@@ -121,7 +121,7 @@
 
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/depts/selectAllDepts?page=1&size=10')
+            axios.get(`${this.global.config.url}/admin/depts/selectAllDepts?page=1&size=10`)
                 .then((response)=> {
                     console.log(response);
                     this.deptData = response.data.data.deptList;
@@ -164,7 +164,7 @@
                     id: '',
                 }
                 console.log(data);
-                axios.post('http://192.168.1.5:8081/admin/depts/insertDept',data)
+                axios.post(`${this.global.config.url}/admin/depts/insertDept`,data)
                     .then( (response) =>{
                         this.message(response)
 
@@ -182,7 +182,8 @@
                 this.dialogedit=val;
                 this.dialogadd=val;
                 // this.deptData[this.index]=data;
-                axios.post('http://192.168.1.5:8081/admin/depts/updateDept',data)
+                console.log(data);
+                axios.post(`${this.global.config.url}/admin/depts/updateDept`,data)
                     .then( (response)=> {
                         this.message(response)
 
@@ -198,7 +199,7 @@
                 this.dialogdel=val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/depts/updateDeptStatus', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/depts/updateDeptStatus`, {params: {id: id}})
                     .then((response) => {
 
                         this.message(response)

@@ -163,8 +163,8 @@
                     id: '',
                     parentid: ''
                 }
-
-                axios.post('http://192.168.1.5:8081/admin/menus/insertMenu', data)
+                console.log(data);
+                axios.post(`${this.global.config.url}/admin/menus/insertMenu`, data)
                     .then((response) => {
                         // console.log(response);
                         this.message(response)
@@ -190,7 +190,7 @@
                 // console.log(data);
                 this.tableData[this.index] = data;
                 console.log(this.tableData[this.index]);
-                axios.post('http://192.168.1.5:8081/admin/menus/updateMenu', data)
+                axios.post(`${this.global.config.url}/admin/menus/updateMenu`, data)
                     .then((response) => {
                         // console.log(response);
                         this.message(response)
@@ -208,7 +208,7 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/menus/updateMenuStatus', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/menus/updateMenuStatus`, {params: {id: id}})
                     .then((response) => {
 
                         this.message(response)
@@ -229,9 +229,9 @@
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`http://192.168.1.5:8081/admin/menus/selectAllMenus?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/menus/selectAllMenus?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        console.log(response);
+                        // console.log(response);
                         this.tableData = response.data.data.menusMap;
                         this.total = response.data.data.total
 

@@ -25,7 +25,7 @@
       <!--      <singleMenu  :coltype="this.columntype[1]"></singleMenu>-->
 
 
-      <el-table-column label="操作" width="250">
+      <el-table-column label="操作" width="300">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -159,7 +159,7 @@
 
         mounted() {
             const axios = require('axios');
-            axios.get(`http://192.168.1.5:8081/admin/adminUser/selectAllAdminUser?page=${this.currentPage}&size=10`)
+            axios.get(`${this.global.config.url}/admin/adminUser/selectAllAdminUser?page=${this.currentPage}&size=10`)
                 .then((response) => {
                     // console.log(response);
                     this.userData = response.data.data.adminUserList;
@@ -202,7 +202,7 @@
                     parentid: ''
                 }
                 console.log(data);
-                axios.post('http://192.168.1.5:8081/admin/adminUser/insertAdminUser', data)
+                axios.post(`${this.global.config.url}/admin/adminUser/insertAdminUser`, data)
                     .then((response) => {
                         // console.log(response);
                         this.message(response)
@@ -223,7 +223,7 @@
                 console.log(data);
                 // this.userData[this.index] = data;
                 // console.log(this.userData[this.index]);
-                axios.post('http://192.168.1.5:8081/admin/adminUser/updateAdminUser', data)
+                axios.post(`${this.global.config.url}/admin/adminUser/updateAdminUser`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -240,7 +240,7 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/adminUser/updateAdminUserStatus', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/adminUser/updateAdminUserStatus`, {params: {id: id}})
                     .then((response) => {
                         // console.log(response);
                         this.message(response)
@@ -270,7 +270,7 @@
 
                 this.dialogcasting = val;
 
-                axios.post('http://192.168.1.5:8081/admin/adminUser/updateRole',  {'id': this.class_id , 'roleName':role})
+                axios.post(`${this.global.config.url}/admin/adminUser/updateRole`,  {'id': this.class_id , 'roleName':role})
                     .then((response) => {
                         // console.log(response);
 

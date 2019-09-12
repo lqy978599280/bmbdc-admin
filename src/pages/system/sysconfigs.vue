@@ -104,7 +104,7 @@
 
         mounted() {
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/sysConfig/selectAllSysconfig?page=1&size=100')
+            axios.get(`${this.global.config.url}/admin/sysConfig/selectAllSysconfig?page=1&size=100`)
                 .then((response) => {
                     console.log(response);
                     this.configData = response.data.data.sysConfigList;
@@ -144,7 +144,7 @@
                     id: '',
                 }
                 console.log(data);
-                axios.post('http://192.168.1.5:8081/admin/sysConfig/insertAdminUser', data)
+                axios.post(`${this.global.config.url}/admin/sysConfig/insertAdminUser`, data)
                     .then((response) => {
                         this.message(response)
 
@@ -161,7 +161,7 @@
                 this.dialogedit = val;
                 this.dialogadd = val;
                 this.configData[this.index] = data;
-                axios.post('http://192.168.1.5:8081/admin/sysConfig/updateAdminUser', data)
+                axios.post(`${this.global.config.url}/admin/sysConfig/updateAdminUser`, data)
                     .then((response) => {
                         this.message(response)
 
@@ -177,7 +177,7 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/sysConfig/updateAdminUserStatus', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/sysConfig/updateAdminUserStatus`, {params: {id: id}})
                     .then((response) => {
                         console.log(response);
                         this.message(response)

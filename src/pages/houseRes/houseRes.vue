@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="房源编号/房东姓名/联系方式/小区名称" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="房源编号/房东姓名/联系方式" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click='add'>添 加</el-button>
       <houseResEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv"
@@ -11,8 +11,8 @@
                     :buttonCommit="buttonCommit"></houseResEdit>
       <houseResEdit :data="filterHouseResData[index]" :dialogFormVisible="dialoginf" @dialogcommit="dialogeditcommit"
                     @getdialogfv="getdialogfv" :title="title[2]"  :buttonClose="buttonClose"
-                    :buttonCommit="buttonCommit" readOnly="true"></houseResEdit>
-      <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv"
+                    :buttonCommit="buttonCommit" :readOnly='true' :pass_id="select_id" @F5="handleCurrentChange"></houseResEdit>
+      <dialogdel :dialogVisible="dialogdel" :del_id="select_id" @getdialogfv="getdialogfv"
                  @commitdel="commitdel"></dialogdel>
     </div>
     <el-table
@@ -24,7 +24,7 @@
       </div>
 
 
-      <el-table-column label="操作" width="460">
+      <el-table-column label="操作" width="520">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -37,11 +37,11 @@
 
           <el-button
             size="mini"
-            @click="authority(scope.$index, scope.row)">上 架
+            @click="onlineHouse(scope.$index, scope.row)">上 架
           </el-button>
           <el-button
             size="mini"
-            @click="authority(scope.$index, scope.row)">下 架
+            @click="offlineHouse(scope.$index, scope.row)">下 架
           </el-button>
           <el-button
             size="mini"
@@ -79,7 +79,6 @@
     import houseResEdit from "../../components/houseResEdit";
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
-
     export default {
         components: {
             singleMenu,
@@ -146,6 +145,11 @@
                         label: '是否满两年',
                         width: '90',
                         type: 'is_twoYear',
+                    },
+                    {
+                        label: '状态',
+                        width: '90',
+                        type: 'status',
                     }
                 ],
                 houseResData: [],
@@ -154,7 +158,7 @@
                 dialogedit: false,
                 dialogdel: false,
                 dialoginf: false,
-                del_id: '',
+                select_id: '',
                 form: {
                     name: '',
                     number: '',
@@ -184,7 +188,8 @@
                     unit: '',
                     house: '',
                     floor: '',
-                    floorAll: ''
+                    floorAll: '',
+                    status:''
                 },
                 buttonClose: '',
                 buttonCommit: ''
@@ -209,10 +214,12 @@
                 this.buttonCommit = '确定'
             },
 
-            information() {
+            information(index, row) {
                 this.dialoginf = true;
                 this.buttonClose = '拒绝'
                 this.buttonCommit = '通过'
+                this.select_id = row.id
+
             },
             handleEdit(index) {
                 this.index = index
@@ -222,8 +229,33 @@
             },
             handleDelete(index, row) {
                 this.dialogdel = true
-                this.del_id = row.id
+                this.select_id = row.id
             },
+            onlineHouse(index, row) {
+                const axios = require('axios');
+                axios.get(`${this.global.config.url}/admin/house/onlineHouse`, {params: {id: row.id}})
+                    .then((response) => {
+                        // console.log(response);
+                        this.message(response)
+                        this.handleCurrentChange()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            offlineHouse(index, row) {
+                const axios = require('axios');
+                axios.get(`${this.global.config.url}/admin/house/offlineHouse`, {params: {id: row.id}})
+                    .then((response) => {
+                        // console.log(response);
+                        this.message(response)
+                        this.handleCurrentChange()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
             getdialogfv(val) {
                 this.dialogedit = val;
                 this.dialogadd = val;
@@ -248,6 +280,7 @@
                     id: '',
                     matchingNames:[],
                     buildYear:'',
+                    status:'',
 
                     tagNames:[],
                     lng: '',
@@ -268,9 +301,8 @@
                 data.matchingNames =data.matchingNames.join(',')
                 data.tagNames =data.tagNames.join(',')
                 console.log(data);
-                axios.post('http://192.168.1.5:8081/admin/house/insertOneHouseMessage', data)
+                axios.post(`${this.global.config.url}/admin/house/insertOneHouseMessage`, data)
                     .then((response) => {
-                        console.log(response);
                         this.message(response)
                         // this.houseResData = response.data.data.houseList;
                         this.handleCurrentChange()
@@ -287,11 +319,12 @@
                 this.dialogadd = val;
                 console.log(data);
                 this.houseResData[this.index] = data;
-                axios.post('http://192.168.1.5:8081/admin/house/updateHouseById', data)
+                data.matchingNames =data.matchingNames.join(',')
+                data.tagNames =data.tagNames.join(',')
+                axios.post(`${this.global.config.url}/admin/house/updateHouseById`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
-
                         this.change()
 
                     })
@@ -303,11 +336,10 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get('http://192.168.1.5:8081/admin/house/deleteHouse', {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/house/deleteHouse`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
-                        this.message(response)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -331,18 +363,37 @@
                 for (let i = 0; i < this.houseResData.length; i++) {
                     this.houseResData[i].is_twoYear = this.houseResData[i].is_twoYear == true ? '是' : '否'
                     // this.deptData[i].sex = this.deptData[i].sex==1 ? '男' : '女'
-                    this.houseResData[i].matchingNames =(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames=='')?'': this.houseResData[i].matchingNames.split(',')
-                    this.houseResData[i].tagNames =(this.houseResData[i].tagNames==null||this.houseResData[i].matchingNames=='')?'':this.houseResData[i].tagNames.split(',')
+                    // console.log(this.houseResData[i].status);
+                    this.houseResData[i].status = this.houseResData[i].status == 0 ?'审核中':
+                    this.houseResData[i].status == 1 ?'审核通过':
+                    this.houseResData[i].status == 2 ?'审核未通过':
+                    this.houseResData[i].status == 3 ?'上架':
+                    this.houseResData[i].status == 4 ?'下架':
+                    this.houseResData[i].status == 5 ?'删除':''
+
+                    // if(!(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames==''))
+                    if(this.houseResData[i].matchingNames==null){
+                        this.houseResData[i].matchingNames=''
+                    }
+                    this.houseResData[i].matchingNames = this.houseResData[i].matchingNames.split(',')
+                    // if(!(this.houseResData[i].tagNames==null||this.houseResData[i].tagNames==''))
+                    if(this.houseResData[i].tagNames==null){
+                        this.houseResData[i].tagNames=''
+                    }
+                        this.houseResData[i].tagNames = this.houseResData[i].tagNames.split(',')
+
+                    // console.log(this.houseResData[i].matchingNames);
+                    // console.log(this.houseResData[i].tagNames);
                 }
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`http://192.168.1.5:8081/admin/house/selectAllHouse?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/house/selectAllHouse?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        console.log(response);
+                        // console.log(response);
                         this.houseResData = response.data.data.houseList;
+                        // console.log(this.houseResData);
                         this.total = response.data.data.total
-
                         this.change()
                     })
                     .catch(function (error) {

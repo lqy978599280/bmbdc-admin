@@ -91,7 +91,7 @@
         },
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/house/selectAllHouseMessage?page=10&size=20')
+            axios.get(`${this.global.config.url}/admin/house/selectAllHouseMessage?page=10&size=20`)
                 .then((response)=> {
                     this.areasList= response.data.data.areasList
                 })

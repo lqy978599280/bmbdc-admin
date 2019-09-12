@@ -102,7 +102,7 @@
         },
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/menus/selectAllMenuOfParentid')
+            axios.get(`${this.global.config.url}/admin/menus/selectAllMenuOfParentid`)
                 .then((response)=> {
                     // console.log(response);
                     this.selectParent = response.data.data.result;

@@ -3,7 +3,7 @@
     <tabNav class="left"></tabNav>
     <div class="right">
 
-      <el-dropdown  @command="handleCommand">
+      <el-dropdown @command="handleCommand">
       <span class="el-dropdown-link">
          <i class="fa fa-user-o"></i>
         {{name}}
@@ -87,6 +87,7 @@
   .right {
     margin-right: 5px;
     float: right;
+    line-height: 60px;
   }
 
   .el-menu-item {

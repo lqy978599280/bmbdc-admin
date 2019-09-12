@@ -81,7 +81,7 @@
         },
         mounted(){
             const axios = require('axios');
-            axios.get('http://192.168.1.5:8081/admin/depts/selectAllDepts?page=1&size=100')
+            axios.get(`${this.global.config.url}/admin/depts/selectAllDepts?page=1&size=100`)
                 .then((response)=> {
                     // console.log(response);
                     this.selectParent = response.data.data.deptList;
