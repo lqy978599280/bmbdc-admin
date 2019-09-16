@@ -29,7 +29,7 @@
                :buttonCommit="buttonCommit"
                @F5="handleCurrentChange"></flyEdit>
       <dialogdel :dialogVisible="dialogdel"
-                 :del_id="select_id"
+                 :del_id="del_id"
                  @getdialogfv="getdialogfv"
                  @commitdel="commitdel"></dialogdel>
     </div>
@@ -120,7 +120,7 @@
                         type: 'passTime',
                     },
                     {
-                        label: '飞手编码',
+                        label: '房源社工编码',
                         width: '130',
                         type: 'number',
                     },
@@ -142,7 +142,7 @@
                     {
                         label: '申请时间',
                         width: '120',
-                        type: 'createTime',
+                        type: 'time',
                     },
                 ],
                 flyData: [],
@@ -157,7 +157,7 @@
                     name: '',
                     phone: '',
                     areaName: "",
-                    createTime: '',
+                    time: '',
                     passTime: '',
                     rejectReason: '',
                     id: '',
@@ -184,12 +184,10 @@
                 this.buttonCommit = '确定'
             },
 
-            information(index, row) {
+            information() {
                 this.dialoginf = true;
                 this.buttonClose = '拒绝'
                 this.buttonCommit = '通过'
-                this.select_id = row.id
-
             },
             handleEdit(index) {
                 this.index = index
@@ -199,7 +197,7 @@
             },
             handleDelete(index, row) {
                 this.dialogdel = true
-                this.select_id = row.id
+                this.del_id = row.id
             },
             getdialogfv(val) {
                 this.dialogedit = val;
@@ -217,9 +215,8 @@
                     remark: '',
                     id: '',
                 }
-                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/roles/insertRole`, data)
                     .then((response) => {
-                        console.log(response);
                         this.message(response)
                         this.handleCurrentChange()
                     })
@@ -231,9 +228,9 @@
                 const axios = require('axios');
                 this.dialogedit = val;
                 this.dialogadd = val;
-                // console.log(data);
+                console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/roles/updateRole`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -246,8 +243,7 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                console.log(id);
-                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/roles/deleteRole`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -272,10 +268,9 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/house/selectAllHouse?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        // console.log(response);
-                        this.flyData = response.data.data.flyingHandlist;
+                        this.flyData = response.data.data.houseList;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {

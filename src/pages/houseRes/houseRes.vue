@@ -92,7 +92,7 @@
                 search: '',
                 index: 0,
                 currentPage:1,
-                total:0,
+                total:1,
                 title: ["添加房源", "编辑房源", '审核'],
 
                 columntype: [

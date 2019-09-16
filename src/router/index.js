@@ -24,7 +24,9 @@ const forgetpassword = ()=>import('@/pages/login/forgetpassword')
 const headClass = ()=>import('@/pages/headMessage/headClass')
 const headInformation = ()=>import('@/pages/headMessage/headInformation')
 const flyList = ()=>import('@/pages/fly/flyList')
-const orderManagement = ()=>import('@/pages/fly/orderManagement')
+const orderManagement = ()=>import('@/components/orderManagement')
+const overallViewList = ()=>import('@/pages/overallView/overallViewList')
+const houseResList = ()=>import('@/pages/houseWorkers/houseResList')
 
 
 
@@ -52,6 +54,9 @@ let defaultRouter = [
     hidden: true,
     children: []
   },
+
+
+
   {
     path: '/index',
     name: "home",
@@ -151,6 +156,44 @@ let defaultRouter = [
           {
             path: '/orderManagement',
             name: '订单管理',
+            component: orderManagement,
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/overallView',
+        name: '全景社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/overallViewList',
+            name: '全景社工列表',
+            component: overallViewList,
+            children: []
+          },
+          {
+            path: '/orderManagement',
+            name: '全景订单管理',
+            component: orderManagement,
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/houseWorkers',
+        name: '房源社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/houseResList',
+            name: '房源社工列表',
+            component: houseResList,
+            children: []
+          },
+          {
+            path: '/orderManagement',
+            name: '房源订单管理',
             component: orderManagement,
             children: []
           },

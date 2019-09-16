@@ -2,8 +2,8 @@
 
   <el-aside id="asideNav" width="210px">
     <div class="logo-name">
-      <p v-if="$store.getters.logoShow">XU</p>
-      <p v-else><img src="../../../assets/logo.png" alt="logo"></p>
+<!--      <p v-if="$store.getters.logoShow">XU</p>-->
+      <p ><img src="../../../assets/logo.png" alt="logo"></p>
     </div>
     <el-menu
       :default-active="this.$route.path.replace('/','')"
@@ -11,6 +11,7 @@
       background-color="#fff"
       text-color="rgba(0, 0, 0, 0.7)"
       router
+      :unique-opened = true
     >
       <el-menu-item index="index">
           <i class="fa fa-eercast"></i>
@@ -50,10 +51,33 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="flyList">飞手社工列表</el-menu-item>
-          <el-menu-item class="sec" index="orderManagement">订单管理</el-menu-item>
+          <el-menu-item class="sec" index="orderManagement">飞手订单管理</el-menu-item>
 <!--          <el-menu-item class="sec" index="6-3">订单列表</el-menu-item>-->
         </el-menu-item-group>
       </el-submenu>
+
+      <el-submenu index="8">
+        <template slot="title">
+          <i class="fa fa-leaf"></i>
+          <span >全景社工管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="overallViewList">全景社工列表</el-menu-item>
+          <el-menu-item class="sec" index="orderManagement">全景订单管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
+      <el-submenu index="9">
+        <template slot="title">
+          <i class="fa fa-university"></i>
+          <span >房源社工管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="houseResList">房源社工列表</el-menu-item>
+          <el-menu-item class="sec" index="orderManagement">房源订单管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
 
       <el-menu-item index="5">
         <template slot="title">
@@ -121,29 +145,7 @@
 
 
 
-      <el-submenu index="8">
-        <template slot="title">
-          <i class="fa fa-leaf"></i>
-          <span >全景社工管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="7-1">全景社工列表</el-menu-item>
-          <el-menu-item class="sec" index="7-2">申请列表</el-menu-item>
-          <el-menu-item class="sec" index="7-3">订单列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
 
-      <el-submenu index="9">
-      <template slot="title">
-        <i class="fa fa-university"></i>
-        <span >房源社工管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item class="sec" index="8-1">房源社工列表</el-menu-item>
-        <el-menu-item class="sec" index="8-2">申请列表</el-menu-item>
-        <el-menu-item class="sec" index="8-3">订单列表</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
 
       <el-submenu index="10">
         <template slot="title">

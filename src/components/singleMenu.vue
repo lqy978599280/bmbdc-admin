@@ -37,6 +37,7 @@
         type=="houseUsageName"?scope.row.houseUsageName:
         type=="time"?scope.row.time:
         type=="status"?scope.row.status:
+        type=="createTime"?scope.row.createTime:
         type=="passTime"?scope.row.passTime:''
 
 

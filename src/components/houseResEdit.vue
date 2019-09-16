@@ -256,25 +256,25 @@
         <div class="img_child">
           缩略图【只需要一张】
           <hr>
-          <imgUpload :disabled="readOnly"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[0]"></imgUpload>
         </div>
         <div class="img_child">
           图片资料【最多上传五张】
           <hr>
 
-          <imgUpload :disabled="readOnly"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[1]"></imgUpload>
         </div>
         <div class="img_child">
           VR全景资料【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[2]"></imgUpload>
         </div>
         <div class="img_child">
           户型图【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[3]"></imgUpload>
         </div>
       </div>
 
@@ -302,7 +302,6 @@
     import VueAMap from "vue-amap";
     import imgUpload from "./imgUpload";
     import passEdit from "./passEdit";
-    import Qs from 'qs'
     let amapManager = new VueAMap.AMapManager();
     export default {
 
@@ -423,6 +422,7 @@
                     status:'',
 
                 },
+                limit:[1,5,1,1],
                 formLabelWidth: '120px',
                 show: 1,
                 area: '',
@@ -497,6 +497,7 @@
 
                 )
                     .then((response) => {
+                        this.message(response)
                         this.$emit('F5')
                     })
                     .catch(function (error) {
@@ -561,12 +562,24 @@
                         }
                 )
                     .then((response) => {
+                        this.message(response)
                         this.$emit('F5')
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-            }
+            },
+            message(response) {
+                let type = false;
+                if (response.data.code === 0) {
+                    type = "success"
+                } else type = "warning"
+                this.$message({
+                    message: response.data.message,
+                    type: type,
+                    duration: 1000
+                })
+            },
         }
     }
 

@@ -1,12 +1,15 @@
 <template>
   <el-upload
     class="upload-demo"
-    action="https://jsonplaceholder.typicode.com/posts/"
+    action='http://192.168.1.6:8081/admin/house/uploadImg'
     :on-preview="handlePreview"
     :on-remove="handleRemove"
+    :on-success="success"
     :file-list="fileList2"
     list-type="picture"
-  :disabled="disabled">
+    :disabled="disabled"
+    :limit="limit"
+  >
     <el-button size="small" type="primary">点击上传</el-button>
     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
   </el-upload>
@@ -17,13 +20,17 @@
         name: "imgUpload",
         props:{
           disabled:'',
+            limit:{
+              type:Number,
+                default:1
+            },
         },
+
         data(){
             return{
                 fileList2: [
-                    {name: 'www.baidu.com', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-                    {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
-                    ]
+
+                    ],
 
             }
 
@@ -32,8 +39,13 @@
                 console.log(file, fileList);
             },
             handlePreview(file) {
+                window.open(file.url,"_blank")
+            },
+            success(response,file){
+                console.log(response);
                 console.log(file);
             }
+
         }
     }
 </script>
