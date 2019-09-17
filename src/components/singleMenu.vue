@@ -38,7 +38,24 @@
         type=="time"?scope.row.time:
         type=="status"?scope.row.status:
         type=="createTime"?scope.row.createTime:
-        type=="passTime"?scope.row.passTime:''
+        type=="passTime"?scope.row.passTime:
+        type=="mergername"?scope.row.mergername:
+        type=="shortname"?scope.row.shortname:
+        type=="mergershortname"?scope.row.mergershortname:
+        type=="pinyin"?scope.row.pinyin:
+        type=="lat"?scope.row.lat:
+        type=="lng"?scope.row.lng:
+        type=="id"?scope.row.id:
+        type=="parentid"?scope.row.parentid:
+        type=="nickName"?scope.row.nickName:
+        type=="balance"?scope.row.balance:
+        type=="is_fs"?scope.row.is_fs:
+        type=="is_fc"?scope.row.is_fc:
+        type=="is_fy"?scope.row.is_fy:
+        type=="is_qj"?scope.row.is_qj:
+        type=="idCard"?scope.row.idCard:
+        type=="isActive"?scope.row.isActive:
+        ''
 
 
         }}</span>

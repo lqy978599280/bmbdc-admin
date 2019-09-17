@@ -26,7 +26,10 @@ const headInformation = ()=>import('@/pages/headMessage/headInformation')
 const flyList = ()=>import('@/pages/fly/flyList')
 const orderManagement = ()=>import('@/components/orderManagement')
 const overallViewList = ()=>import('@/pages/overallView/overallViewList')
-const houseResList = ()=>import('@/pages/houseWorkers/houseResList')
+const houseResList = ()=>import('@/pages/houseWorkers/houseWorkersList')
+const houseAgentList = ()=>import('@/pages/houseAgent/houseAgentList')
+const block = ()=>import('@/pages/block')
+const member = ()=>import('@/pages/member')
 
 
 
@@ -197,6 +200,39 @@ let defaultRouter = [
             component: orderManagement,
             children: []
           },
+        ]
+      },
+      {
+        path: '/houseAgent',
+        name: '房产经纪人管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/houseAgentList',
+            name: '房产经纪人列表',
+            component: houseAgentList,
+            children: []
+          },
+          {
+            path: '/orderManagement',
+            name: '房产经纪人订单管理',
+            component: orderManagement,
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/block',
+        name: '区域信息管理',
+        component: block,
+        children: [
+        ]
+      },
+      {
+        path: '/member',
+        name: '会员信息管理',
+        component: member,
+        children: [
         ]
       },
 

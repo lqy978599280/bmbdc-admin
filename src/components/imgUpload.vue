@@ -5,7 +5,7 @@
     :on-preview="handlePreview"
     :on-remove="handleRemove"
     :on-success="success"
-    :file-list="fileList2"
+    :file-list="fileList"
     list-type="picture"
     :disabled="disabled"
     :limit="limit"
@@ -24,24 +24,36 @@
               type:Number,
                 default:1
             },
+            if_upload:false,
+            fileList:{
+              type:Array,
+                default: []
+            },
         },
-
+        // watch:{
+        //   "if_upload" : function () {
+        //       this.$refs.upload.submit()
+        //       this.if_upload = false
+        //   }
+        // },
         data(){
-            return{
-                fileList2: [
-
-                    ],
-
-            }
-
-        },methods:{
+          return{
+              imgList:this.fileList
+          }
+        },
+        methods:{
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
             handlePreview(file) {
                 window.open(file.url,"_blank")
+
             },
-            success(response,file){
+            success(response,file,fileList){
+                file.url = response.data.imgUrl
+                this.imgList = fileList
+                this.$emit('sub',this.imgList)
+                console.log(this.imgList);
                 console.log(response);
                 console.log(file);
             }

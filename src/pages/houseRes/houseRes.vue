@@ -189,7 +189,11 @@
                     house: '',
                     floor: '',
                     floorAll: '',
-                    status:''
+                    status:'',
+                    thumbImg:[],
+                    imgList:[],
+                    VRImgUrl:[],
+                    houseImgUrl:[]
                 },
                 buttonClose: '',
                 buttonCommit: ''
@@ -372,14 +376,19 @@
                     this.houseResData[i].status == 5 ?'删除':''
 
                     // if(!(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames==''))
-                    if(this.houseResData[i].matchingNames==null){
-                        this.houseResData[i].matchingNames=''
+                    if(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames==''){
+                        this.houseResData[i].matchingNames=[]
+                        // console.log(this.houseResData[i].matchingNames);
+
                     }
+                    else
                     this.houseResData[i].matchingNames = this.houseResData[i].matchingNames.split(',')
                     // if(!(this.houseResData[i].tagNames==null||this.houseResData[i].tagNames==''))
-                    if(this.houseResData[i].tagNames==null){
-                        this.houseResData[i].tagNames=''
+                    if(this.houseResData[i].tagNames==null|| this.houseResData[i].tagNames==''){
+                        this.houseResData[i].tagNames=[]
+                        // console.log(this.houseResData[i].tagNames,this.houseResData[i].tagNames.length);
                     }
+                    else
                         this.houseResData[i].tagNames = this.houseResData[i].tagNames.split(',')
 
                     // console.log(this.houseResData[i].matchingNames);
@@ -390,7 +399,7 @@
                 const axios = require("axios")
                 axios.get(`${this.global.config.url}/admin/house/selectAllHouse?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        // console.log(response);
+                        console.log(response);
                         this.houseResData = response.data.data.houseList;
                         // console.log(this.houseResData);
                         this.total = response.data.data.total

@@ -4,21 +4,21 @@
       <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
-      <overallViewEdit :data="form"
+      <houseAgentEdit :data="form"
                :dialogFormVisible="dialogadd"
                @dialogcommit="dialogcommit"
                @getdialogfv="getdialogfv"
                :title="title[0]"
                :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></overallViewEdit>
-      <overallViewEdit :data="filterFlyData[index]"
+               :buttonCommit="buttonCommit"></houseAgentEdit>
+      <houseAgentEdit :data="filterFlyData[index]"
                :dialogFormVisible="dialogedit"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
                :title="title[1]"
                :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></overallViewEdit>
-      <overallViewEdit :data="filterFlyData[index]"
+               :buttonCommit="buttonCommit"></houseAgentEdit>
+      <houseAgentEdit :data="filterFlyData[index]"
                :dialogFormVisible="dialoginf"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
@@ -27,7 +27,7 @@
                :title="title[2]"
                :buttonClose="buttonClose"
                :buttonCommit="buttonCommit"
-               @F5="handleCurrentChange"></overallViewEdit>
+               @F5="handleCurrentChange"></houseAgentEdit>
       <dialogdel :dialogVisible="dialogdel"
                  :del_id="select_id"
                  @getdialogfv="getdialogfv"
@@ -90,14 +90,14 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
-    import overallViewEdit from "../../components/overallViewEdit";
+    import houseAgentEdit from "../../components/houseAgentEdit";
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
 
     export default {
         components: {
             singleMenu,
-            overallViewEdit,
+            houseAgentEdit,
             dialogdel,
             authority
         },
@@ -106,7 +106,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加全景社工", "编辑全景社工", '审核'],
+                title: ["添加房产经纪人", "编辑房产经纪人", '审核'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -120,8 +120,8 @@
                         type: 'passTime',
                     },
                     {
-                        label: '全景社工编码',
-                        width: '130',
+                        label: '房产经纪人编码',
+                        width: '140',
                         type: 'number',
                     },
                     {

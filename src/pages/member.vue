@@ -4,30 +4,30 @@
       <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
-      <overallViewEdit :data="form"
-               :dialogFormVisible="dialogadd"
-               @dialogcommit="dialogcommit"
-               @getdialogfv="getdialogfv"
-               :title="title[0]"
-               :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></overallViewEdit>
-      <overallViewEdit :data="filterFlyData[index]"
-               :dialogFormVisible="dialogedit"
-               @dialogcommit="dialogeditcommit"
-               @getdialogfv="getdialogfv"
-               :title="title[1]"
-               :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></overallViewEdit>
-      <overallViewEdit :data="filterFlyData[index]"
-               :dialogFormVisible="dialoginf"
-               @dialogcommit="dialogeditcommit"
-               @getdialogfv="getdialogfv"
-               :readOnly='true'
-               :pass_id="select_id"
-               :title="title[2]"
-               :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"
-               @F5="handleCurrentChange"></overallViewEdit>
+      <houseAgentEdit :data="form"
+                      :dialogFormVisible="dialogadd"
+                      @dialogcommit="dialogcommit"
+                      @getdialogfv="getdialogfv"
+                      :title="title[0]"
+                      :buttonClose="buttonClose"
+                      :buttonCommit="buttonCommit"></houseAgentEdit>
+      <houseAgentEdit :data="filterFlyData[index]"
+                      :dialogFormVisible="dialogedit"
+                      @dialogcommit="dialogeditcommit"
+                      @getdialogfv="getdialogfv"
+                      :title="title[1]"
+                      :buttonClose="buttonClose"
+                      :buttonCommit="buttonCommit"></houseAgentEdit>
+      <houseAgentEdit :data="filterFlyData[index]"
+                      :dialogFormVisible="dialoginf"
+                      @dialogcommit="dialogeditcommit"
+                      @getdialogfv="getdialogfv"
+                      :readOnly='true'
+                      :pass_id="select_id"
+                      :title="title[2]"
+                      :buttonClose="buttonClose"
+                      :buttonCommit="buttonCommit"
+                      @F5="handleCurrentChange"></houseAgentEdit>
       <dialogdel :dialogVisible="dialogdel"
                  :del_id="select_id"
                  @getdialogfv="getdialogfv"
@@ -45,7 +45,7 @@
       <!--      <singleMenu  :coltype="this.columntype[1]"></singleMenu>-->
 
 
-      <el-table-column label="操作" width="320">
+      <el-table-column label="操作" width="450">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -60,7 +60,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="information(scope.$index, scope.row)">审 核
+            @click="initPassword(scope.$index, scope.row)">重置密码
           </el-button>
           <el-button
             size="mini"
@@ -89,15 +89,15 @@
 </template>
 
 <script>
-    import singleMenu from "../../components/singleMenu";
-    import overallViewEdit from "../../components/overallViewEdit";
-    import dialogdel from "../../components/del";
-    import authority from "../../components/authority";
+    import singleMenu from "../components/singleMenu";
+    import houseAgentEdit from "../components/houseAgentEdit";
+    import dialogdel from "../components/del";
+    import authority from "../components/authority";
 
     export default {
         components: {
             singleMenu,
-            overallViewEdit,
+            houseAgentEdit,
             dialogdel,
             authority
         },
@@ -106,7 +106,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加全景社工", "编辑全景社工", '审核'],
+                title: ["添加房产经纪人", "编辑房产经纪人", '审核'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -115,19 +115,24 @@
                 columntype: [
 
                     {
-                        label: '申请通过时间',
-                        width: '130',
-                        type: 'passTime',
+                        label: '是否启用',
+                        width: '80',
+                        type: 'isActive',
                     },
                     {
-                        label: '全景社工编码',
-                        width: '130',
-                        type: 'number',
+                        label: '账号',
+                        width: '120',
+                        type: 'userName',
                     },
                     {
-                        label: '姓名',
-                        width: '90',
-                        type: 'name',
+                        label: '上级账号',
+                        width: '100',
+                        type: 'parentUserName',
+                    },
+                    {
+                        label: '密码',
+                        width: '80',
+                        type: 'password',
                     },
                     {
                         label: '手机号码',
@@ -135,15 +140,50 @@
                         type: 'phone',
                     },
                     {
-                        label: '申请区域',
-                        width: '150',
-                        type: 'areaName',
+                        label: '昵称',
+                        width: '110',
+                        type: 'nickName',
                     },
                     {
-                        label: '申请时间',
-                        width: '120',
-                        type: 'createTime',
+                        label: '性别',
+                        width: '60',
+                        type: 'sex',
                     },
+                    {
+                        label: '真实姓名',
+                        width: '100',
+                        type: 'name',
+                    }, {
+                        label: '身份证号码',
+                        width: '140',
+                        type: 'idCard',
+                    },
+                    {
+                        label: '余额',
+                        width: '100',
+                        type: 'balance',
+                    },
+                    {
+                        label: '是否飞手社工',
+                        width: '100',
+                        type: 'is_fs',
+                    },
+                    {
+                        label: '是否全景社工',
+                        width: '100',
+                        type: 'is_qj',
+                    },
+                    {
+                        label: '是否房源社工',
+                        width: '100',
+                        type: 'is_fy',
+                    },
+                    {
+                        label: '是否房产经纪人',
+                        width: '115',
+                        type: 'is_fc',
+                    },
+
                 ],
                 flyData: [],
 
@@ -167,7 +207,7 @@
         computed: {
             filterFlyData: function () {
                 return this.flyData.filter((data) => {
-                    return data.name.match(this.search) || data.number.match(this.search) || data.phone.match(this.search)
+                    return  data.phone.match(this.search)
                 })
             }
         },
@@ -184,7 +224,7 @@
                 this.buttonCommit = '确定'
             },
 
-            information(index, row) {
+            initPassword(index, row) {
                 this.dialoginf = true;
                 this.buttonClose = '拒绝'
                 this.buttonCommit = '通过'
@@ -272,10 +312,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin//user//userList?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        // console.log(response);
-                        this.flyData = response.data.data.flyingHandlist;
+                        console.log(response);
+                        this.flyData = response.data.data.userList;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {
@@ -288,6 +328,6 @@
 </script>
 
 <style scoped>
-  @import "../../assets/maincss.css";
+  @import "../assets/maincss.css";
 
 </style>

@@ -78,14 +78,17 @@
         </el-menu-item-group>
       </el-submenu>
 
-
-      <el-menu-item index="5">
+      <el-submenu index="10">
         <template slot="title">
-          <i class="fa fa-drivers-license"></i>
-          <span >会员信息管理</span>
+          <i class="fa fa-users"></i>
+          <span >房产经纪人管理</span>
         </template>
+        <el-menu-item-group>
+          <el-menu-item class="sec" index="houseAgentList">房产经纪人列表</el-menu-item>
+          <el-menu-item class="sec" index="orderManagement">房产经纪人订单管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
 
-      </el-menu-item>
       <el-menu-item index="block">
 
         <template slot="title">
@@ -94,6 +97,15 @@
         </template>
 
       </el-menu-item>
+
+      <el-menu-item index="member">
+        <template slot="title">
+          <i class="fa fa-drivers-license"></i>
+          <span >会员信息管理</span>
+        </template>
+
+      </el-menu-item>
+
       <el-submenu index="4">
         <template slot="title">
           <i class="fa fa-map-signs "></i>
@@ -147,17 +159,7 @@
 
 
 
-      <el-submenu index="10">
-        <template slot="title">
-          <i class="fa fa-users"></i>
-          <span >房产经纪人管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="9-1">房产经纪人列表</el-menu-item>
-          <el-menu-item class="sec" index="9-2">申请列表</el-menu-item>
-          <el-menu-item class="sec" index="9-3">订单列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+
     </el-menu>
   </el-aside>
 

@@ -256,25 +256,25 @@
         <div class="img_child">
           缩略图【只需要一张】
           <hr>
-          <imgUpload :disabled="readOnly" :limit="limit[0]"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[0]" :fileList="getdata.thumbImg" @sub="getThumb"></imgUpload>
         </div>
         <div class="img_child">
           图片资料【最多上传五张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[1]"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[1]" :fileList="getdata.imgList" @sub="getImg"></imgUpload>
         </div>
         <div class="img_child">
           VR全景资料【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[2]"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[2]" :fileList="getdata.VRImgUrl" @sub="getVR"></imgUpload>
         </div>
         <div class="img_child">
           户型图【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[3]"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[3]" :fileList="getdata.houseImgUrl" @sub="getHouseImg"></imgUpload>
         </div>
       </div>
 
@@ -339,7 +339,10 @@
                 floorAll: '',
                 rejectReason: '',
                 status:'',
-
+                thumbImg:[],
+                imgList:[],
+                VRImgUrl:[],
+                houseImgUrl:[]
             },
             dialogFormVisible: '',
             title: '',
@@ -368,6 +371,7 @@
 
         },
         mounted() {
+            // console.log(this.$refs);
             const axios = require('axios');
             axios.get(`${this.global.config.url}/admin/house/selectAllHouseMessage?page=10&size=20`)
                 .then((response) => {
@@ -420,7 +424,10 @@
                     floorAll: '',
                     rejectReason: '',
                     status:'',
-
+                    thumbImg:[],
+                    imgList:[],
+                    VRImgUrl:[],
+                    houseImgUrl:[]
                 },
                 limit:[1,5,1,1],
                 formLabelWidth: '120px',
@@ -435,6 +442,7 @@
                 tagList: [],
                 matchingList: [],
                 villagesList: [],
+                if_upload:false,
 
 
                 zoom: 12,
@@ -483,6 +491,20 @@
         },
 
         methods: {
+            getThumb(img){
+                this.getdata.thumbImg = img
+                console.log(this.getdata.thumbImg);
+            },
+
+            getImg(img){
+                this.getdata.imgList = img
+            },
+            getVR(img){
+                this.getdata.VRImgUrl = img
+            },
+            getHouseImg(img){
+                this.getdata.houseImgUrl = img
+            },
             innerDiafv() {
                 this.rejected = false
             },
@@ -527,6 +549,7 @@
                         duration: 1000
                     })
                 } else {
+                    // this.if_upload = true
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
 
                 }

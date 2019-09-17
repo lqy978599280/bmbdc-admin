@@ -3,7 +3,7 @@
     <passEdit :rejected="rejected" @getinnerDiafv="innerDiafv" @rejectedCommit="rejectedCommit"></passEdit>
 
     <el-form :model="getdata" style="margin: 0 auto" :disabled="readOnly">
-      <el-form-item label="飞手社工编号" :label-width="formLabelWidth" v-show="title!=='添加飞手'" >
+      <el-form-item label="房产经纪人编号" :label-width="formLabelWidth" v-show="title!=='添加房产经纪人'" >
         <el-input v-model="getdata.number" auto-complete="off" disabled></el-input>
       </el-form-item>
 
@@ -176,6 +176,7 @@
                 }
 
             },
+
 
             pass(){
                 this.$emit('getdialogfv', !this.dialogFormVisible)

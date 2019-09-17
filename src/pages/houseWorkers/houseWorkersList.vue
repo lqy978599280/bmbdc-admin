@@ -4,21 +4,21 @@
       <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
-      <flyEdit :data="form"
+      <houseWorkersEdit :data="form"
                :dialogFormVisible="dialogadd"
                @dialogcommit="dialogcommit"
                @getdialogfv="getdialogfv"
                :title="title[0]"
                :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></flyEdit>
-      <flyEdit :data="filterFlyData[index]"
+               :buttonCommit="buttonCommit"></houseWorkersEdit>
+      <houseWorkersEdit :data="filterFlyData[index]"
                :dialogFormVisible="dialogedit"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
                :title="title[1]"
                :buttonClose="buttonClose"
-               :buttonCommit="buttonCommit"></flyEdit>
-      <flyEdit :data="filterFlyData[index]"
+               :buttonCommit="buttonCommit"></houseWorkersEdit>
+      <houseWorkersEdit :data="filterFlyData[index]"
                :dialogFormVisible="dialoginf"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
@@ -27,9 +27,9 @@
                :title="title[2]"
                :buttonClose="buttonClose"
                :buttonCommit="buttonCommit"
-               @F5="handleCurrentChange"></flyEdit>
+               @F5="handleCurrentChange"></houseWorkersEdit>
       <dialogdel :dialogVisible="dialogdel"
-                 :del_id="del_id"
+                 :del_id="select_id"
                  @getdialogfv="getdialogfv"
                  @commitdel="commitdel"></dialogdel>
     </div>
@@ -90,14 +90,14 @@
 
 <script>
     import singleMenu from "../../components/singleMenu";
-    import flyEdit from "../../components/flyEdit";
+    import houseWorkersEdit from "../../components/houseWorkersEdit";
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
 
     export default {
         components: {
             singleMenu,
-            flyEdit,
+            houseWorkersEdit,
             dialogdel,
             authority
         },
@@ -106,7 +106,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加飞手", "编辑飞手", '审核'],
+                title: ["添加房源社工", "编辑房源社工", '审核'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -120,7 +120,7 @@
                         type: 'passTime',
                     },
                     {
-                        label: '房源社工编码',
+                        label: '全景社工编码',
                         width: '130',
                         type: 'number',
                     },
@@ -142,7 +142,7 @@
                     {
                         label: '申请时间',
                         width: '120',
-                        type: 'time',
+                        type: 'createTime',
                     },
                 ],
                 flyData: [],
@@ -157,7 +157,7 @@
                     name: '',
                     phone: '',
                     areaName: "",
-                    time: '',
+                    createTime: '',
                     passTime: '',
                     rejectReason: '',
                     id: '',
@@ -184,10 +184,12 @@
                 this.buttonCommit = '确定'
             },
 
-            information() {
+            information(index, row) {
                 this.dialoginf = true;
                 this.buttonClose = '拒绝'
                 this.buttonCommit = '通过'
+                this.select_id = row.id
+
             },
             handleEdit(index) {
                 this.index = index
@@ -197,7 +199,7 @@
             },
             handleDelete(index, row) {
                 this.dialogdel = true
-                this.del_id = row.id
+                this.select_id = row.id
             },
             getdialogfv(val) {
                 this.dialogedit = val;
@@ -215,8 +217,9 @@
                     remark: '',
                     id: '',
                 }
-                axios.post(`${this.global.config.url}/admin/roles/insertRole`, data)
+                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
                     .then((response) => {
+                        console.log(response);
                         this.message(response)
                         this.handleCurrentChange()
                     })
@@ -228,9 +231,9 @@
                 const axios = require('axios');
                 this.dialogedit = val;
                 this.dialogadd = val;
-                console.log(data);
+                // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/roles/updateRole`, data)
+                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -243,7 +246,8 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                axios.get(`${this.global.config.url}/admin/roles/deleteRole`, {params: {id: id}})
+                console.log(id);
+                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -268,9 +272,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/house/selectAllHouse?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        this.flyData = response.data.data.houseList;
+                        // console.log(response);
+                        this.flyData = response.data.data.flyingHandlist;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {
