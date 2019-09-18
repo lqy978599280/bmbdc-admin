@@ -51,7 +51,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="flyList">飞手社工列表</el-menu-item>
-          <el-menu-item class="sec" index="orderManagement">飞手订单管理</el-menu-item>
+          <el-menu-item class="sec" index="flyManagement">飞手订单管理</el-menu-item>
 <!--          <el-menu-item class="sec" index="6-3">订单列表</el-menu-item>-->
         </el-menu-item-group>
       </el-submenu>
@@ -63,7 +63,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="overallViewList">全景社工列表</el-menu-item>
-          <el-menu-item class="sec" index="orderManagement">全景订单管理</el-menu-item>
+          <el-menu-item class="sec" index="overallViewManagement">全景订单管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -74,7 +74,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="houseResList">房源社工列表</el-menu-item>
-          <el-menu-item class="sec" index="orderManagement">房源订单管理</el-menu-item>
+          <el-menu-item class="sec" index="houseResManagement">房源订单管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -85,7 +85,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="houseAgentList">房产经纪人列表</el-menu-item>
-          <el-menu-item class="sec" index="orderManagement">房产经纪人订单管理</el-menu-item>
+          <el-menu-item class="sec" index="houseAgentManagement">房产经纪人订单管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -106,17 +106,14 @@
 
       </el-menu-item>
 
-      <el-submenu index="4">
+      <el-menu-item index="village">
         <template slot="title">
-          <i class="fa fa-map-signs "></i>
+          <i class="fa fa-drivers-license"></i>
           <span >小区信息管理</span>
         </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="3-1">飞手派单管理</el-menu-item>
-          <el-menu-item class="sec" index="3-1">小区信息管理</el-menu-item>
-        </el-menu-item-group>
 
-      </el-submenu>
+      </el-menu-item>
+
 
 
       <el-submenu index="6">

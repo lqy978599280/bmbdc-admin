@@ -190,7 +190,7 @@
                     floor: '',
                     floorAll: '',
                     status:'',
-                    thumbImg:[],
+                    thumbImgUrl:[],
                     imgList:[],
                     VRImgUrl:[],
                     houseImgUrl:[]
@@ -301,7 +301,11 @@
                     unit: '',
                     house: '',
                     floor: '',
-                    floorAll: ''}
+                    floorAll: '',
+                    thumbImgUrl:[],
+                    imgList:[],
+                    VRImgUrl:[],
+                    houseImgUrl:[]}
                 data.matchingNames =data.matchingNames.join(',')
                 data.tagNames =data.tagNames.join(',')
                 console.log(data);
@@ -310,7 +314,7 @@
                         this.message(response)
                         // this.houseResData = response.data.data.houseList;
                         this.handleCurrentChange()
-                        this.change()
+
 
                     })
                     .catch(function (error) {
@@ -329,7 +333,7 @@
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
-                        this.change()
+
 
                     })
                     .catch(function (error) {
@@ -376,22 +380,39 @@
                     this.houseResData[i].status == 5 ?'删除':''
 
                     // if(!(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames==''))
-                    if(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames==''){
+                    if(this.houseResData[i].matchingNames==null||this.houseResData[i].matchingNames=='' || this.houseResData[i].matchingNames.length ==0){
                         this.houseResData[i].matchingNames=[]
                         // console.log(this.houseResData[i].matchingNames);
 
                     }
-                    else
-                    this.houseResData[i].matchingNames = this.houseResData[i].matchingNames.split(',')
+                    else {
+                        this.houseResData[i].matchingNames = this.houseResData[i].matchingNames.split(',')
+                    }
+
                     // if(!(this.houseResData[i].tagNames==null||this.houseResData[i].tagNames==''))
-                    if(this.houseResData[i].tagNames==null|| this.houseResData[i].tagNames==''){
+                    if(this.houseResData[i].tagNames==null|| this.houseResData[i].tagNames=='' || this.houseResData[i].tagNames.length ==0){
                         this.houseResData[i].tagNames=[]
                         // console.log(this.houseResData[i].tagNames,this.houseResData[i].tagNames.length);
                     }
                     else
+                    {
                         this.houseResData[i].tagNames = this.houseResData[i].tagNames.split(',')
+                    }
 
+
+
+                    if( this.houseResData[i].imgList.length>0)
+                    for(let j=0,len=this.houseResData[i].imgList.length;j<len;j++){
+                        this.houseResData[i].imgList[j].url = "http://image.bmbdc.com/"+this.houseResData[i].imgList[j].url
+                    }
+                    if(this.houseResData[i].thumbImgUrl.length>0 && this.houseResData[i].thumbImgUrl[0].url !='')   this.houseResData[i].thumbImgUrl[0].url = "http://image.bmbdc.com/"+this.houseResData[i].thumbImgUrl[0].url
+                    if(this.houseResData[i].thumbImgUrl.length>0 &&  this.houseResData[i].thumbImgUrl[0].url =='' && this.houseResData[i].thumbImgUrl[0].name =='')  this.houseResData[i].thumbImgUrl.shift()
+                    if(this.houseResData[i].houseImgUrl.length>0 && this.houseResData[i].houseImgUrl[0].url !='')this.houseResData[i].houseImgUrl[0].url = "http://image.bmbdc.com/"+this.houseResData[i].houseImgUrl[0].url
+                    // if(this.houseResData[i].houseImgUrl[0].url =='' && this.houseResData[i].houseImgUrl[0].name =='')  this.houseResData[i].houseImgUrl.shift()
+                    if(this.houseResData[i].VRImgUrl.length>0 && this.houseResData[i].VRImgUrl[0].url !='') this.houseResData[i].VRImgUrl[0].url = "http://image.bmbdc.com/"+this.houseResData[i].VRImgUrl[0].url
+                    // if(this.houseResData[i].VRImgUrl[0].url =='' && this.houseResData[i].VRImgUrl[0].name =='')  this.houseResData[i].VRImgUrl.shift()
                     // console.log(this.houseResData[i].matchingNames);
+
                     // console.log(this.houseResData[i].tagNames);
                 }
             },
@@ -402,6 +423,7 @@
                         console.log(response);
                         this.houseResData = response.data.data.houseList;
                         // console.log(this.houseResData);
+
                         this.total = response.data.data.total
                         this.change()
                     })

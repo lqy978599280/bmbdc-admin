@@ -55,6 +55,12 @@
         type=="is_qj"?scope.row.is_qj:
         type=="idCard"?scope.row.idCard:
         type=="isActive"?scope.row.isActive:
+        type=="acceptTime"?scope.row.acceptTime:
+        type=="submitTime"?scope.row.submitTime:
+        type=="totalAmout"?scope.row.totalAmout:
+        type=="bonus"?scope.row.bonus:
+        type=="approvalTime"?scope.row.approvalTime:
+        type=="rejectTime"?scope.row.rejectTime:
         ''
 
 

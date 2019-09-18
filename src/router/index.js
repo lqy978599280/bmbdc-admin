@@ -13,24 +13,27 @@ import houseRes from "../pages/houseRes/houseRes";
 const Icon = () => import('@/pages/icon/index')
 const Upload = () => import('@/pages/upload/upload')
 const NotFound = () => import('@/page404')
-const roles = ()=> import('@/pages/system/roles')
-const depts = ()=> import('@/pages/system/depts')
-const sysconfigs = ()=> import('@/pages/system/sysconfigs')
-const syslogs = ()=> import('@/pages/system/syslogs')
-const messages = ()=> import('@/pages/system/messages')
-const system = ()=> import('@/pages/system/system')
-const users = ()=> import('@/pages/system/users')
-const forgetpassword = ()=>import('@/pages/login/forgetpassword')
-const headClass = ()=>import('@/pages/headMessage/headClass')
-const headInformation = ()=>import('@/pages/headMessage/headInformation')
-const flyList = ()=>import('@/pages/fly/flyList')
-const orderManagement = ()=>import('@/components/orderManagement')
-const overallViewList = ()=>import('@/pages/overallView/overallViewList')
-const houseResList = ()=>import('@/pages/houseWorkers/houseWorkersList')
-const houseAgentList = ()=>import('@/pages/houseAgent/houseAgentList')
-const block = ()=>import('@/pages/block')
-const member = ()=>import('@/pages/member')
-
+const roles = () => import('@/pages/system/roles')
+const depts = () => import('@/pages/system/depts')
+const sysconfigs = () => import('@/pages/system/sysconfigs')
+const syslogs = () => import('@/pages/system/syslogs')
+const messages = () => import('@/pages/system/messages')
+const system = () => import('@/pages/system/system')
+const users = () => import('@/pages/system/users')
+const forgetpassword = () => import('@/pages/login/forgetpassword')
+const headClass = () => import('@/pages/headMessage/headClass')
+const headInformation = () => import('@/pages/headMessage/headInformation')
+const flyList = () => import('@/pages/fly/flyList')
+const flyManagement = () => import('@/pages/fly/flyManagement')
+const overallViewManagement = () => import('@/pages/overallView/overallViewManagement')
+const houseWorkerManagement = () => import('@/pages/houseWorkers/houseWorkerManagement')
+const houseAgentManagement = () => import('@/pages/houseAgent/houseAgentManagement')
+const overallViewList = () => import('@/pages/overallView/overallViewList')
+const houseResList = () => import('@/pages/houseWorkers/houseWorkersList')
+const houseAgentList = () => import('@/pages/houseAgent/houseAgentList')
+const block = () => import('@/pages/block')
+const member = () => import('@/pages/member')
+const village = () => import('@/pages/village')
 
 
 Vue.use(Router)
@@ -57,7 +60,6 @@ let defaultRouter = [
     hidden: true,
     children: []
   },
-
 
 
   {
@@ -157,9 +159,9 @@ let defaultRouter = [
             children: []
           },
           {
-            path: '/orderManagement',
-            name: '订单管理',
-            component: orderManagement,
+            path: '/flyManagement',
+            name: '飞手订单管理',
+            component: flyManagement,
             children: []
           },
         ]
@@ -176,9 +178,9 @@ let defaultRouter = [
             children: []
           },
           {
-            path: '/orderManagement',
+            path: '/overallViewManagement',
             name: '全景订单管理',
-            component: orderManagement,
+            component: overallViewManagement,
             children: []
           },
         ]
@@ -195,9 +197,9 @@ let defaultRouter = [
             children: []
           },
           {
-            path: '/orderManagement',
+            path: '/houseWorkerManagement',
             name: '房源订单管理',
-            component: orderManagement,
+            component: houseWorkerManagement,
             children: []
           },
         ]
@@ -214,9 +216,9 @@ let defaultRouter = [
             children: []
           },
           {
-            path: '/orderManagement',
+            path: '/houseAgentManagement',
             name: '房产经纪人订单管理',
-            component: orderManagement,
+            component: houseAgentManagement,
             children: []
           },
         ]
@@ -225,15 +227,19 @@ let defaultRouter = [
         path: '/block',
         name: '区域信息管理',
         component: block,
-        children: [
-        ]
+        children: []
       },
       {
         path: '/member',
         name: '会员信息管理',
         component: member,
-        children: [
-        ]
+        children: []
+      },
+      {
+        path: '/village',
+        name: '小区信息管理',
+        component: village,
+        children: []
       },
 
     ]

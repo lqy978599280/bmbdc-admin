@@ -5,7 +5,7 @@
     :on-preview="handlePreview"
     :on-remove="handleRemove"
     :on-success="success"
-    :file-list="fileList"
+    :file-list="myFileList"
     list-type="picture"
     :disabled="disabled"
     :limit="limit"
@@ -18,16 +18,18 @@
 <script>
     export default {
         name: "imgUpload",
-        props:{
-          disabled:'',
-            limit:{
-              type:Number,
-                default:1
+        props: {
+            disabled: '',
+            limit: {
+                type: Number,
+                default: 1
             },
-            if_upload:false,
-            fileList:{
-              type:Array,
-                default: []
+            if_upload: false,
+            myFileList: {
+                type: Array,
+                default() {
+                    return []
+                }
             },
         },
         // watch:{
@@ -36,26 +38,29 @@
         //       this.if_upload = false
         //   }
         // },
-        data(){
-          return{
-              imgList:this.fileList
-          }
+        data() {
+            return {
+                imgList: this.myFileList
+            }
         },
-        methods:{
+        methods: {
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
             handlePreview(file) {
-                window.open(file.url,"_blank")
+                window.open(file.url, "_blank")
 
             },
-            success(response,file,fileList){
-                file.url = response.data.imgUrl
+            success(response, file, fileList) {
+                file.url = "http://image.bmbdc.com/" + response.data.imgUrl
                 this.imgList = fileList
-                this.$emit('sub',this.imgList)
+
+                this.$emit('sub', this.imgList)
+                console.log(fileList);
+                fileList = []
                 console.log(this.imgList);
                 console.log(response);
-                console.log(file);
+
             }
 
         }
@@ -63,12 +68,13 @@
 </script>
 
 <style scoped>
-.el-table{
-  width: 100%;
-  margin:5px 0;
-  /*width: 15px;*/
-}
-table{
-  height: 50px!important;
-}
+  .el-table {
+    width: 100%;
+    margin: 5px 0;
+    /*width: 15px;*/
+  }
+
+  table {
+    height: 50px !important;
+  }
 </style>

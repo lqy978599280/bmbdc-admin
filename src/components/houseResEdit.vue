@@ -256,25 +256,25 @@
         <div class="img_child">
           缩略图【只需要一张】
           <hr>
-          <imgUpload :disabled="readOnly" :limit="limit[0]" :fileList="getdata.thumbImg" @sub="getThumb"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[0]" :myFileList="getdata.thumbImgUrl" @sub="getThumb"></imgUpload>
         </div>
         <div class="img_child">
           图片资料【最多上传五张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[1]" :fileList="getdata.imgList" @sub="getImg"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[1]" :myFileList="getdata.imgList" @sub="getImg"></imgUpload>
         </div>
         <div class="img_child">
           VR全景资料【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[2]" :fileList="getdata.VRImgUrl" @sub="getVR"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[2]" :myFileList="getdata.VRImgUrl" @sub="getVR"></imgUpload>
         </div>
         <div class="img_child">
           户型图【只需要一张】
           <hr>
 
-          <imgUpload :disabled="readOnly" :limit="limit[3]" :fileList="getdata.houseImgUrl" @sub="getHouseImg"></imgUpload>
+          <imgUpload :disabled="readOnly" :limit="limit[3]" :myFileList="getdata.houseImgUrl" @sub="getHouseImg"></imgUpload>
         </div>
       </div>
 
@@ -339,7 +339,7 @@
                 floorAll: '',
                 rejectReason: '',
                 status:'',
-                thumbImg:[],
+                thumbImgUrl:[],
                 imgList:[],
                 VRImgUrl:[],
                 houseImgUrl:[]
@@ -424,7 +424,7 @@
                     floorAll: '',
                     rejectReason: '',
                     status:'',
-                    thumbImg:[],
+                    thumbImgUrl:[],
                     imgList:[],
                     VRImgUrl:[],
                     houseImgUrl:[]
@@ -466,7 +466,6 @@
                             if (status === 'complete' && result.info === 'OK') {
                                 if (result && result.regeocode) {
                                     self.getdata.address = result.regeocode.formattedAddress;
-
                                     self.center =[self.getdata.lng,self.getdata.lat]
                                     self.label.offset=[self.getdata.lng,self.getdata.lat]
                                     self.label.content=result.regeocode.formattedAddress;
@@ -478,22 +477,13 @@
 
                     }
                 },
-
-                fileList2: [{
-                    name: 'food.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-                }, {
-                    name: 'food2.jpeg',
-                    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-                }]
             }
 
         },
 
         methods: {
             getThumb(img){
-                this.getdata.thumbImg = img
-                console.log(this.getdata.thumbImg);
+                this.getdata.thumbImgUrl= img
             },
 
             getImg(img){
@@ -530,6 +520,7 @@
                 this.map = false;
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 this.getdata = {}
+                console.log(this.getdata);
             },
             reject() {
                 this.rejected = true
@@ -553,7 +544,7 @@
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
 
                 }
-
+                this.getdata = {}
             },
             onSelected(data) {
                 this.area = data.province.value + ' ' + data.city.value + ' ' + data.area.value
@@ -563,12 +554,7 @@
             //     console.log(this.getdata.matchingNames);
             //     console.log(this.getdata.tagNames);
             // },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreview(file) {
-                console.log(file);
-            },
+
             openMap(){
                 this.map = !this.map;
                 if (this.getdata.lng&&this.getdata.lat){
