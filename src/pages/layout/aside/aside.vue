@@ -73,8 +73,9 @@
           <span >房源社工管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item class="sec" index="houseResList">房源社工列表</el-menu-item>
-          <el-menu-item class="sec" index="houseResManagement">房源订单管理</el-menu-item>
+          <el-menu-item class="sec" index="houseWorkersList">房源社工列表</el-menu-item>
+          <el-menu-item class="sec" index="myMemberList">我的推荐</el-menu-item>
+          <el-menu-item class="sec" index="myHouseList">我推荐的房源</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -85,7 +86,19 @@
         </template>
         <el-menu-item-group>
           <el-menu-item class="sec" index="houseAgentList">房产经纪人列表</el-menu-item>
-          <el-menu-item class="sec" index="houseAgentManagement">房产经纪人订单管理</el-menu-item>
+
+          <el-submenu index="15">
+            <template slot="title">
+              <span >房产经纪人订单管理</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item class="sec" index="houseOrderManage">带看房订单管理</el-menu-item>
+              <el-menu-item class="sec" index="moneyOrderManage">交定金订单管理</el-menu-item>
+              <el-menu-item class="sec" index="signOrderManage">网签过户订单管理</el-menu-item>
+              <el-menu-item class="sec" index="bankOrderManage">银行按揭订单管理</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
         </el-menu-item-group>
       </el-submenu>
 

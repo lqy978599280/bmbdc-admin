@@ -46,6 +46,10 @@
         methods: {
             handleRemove(file, fileList) {
                 console.log(file, fileList);
+                this.imgList = fileList
+                console.log(fileList);
+
+                this.$emit('sub', this.imgList)
             },
             handlePreview(file) {
                 window.open(file.url, "_blank")
@@ -54,7 +58,6 @@
             success(response, file, fileList) {
                 file.url = "http://image.bmbdc.com/" + response.data.imgUrl
                 this.imgList = fileList
-
                 this.$emit('sub', this.imgList)
                 console.log(fileList);
                 fileList = []

@@ -520,7 +520,7 @@
                 this.map = false;
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 this.getdata = {}
-                console.log(this.getdata);
+                // console.log(this.getdata);
             },
             reject() {
                 this.rejected = true

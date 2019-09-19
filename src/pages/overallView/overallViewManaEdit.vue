@@ -7,8 +7,8 @@
         <el-input v-model="getdata.number" auto-complete="off" disabled style="width: 600px;"></el-input>
       </el-form-item>
 
-      <el-form-item label="小区名称" :label-width="formLabelWidth">
-        <el-input v-model="getdata.villageName" auto-complete="off" style="width: 600px;"></el-input>
+      <el-form-item label="房源信息" :label-width="formLabelWidth">
+        <el-input v-model="getdata.houseTitle" auto-complete="off" style="width: 600px;"></el-input>
 
       </el-form-item>
 
@@ -37,9 +37,9 @@
       </el-form-item>
 
       <el-form-item label="被拒时间" :label-width="formLabelWidth">
-      <el-input v-model="getdata.rejectTime" auto-complete="off" style="padding-right: 130px;"></el-input>
-      订单状态
-      <el-input v-model="getdata.status" auto-complete="off"></el-input>
+        <el-input v-model="getdata.rejectTime" auto-complete="off" style="padding-right: 130px;"></el-input>
+        订单状态
+        <el-input v-model="getdata.status" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="被拒原因" :label-width="formLabelWidth">
         <el-input v-model="getdata.rejectReason" auto-complete="off" disabled style="width: 600px;"></el-input>
@@ -69,7 +69,7 @@
                 name: '',
                 rejectReason: '',
                 id: '',
-                villageName:'',
+                houseTitle:'',
                 adminUserName:'',
                 totalamout:'',
                 bonus:'',
@@ -78,6 +78,7 @@
                 submitTime:'',
                 approvalTime:'',
                 rejectTime:'',
+
             },
             dialogFormVisible: '',
             title: '',
@@ -107,7 +108,7 @@
                     name: '',
                     rejectReason: '',
                     id: '',
-                    villageName:'',
+                    houseTitle:'',
                     adminUserName:'',
                     totalamout:'',
                     bonus:'',
@@ -178,7 +179,6 @@
             statusChangeCommit() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 const axios = require('axios');
-                console.log(this.getdata.status);
                 axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
                         id: this.pass_id,
                         status:this.getdata.status

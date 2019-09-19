@@ -120,7 +120,7 @@
                         type: 'passTime',
                     },
                     {
-                        label: '全景社工编码',
+                        label: '房源社工编码',
                         width: '130',
                         type: 'number',
                     },

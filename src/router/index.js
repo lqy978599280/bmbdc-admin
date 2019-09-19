@@ -26,15 +26,18 @@ const headInformation = () => import('@/pages/headMessage/headInformation')
 const flyList = () => import('@/pages/fly/flyList')
 const flyManagement = () => import('@/pages/fly/flyManagement')
 const overallViewManagement = () => import('@/pages/overallView/overallViewManagement')
-const houseWorkerManagement = () => import('@/pages/houseWorkers/houseWorkerManagement')
-const houseAgentManagement = () => import('@/pages/houseAgent/houseAgentManagement')
 const overallViewList = () => import('@/pages/overallView/overallViewList')
-const houseResList = () => import('@/pages/houseWorkers/houseWorkersList')
+const houseWorkersList = () => import('@/pages/houseWorkers/houseWorkersList')
+const myHouseList = () => import('@/pages/houseWorkers/myHouseList')
+const myMemberList = () => import('@/pages/houseWorkers/myMemberList')
 const houseAgentList = () => import('@/pages/houseAgent/houseAgentList')
 const block = () => import('@/pages/block')
 const member = () => import('@/pages/member')
 const village = () => import('@/pages/village')
-
+const houseOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/houseOrderManage')
+const moneyOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/moneyOrderManage')
+const signOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/signOrderManage')
+const bankOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/bankOrderManage')
 
 Vue.use(Router)
 let routeName
@@ -191,15 +194,21 @@ let defaultRouter = [
         component: commerViews,
         children: [
           {
-            path: '/houseResList',
+            path: '/houseWorkersList',
             name: '房源社工列表',
-            component: houseResList,
+            component: houseWorkersList,
             children: []
           },
           {
-            path: '/houseWorkerManagement',
-            name: '房源订单管理',
-            component: houseWorkerManagement,
+            path: '/myHouseList',
+            name: '我推荐的房源',
+            component: myHouseList,
+            children: []
+          },
+          {
+            path: '/myMemberList',
+            name: '我的推荐',
+            component: myMemberList,
             children: []
           },
         ]
@@ -218,11 +227,40 @@ let defaultRouter = [
           {
             path: '/houseAgentManagement',
             name: '房产经纪人订单管理',
-            component: houseAgentManagement,
-            children: []
+            component: commerViews,
+            children:
+              [
+
+
+          {
+                  path: '/houseOrderManage',
+                  name: '带看房订单管理',
+                  component: houseOrderManage,
+                  children: []
+                },
+                {
+                  path: '/moneyOrderManage',
+                  name: '交定金订单管理',
+                  component: moneyOrderManage,
+                  children: []
+                },
+                {
+                  path: '/signOrderManage',
+                  name: '网签过户订单管理',
+                  component: signOrderManage,
+                  children: []
+                },
+                {
+                  path: '/bankOrderManage',
+                  name: '银行按揭订单管理',
+                  component: bankOrderManage,
+                  children: []
+                },
+            ]
           },
         ]
       },
+
       {
         path: '/block',
         name: '区域信息管理',

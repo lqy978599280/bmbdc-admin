@@ -37,9 +37,9 @@
       </el-form-item>
 
       <el-form-item label="被拒时间" :label-width="formLabelWidth">
-      <el-input v-model="getdata.rejectTime" auto-complete="off" style="padding-right: 130px;"></el-input>
-      订单状态
-      <el-input v-model="getdata.status" auto-complete="off"></el-input>
+        <el-input v-model="getdata.rejectTime" auto-complete="off" style="padding-right: 130px;"></el-input>
+        订单状态
+        <el-input v-model="getdata.status" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="被拒原因" :label-width="formLabelWidth">
         <el-input v-model="getdata.rejectReason" auto-complete="off" disabled style="width: 600px;"></el-input>
@@ -67,17 +67,12 @@
             data: {
                 number: '',
                 name: '',
+                phone: '',
+                areaName: "",
+                createTime: '',
+                passTime: '',
                 rejectReason: '',
                 id: '',
-                villageName:'',
-                adminUserName:'',
-                totalamout:'',
-                bonus:'',
-                publishTime:'',
-                acceptTime:'',
-                submitTime:'',
-                approvalTime:'',
-                rejectTime:'',
             },
             dialogFormVisible: '',
             title: '',
@@ -105,17 +100,12 @@
                 getdata: {
                     number: '',
                     name: '',
+                    phone: '',
+                    areaName: "",
+                    createTime: '',
+                    passTime: '',
                     rejectReason: '',
                     id: '',
-                    villageName:'',
-                    adminUserName:'',
-                    totalamout:'',
-                    bonus:'',
-                    publishTime:'',
-                    acceptTime:'',
-                    submitTime:'',
-                    approvalTime:'',
-                    rejectTime:'',
                 },
                 formLabelWidth: '120px',
                 rejected: false,
@@ -178,7 +168,6 @@
             statusChangeCommit() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 const axios = require('axios');
-                console.log(this.getdata.status);
                 axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
                         id: this.pass_id,
                         status:this.getdata.status

@@ -106,7 +106,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加房产经纪人", "编辑房产经纪人", '审核'],
+                title: ["添加会员", "编辑会员", '审核'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,

@@ -5,15 +5,15 @@
       <el-button class="search bgc">搜 索</el-button>
 
 
-      <overallViewManaEdit :data="filteroverallViewData[index]"
-                   :dialogFormVisible="dialoginf"
-                   @getdialogfv="getdialogfv"
-                   :readOnly='true'
-                   :pass_id="select_id"
-                   :title="title"
-                   :buttonClose="buttonClose"
-                   :buttonCommit="buttonCommit"
-                   @F5="handleCurrentChange"></overallViewManaEdit>
+      <!--      <overallViewManaEdit :data="filteroverallViewData[index]"-->
+      <!--                           :dialogFormVisible="dialoginf"-->
+      <!--                           @getdialogfv="getdialogfv"-->
+      <!--                           :readOnly='true'-->
+      <!--                           :pass_id="select_id"-->
+      <!--                           :title="title"-->
+      <!--                           :buttonClose="buttonClose"-->
+      <!--                           :buttonCommit="buttonCommit"-->
+      <!--                           @F5="handleCurrentChange"></overallViewManaEdit>-->
 
     </div>
     <el-table
@@ -54,13 +54,13 @@
 </template>
 
 <script>
-    import singleMenu from "../../components/singleMenu";
-    import overallViewManaEdit from "./overallViewManaEdit";
+    import singleMenu from "../../../components/singleMenu";
+    // import overallViewManaEdit from "./overallViewManaEdit";
 
     export default {
         components: {
             singleMenu,
-            overallViewManaEdit,
+            // overallViewManaEdit,
         },
         data() {
             return {
@@ -91,37 +91,62 @@
                         type: 'houseTitle',
                     },
                     {
-                        label: '飞手姓名',
+                        label: '买房姓名',
                         width: '90',
                         type: 'name',
                     },
                     {
-                        label: '接单时间',
+                        label: '买房手机号码',
                         width: '100',
                         type: 'acceptTime',
                     },
                     {
-                        label: '提交时间',
+                        label: '卖方姓名',
                         width: '100',
                         type: 'submitTime',
                     },
                     {
-                        label: '订单金额',
+                        label: '房产经纪人姓名',
                         width: '80',
                         type: 'totalAmout',
                     },
                     {
-                        label: '收益余额',
+                        label: '订单金额',
                         width: '80',
                         type: 'bonus',
                     },
                     {
-                        label: '通过时间',
+                        label: '预约看房时间',
                         width: '100',
                         type: 'approvalTime',
                     },
                     {
-                        label: '被拒时间',
+                        label: '买方提交时间',
+                        width: '100',
+                        type: 'rejectTime',
+                    },
+                    {
+                        label: '卖方确认时间',
+                        width: '100',
+                        type: 'rejectTime',
+                    },
+                    {
+                        label: '卖方支付时间',
+                        width: '100',
+                        type: 'rejectTime',
+                    },
+                    {
+                        label: '经纪人接单时间',
+                        width: '100',
+                        type: 'rejectTime',
+                    },
+                    {
+                        label: '经纪人完成时间',
+                        width: '100',
+                        type: 'rejectTime',
+                    },
+                    {
+                        label: '买方确认时间',
                         width: '100',
                         type: 'rejectTime',
                     },
@@ -140,15 +165,15 @@
                     name: '',
                     rejectReason: '',
                     id: '',
-                    houseTitle:'',
-                    adminUserName:'',
-                    totalamout:'',
-                    bonus:'',
-                    publishTime:'',
-                    acceptTime:'',
-                    submitTime:'',
-                    approvalTime:'',
-                    rejectTime:'',
+                    houseTitle: '',
+                    adminUserName: '',
+                    totalamout: '',
+                    bonus: '',
+                    publishTime: '',
+                    acceptTime: '',
+                    submitTime: '',
+                    approvalTime: '',
+                    rejectTime: '',
                 }
             }
         },
@@ -166,7 +191,7 @@
         },
         methods: {
 
-            handleEdit(index,row) {
+            handleEdit(index, row) {
                 this.index = index
                 this.select_id = row.number
                 switch (this.overallViewData[this.index].status) {
@@ -235,6 +260,6 @@
 </script>
 
 <style scoped>
-  @import "../../assets/maincss.css";
+  @import "../../../assets/maincss.css";
 
 </style>
