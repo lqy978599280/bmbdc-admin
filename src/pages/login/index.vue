@@ -43,7 +43,15 @@
         methods:{
             submitForm(e){
                 if(this.account == "Admin"&&this.password =="123456"&&this.code==this.random)
-                this.$router.push('/index')
+                    this.$store.dispatch('setToken', this.account).then(() => {
+                        this.$router.push('/index')
+                    }).catch(res => {
+                        this.$message({
+                            showClose: true,
+                            message: res,
+                            type: 'error'
+                        })
+                    })
             },
             change:function () {
                 this.random=Math.round(Math.random()*899999+100000)

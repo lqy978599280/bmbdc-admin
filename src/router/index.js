@@ -31,6 +31,8 @@ const houseWorkersList = () => import('@/pages/houseWorkers/houseWorkersList')
 const myHouseList = () => import('@/pages/houseWorkers/myHouseList')
 const myMemberList = () => import('@/pages/houseWorkers/myMemberList')
 const houseAgentList = () => import('@/pages/houseAgent/houseAgentList')
+const adSortManage = () => import('@/pages/ADManage/adSortManage')
+const adManage = () => import('@/pages/ADManage/adManage')
 const block = () => import('@/pages/block')
 const member = () => import('@/pages/member')
 const village = () => import('@/pages/village')
@@ -40,8 +42,10 @@ const signOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/si
 const bankOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/bankOrderManage')
 
 Vue.use(Router)
-let routeName
 
+const whiteList = [
+  '/'
+];
 let defaultRouter = [
   {
     path: '/',
@@ -63,8 +67,378 @@ let defaultRouter = [
     hidden: true,
     children: []
   },
+  {
+    path: '/index',
+    name: "home",
+    component: Layout,
+    alone: true,
+    children: [
+      {
+        path: '/index',
+        name: '主页',
+        component: HomeMain,
+        children: []
+      },
+    ]
+  },
+  {
+    path: '/404',
+    component: NotFound,
+    name: '404',
+    hidden: true,
+    children: []
+  },
+
+  // {
+  //   path:'*',
+  //   redirect:"index"
+  // }
+]
+export const asyncRouterMap = [
+  {
+    path: '/index',
+    name: "home",
+    component: Layout,
+    alone: true,
+    children: [
+      {
+        path: '/index',
+        name: '主页',
+        component: HomeMain,
+        meta:{
+          permission:[]
+        },
+        children: []
+      },
+      {
+        path: '/houseRes',
+        name: '房源管理',
+        component: houseRes,
+        meta:{
+          permission:[]
+        },
+        children: []
+      },
+      {
+        path: '/system',
+        name: '系统管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/menus',
+            name: '菜单管理',
+            component: menus,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/roles',
+            name: '角色管理',
+            component: roles,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/users',
+            name: '用户管理',
+            component: users,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/depts',
+            name: '部门管理',
+            component: depts,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/sysconfigs',
+            name: '系统配置管理',
+            component: sysconfigs,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/syslogs',
+            name: '登录日志',
+            component: syslogs,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/messages',
+            name: '消息管理',
+            component: messages,
+            meta:{
+              permission:[]
+            },
+            children: []
+          }]
+      },
+      {
+        path: '/headMessage',
+        name: '头条管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/headClass',
+            name: '头条分类信息管理',
+            component: headClass,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/headInformation',
+            name: '头条信息管理',
+            component: headInformation,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/ADManage',
+        name: '广告管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/adSortManage',
+            name: '广告分类信息管理',
+            component: adSortManage,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/adManage',
+            name: '广告信息管理',
+            component: adManage,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/fly',
+        name: '飞手社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/flyList',
+            name: '飞手社工列表',
+            component: flyList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/flyManagement',
+            name: '飞手订单管理',
+            component: flyManagement,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/overallView',
+        name: '全景社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/overallViewList',
+            name: '全景社工列表',
+            component: overallViewList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/overallViewManagement',
+            name: '全景订单管理',
+            component: overallViewManagement,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/houseWorkers',
+        name: '房源社工管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/houseWorkersList',
+            name: '房源社工列表',
+            component: houseWorkersList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/myHouseList',
+            name: '我推荐的房源',
+            component: myHouseList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/myMemberList',
+            name: '我的推荐',
+            component: myMemberList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+        ]
+      },
+      {
+        path: '/houseAgent',
+        name: '房产经纪人管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/houseAgentList',
+            name: '房产经纪人列表',
+            component: houseAgentList,
+            meta:{
+              permission:[]
+            },
+            children: []
+          },
+          {
+            path: '/houseAgentManagement',
+            name: '房产经纪人订单管理',
+            component: commerViews,
+            children:
+              [
 
 
+                {
+                  path: '/houseOrderManage',
+                  name: '带看房订单管理',
+                  component: houseOrderManage,
+                  meta:{
+                    permission:[]
+                  },
+                  children: []
+                },
+                {
+                  path: '/moneyOrderManage',
+                  name: '交定金订单管理',
+                  component: moneyOrderManage,
+                  meta:{
+                    permission:[]
+                  },
+                  children: []
+                },
+                {
+                  path: '/signOrderManage',
+                  name: '网签过户订单管理',
+                  component: signOrderManage,
+                  meta:{
+                    permission:[]
+                  },
+                  children: []
+                },
+                {
+                  path: '/bankOrderManage',
+                  name: '银行按揭订单管理',
+                  component: bankOrderManage,
+                  meta:{
+                    permission:[]
+                  },
+                  children: []
+                },
+              ]
+          },
+        ]
+      },
+
+      {
+        path: '/block',
+        name: '区域信息管理',
+        component: block,
+        meta:{
+          permission:[]
+        },
+        children: []
+      },
+      {
+        path: '/member',
+        name: '会员信息管理',
+        component: member,
+        meta:{
+          permission:[]
+        },
+        children: []
+      },
+      {
+        path: '/village',
+        name: '小区信息管理',
+        component: village,
+        meta:{
+          permission:[]
+        },
+        children: []
+      },
+
+    ]
+  },
+  {
+    path: '/404',
+    component: NotFound,
+    name: '404',
+    hidden: true,
+    children: []
+  },
+]
+// 需要 addRouters 动态加载的路由
+let addRouter = [
+  {
+    path: '/',
+    name: '',
+    component: Layout,
+    children: [
+      {
+        path: '/system',
+        name: '',
+        component: system,
+        children: []
+      },
+
+    ]
+  },
   {
     path: '/index',
     name: "home",
@@ -151,6 +525,25 @@ let defaultRouter = [
         ]
       },
       {
+        path: '/ADManage',
+        name: '广告管理',
+        component: commerViews,
+        children: [
+          {
+            path: '/adSortManage',
+            name: '广告分类信息管理',
+            component: adSortManage,
+            children: []
+          },
+          {
+            path: '/adManage',
+            name: '广告信息管理',
+            component: adManage,
+            children: []
+          },
+        ]
+      },
+      {
         path: '/fly',
         name: '飞手社工管理',
         component: commerViews,
@@ -232,7 +625,7 @@ let defaultRouter = [
               [
 
 
-          {
+                {
                   path: '/houseOrderManage',
                   name: '带看房订单管理',
                   component: houseOrderManage,
@@ -256,7 +649,7 @@ let defaultRouter = [
                   component: bankOrderManage,
                   children: []
                 },
-            ]
+              ]
           },
         ]
       },
@@ -283,96 +676,6 @@ let defaultRouter = [
     ]
   },
   {
-    path: '/404',
-    component: NotFound,
-    name: '404',
-    hidden: true,
-    children: []
-  },
-  // {
-  //   path:'*',
-  //   redirect:"index"
-  // }
-]
-
-//需要 addRouters 动态加载的路由
-let addRouter = [
-  {
-    path: '/',
-    name: '',
-    component: Layout,
-    children: [
-      {
-        path: '/system',
-        name: '',
-        component: system,
-        children: []
-      },
-      // {
-      //   path: '/erji3',
-      //   iconCls: 'fa fa-server',
-      //   name: routeName['menu2-3'],
-      //   component: CommerViews, // 无限极菜单的容器 超过三级菜单父级容器需要使用 CommerViews
-      //   children: [
-      //     {
-      //       path: '/sanji2',
-      //       iconCls: 'fa fa-server',
-      //       name: routeName['menu3-2'],
-      //       component: Sanji2,
-      //       children: []
-      //     },
-      //     {
-      //       path: '/sanji3',
-      //       iconCls: 'fa fa-server',
-      //       name: routeName['menu3-3'],
-      //       component: CommerViews,
-      //       children: [
-      //         {
-      //           path: '/siji',
-      //           iconCls: 'fa fa-server',
-      //           name: routeName['menu4-1'],
-      //           component: Siji,
-      //           children: []
-      //         },
-      //         {
-      //           path: '/siji1',
-      //           iconCls: 'fa fa-server',
-      //           name: routeName['menu4-2'],
-      //           component: CommerViews,
-      //           children: [
-      //             {
-      //               path: '/wuji',
-      //               iconCls: 'fa fa-server',
-      //               name: routeName['menu5-1'],
-      //               component: Wuji,
-      //               children: []
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
-    ]
-  },
-
-  {
-    path: '/',
-    iconCls: 'el-icon-edit', // 图标样式class
-    name: '',
-    component: Layout,
-    meta: {role: ['superAdmin', 'admin']}, // 需要权限 'superAdmin', 'admin'。meta属性可以放在父级，验证父级和所有子菜单，也可以放在子级单独验证某一个子菜单
-    children: [
-      {
-        path: '/markdown',
-        iconCls: 'fa fa-file-code-o', // 图标样式class
-        name: '',
-        component: layout,
-        children: []
-      }
-    ]
-  },
-  {
     path: '*',  // 通配符拦截放在最后，不存在的路由全都指向404页面
     redirect: '/404',
     hidden: true,
@@ -383,6 +686,65 @@ let addRouter = [
 export default new Router({
   routes: defaultRouter
 })
-export {defaultRouter, addRouter}
+export {defaultRouter,addRouter}
 
-
+// function routerMatch(permission,asyncRouter){
+//   return new Promise(resolve => {
+//     const routers = [];
+//     function createRouter(permission) {
+//       permission.forEach(item =>{
+//         if (item.children &&item.children.length){
+//           createRouter(item.children)
+//         }
+//         let path = item.path;
+//         asyncRouter.find(s=>{
+//           if(s.path === ''){
+//             s.children.find(y=>{
+//               if(y.path === path ){
+//                 y.meta.permission = item.permission
+//                 routers.push(s)
+//               }
+//             })
+//           }
+//           if(s.path === path){
+//             s.meta.permission = item.permission
+//             routers.push(s)
+//           }
+//         })
+//       })
+//     }
+//     createRouter(permission)
+//     resolve([routers])
+//   })
+// }
+// router.beforeEach((to,from,next)=>{
+//   if(sessionStorage.getItem('token')){
+//     if(to.path === '/'){
+//       router.replace('/index')
+//     }else {
+//       console.log(store.state.list.length);
+//       if(store.state.list.length ==0){
+//         store.dispatch('getPermission').then(res=>{
+//           routerMatch(res,asyncRouterMap).then(res=>{
+//             router.addRouters(res[0]);
+//             next(to.path)
+//           })
+//         }).catch(()=>{
+//           router.replace('/')
+//         })
+//       }else {
+//         if(to.matched.length){
+//           next()
+//         }else {
+//           router.replace('/')
+//         }
+//       }
+//     }
+//   }else{
+//     if(whiteList.indexOf(to.path)>=0){
+//       next()
+//     }else {
+//       router.replace('/')
+//     }
+//   }
+// })

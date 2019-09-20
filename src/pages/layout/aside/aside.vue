@@ -135,8 +135,8 @@
           <span >广告信息管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item class="sec" index="5-1">广告位置列表</el-menu-item>
-          <el-menu-item class="sec" index="5-2">广告列表</el-menu-item>
+          <el-menu-item class="sec" index="adSortManage">广告分类信息管理</el-menu-item>
+          <el-menu-item class="sec" index="adManage">广告信息管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="head">

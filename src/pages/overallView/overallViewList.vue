@@ -137,7 +137,7 @@
                     {
                         label: '申请区域',
                         width: '150',
-                        type: 'areaName',
+                        type: 'mergername',
                     },
                     {
                         label: '申请时间',
@@ -156,7 +156,7 @@
                     number: '',
                     name: '',
                     phone: '',
-                    areaName: "",
+                    mergername: "",
                     createTime: '',
                     passTime: '',
                     rejectReason: '',
@@ -213,11 +213,17 @@
                 this.dialogadd = val;
                 // this.tableData.push(data)
                 this.form = {
+                    number: '',
                     name: '',
-                    remark: '',
+                    phone: '',
+                    mergername: "",
+                    createTime: '',
+                    passTime: '',
+                    rejectReason: '',
                     id: '',
                 }
-                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
+
+                axios.post(`${this.global.config.url}/admin/wholeScenes/insertWholeScenes`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -231,9 +237,9 @@
                 const axios = require('axios');
                 this.dialogedit = val;
                 this.dialogadd = val;
-                // console.log(data);
+                console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/wholeScenes/updatewholeScenes`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -247,7 +253,7 @@
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
                 console.log(id);
-                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/wholeScenes/delete`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -258,6 +264,7 @@
             },
             message(response) {
                 let type = false;
+                console.log(response);
                 if (response.data.code === 0) {
                     type = "success"
                 } else type = "warning"
@@ -272,10 +279,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/wholeScenes/selectAllWholeScenes?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         // console.log(response);
-                        this.flyData = response.data.data.flyingHandlist;
+                        this.flyData = response.data.data.list;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {

@@ -171,6 +171,9 @@
                 this.select_id = row.number
                 switch (this.flyData[this.index].status) {
                     case  '已发布' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
+
                         break;
                     case  '待提交' :
                         this.buttonClose = '取消订单'
@@ -181,8 +184,12 @@
                         this.buttonCommit = '通过'
                         break;
                     case  '审核通过' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
+
                         break;
                     case  '审核未通过' :
+                        this.buttonClose = ''
                         this.buttonCommit = '重新提交'
                         break;
                 }

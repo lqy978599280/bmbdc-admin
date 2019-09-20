@@ -22,9 +22,25 @@ VueAMap.initAMapApiLoader({
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAxios,axios)
+
+
 // axios.defaults.baseURL = 'https://api.example.com';
+const service = axios.create({
+  timeout:5000
+})
+service.interceptors.request.use(
+  config =>{
+      if (store.state.user.token) {
+        config.headers.Authorization = `token ${store.state.user.token}`;
+      }
+      return config
+  },
+  err => {
+    return Promise.reject(err)
+  }
 
-
+)
+export  default  service
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

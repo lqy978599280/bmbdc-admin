@@ -4,7 +4,7 @@ const config = {
 
   url:'http://192.168.1.6:8081'
 }
-// url:'http://192.168.1.6:8081/'  url:'http://testadmin.api.bmbdc.com/'
+//  url:'http://testadmin.api.bmbdc.com'
 let bindToGlobal = (obj, key) => {
   if (typeof window[key] === 'undefined') {
     window[key] = {};

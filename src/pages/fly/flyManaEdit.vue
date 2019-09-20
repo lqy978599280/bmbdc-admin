@@ -135,7 +135,7 @@
                 // console.log(reason);
                 const axios = require('axios');
                 axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
-                        id: this.pass_id,
+                        number: this.pass_id,
                         rejectReason: this.getdata.rejectReason
                     }
                 )
@@ -180,7 +180,7 @@
                 const axios = require('axios');
                 console.log(this.getdata.status);
                 axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
-                        id: this.pass_id,
+                    number: this.pass_id,
                         status:this.getdata.status
                     }
                 )

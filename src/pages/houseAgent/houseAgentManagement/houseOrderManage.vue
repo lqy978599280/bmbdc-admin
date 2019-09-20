@@ -67,7 +67,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: "全景社工订单",
+                title: "带看房订单管理",
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
