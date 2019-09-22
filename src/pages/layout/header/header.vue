@@ -41,7 +41,7 @@
 
 <script>
     import tabNav from "./tabNav";
-
+    import Cookies from 'js-cookie'
     export default {
         name: "Header",
         components: {
@@ -60,6 +60,11 @@
             },
             handleCommand(command){
                 this.$router.push('/'+command)
+                // this.$store.commit('login_out')
+                if (command === 'login') {
+                    Cookies.remove('token');
+                    location.reload()
+                }
             }
         }
     }

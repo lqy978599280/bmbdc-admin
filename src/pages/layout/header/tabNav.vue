@@ -21,16 +21,9 @@
 
             }
         },
+
         methods: {
-            // openMenu (item, e, index) {
-            //     if (index === 0) {
-            //         return false
-            //     }
-            //     this.rightMenuShow = true
-            //     this.left = e.clientX + 10
-            //     this.top = e.clientY
-            //     this.$store.dispatch('openMenu', item)
-            // },
+
             removeTab (tabItem) {
                 this.$store.dispatch('removeTab', {tabItem, fullPath: this.$route.fullPath, router: this.$router})
             }
@@ -68,7 +61,7 @@
     border: 1px solid rgb(216, 220, 229);
     margin: 0 3px ;
     padding:0 10px;
-    transition: 0.6s;
+    transition: 0.1s;
   }
   .link{
     text-decoration:none;

@@ -6,171 +6,34 @@
       <p ><img src="../../../assets/logo.png" alt="logo"></p>
     </div>
     <el-menu
-      :default-active="this.$route.path.replace('/','')"
-      class="el-menu-vertical-demo"
-      background-color="#fff"
-      text-color="rgba(0, 0, 0, 0.7)"
-      router
-      :unique-opened = true
+             :default-active.prevent="$route.path"
+             class="el-menu-vertical-demo"
+             background-color="#fff"
+             text-color="rgba(0, 0, 0, 0.7)"
+             router
+             :unique-opened = true
+
+             :collapse-transition="true"
     >
-      <el-menu-item index="index">
-          <i class="fa fa-eercast"></i>
-          <span slot="title">首页</span>
+      <template v-for="(item,index) in this.$store.getters.routers" v-if="!item.hidden">
+        <el-submenu v-if="!item.alone && item.children.length>0" :index="index+''">
+          <template slot="title">
+            <i :class="item.iconCls?item.iconCls:''"></i>
+            <span slot="title">{{ item.name}}</span>
+          </template>
 
+          <menu-tree :menuData="item.children"></menu-tree>
 
-      </el-menu-item>
-      <el-submenu index="system">
-        <template slot="title">
-          <i class="fa fa-cog fa-2x"></i>
-          <span >系统管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="menus" >菜单管理</el-menu-item>
-          <el-menu-item class="sec" index="roles" >角色管理</el-menu-item>
-          <el-menu-item class="sec" index="users">用户管理</el-menu-item>
-          <el-menu-item class="sec" index="depts">部门管理</el-menu-item>
-          <el-menu-item class="sec" index="sysconfigs">系统配置管理</el-menu-item>
-          <el-menu-item class="sec" index="syslogs">登录日志</el-menu-item>
-          <el-menu-item class="sec" index="messages">消息管理</el-menu-item>
-        </el-menu-item-group>
-
-      </el-submenu>
-
-      <el-menu-item index="houseRes">
-        <template slot="title">
-          <i class="fa fa-home fa-2x"></i>
-          <span >房源管理</span>
-        </template>
-
-      </el-menu-item>
-
-      <el-submenu index="fly">
-        <template slot="title">
-          <i class="fa fa-paper-plane"></i>
-          <span >飞手社工管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="flyList">飞手社工列表</el-menu-item>
-          <el-menu-item class="sec" index="flyManagement">飞手订单管理</el-menu-item>
-<!--          <el-menu-item class="sec" index="6-3">订单列表</el-menu-item>-->
-        </el-menu-item-group>
-      </el-submenu>
-
-      <el-submenu index="8">
-        <template slot="title">
-          <i class="fa fa-leaf"></i>
-          <span >全景社工管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="overallViewList">全景社工列表</el-menu-item>
-          <el-menu-item class="sec" index="overallViewManagement">全景订单管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-
-      <el-submenu index="9">
-        <template slot="title">
-          <i class="fa fa-university"></i>
-          <span >房源社工管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="houseWorkersList">房源社工列表</el-menu-item>
-          <el-menu-item class="sec" index="myMemberList">我的推荐</el-menu-item>
-          <el-menu-item class="sec" index="myHouseList">我推荐的房源</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-
-      <el-submenu index="10">
-        <template slot="title">
-          <i class="fa fa-users"></i>
-          <span >房产经纪人管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="houseAgentList">房产经纪人列表</el-menu-item>
-
-          <el-submenu index="15">
-            <template slot="title">
-              <span >房产经纪人订单管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item class="sec" index="houseOrderManage">带看房订单管理</el-menu-item>
-              <el-menu-item class="sec" index="moneyOrderManage">交定金订单管理</el-menu-item>
-              <el-menu-item class="sec" index="signOrderManage">网签过户订单管理</el-menu-item>
-              <el-menu-item class="sec" index="bankOrderManage">银行按揭订单管理</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-        </el-menu-item-group>
-      </el-submenu>
-
-      <el-menu-item index="block">
-
-        <template slot="title">
-          <i class="fa fa-pie-chart"></i>
-          <span >区域信息管理</span>
-        </template>
-
-      </el-menu-item>
-
-      <el-menu-item index="member">
-        <template slot="title">
-          <i class="fa fa-drivers-license"></i>
-          <span >会员信息管理</span>
-        </template>
-
-      </el-menu-item>
-
-      <el-menu-item index="village">
-        <template slot="title">
-          <i class="fa fa-drivers-license"></i>
-          <span >小区信息管理</span>
-        </template>
-
-      </el-menu-item>
-
-
-
-      <el-submenu index="6">
-        <template slot="title">
-          <i class="fa fa-tachometer"></i>
-          <span >广告信息管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="adSortManage">广告分类信息管理</el-menu-item>
-          <el-menu-item class="sec" index="adManage">广告信息管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="head">
-        <template slot="title">
-          <i class="fa fa-fire"></i>
-          <span >头条信息管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="headClass">头条分类信息管理</el-menu-item>
-          <el-menu-item class="sec" index="headInformation">头条信息管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="weituo">
-        <template slot="title">
-          <i class="fa fa-magnet"></i>
-          <span >委托管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item class="sec" index="5-1">委托买房管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">带看房管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">定金合同管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">网签过户管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">银行按揭管理</el-menu-item>
-          <el-menu-item class="sec" index="5-2">全景拍摄管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-
-
-
-
-
-
+        </el-submenu>
+        <el-menu-item :index="item.path" v-else>
+          <i :class="item.iconCls?item.iconCls:''"></i>
+          <span slot="title">{{ item.name }}</span>
+        </el-menu-item>
+      </template>
 
     </el-menu>
+
+
   </el-aside>
 
 </template>
@@ -180,38 +43,60 @@
 
     export default {
         name: 'asideNav',
-        // components: {
-        //   menuTree,
-        // },
+        components: {
+          menuTree,
+        },
         watch: {
             // 监听浏览器直接输入路由，将此路由添加到tabnavBox
             '$route.path': function (val) {
                 this.selectmenu(val)
             }
         },
-          methods: {
+          // methods: {
+          //   selectmenu (key) {
+          //       let router = this.$store.getters.routers
+          //       let name = this.$route.name
+          //       // let navTitle = function (path, routerARR) {
+          //       //     for (let i = 0; i < routerARR.length; i++) {
+          //       //         if (routerARR[i].children.length > 0 || routerARR[i].path === path) {
+          //       //             if (routerARR[i].path === path && routerARR[i].children.length < 1) {
+          //       //                 name = routerARR[i].name
+          //       //                 break
+          //       //             }
+          //       //             navTitle(path, routerARR[i].children)
+          //       //         }
+          //       //     }
+          //       //     return name
+          //       // }
+          //       this.$store.dispatch('addTab', {
+          //           title: name,
+          //           path: key
+          //       })
+          //   }
+          // }
+
+        methods: {
             selectmenu (key) {
                 let router = this.$store.getters.routers
-                let name = this.$route.name
-                // let navTitle = function (path, routerARR) {
-                //     for (let i = 0; i < routerARR.length; i++) {
-                //         if (routerARR[i].children.length > 0 || routerARR[i].path === path) {
-                //             if (routerARR[i].path === path && routerARR[i].children.length < 1) {
-                //                 name = routerARR[i].name
-                //                 break
-                //             }
-                //             navTitle(path, routerARR[i].children)
-                //         }
-                //     }
-                //     return name
-                // }
+                let name = ''
+                let navTitle = function (path, routerARR) {
+                    for (let i = 0; i < routerARR.length; i++) {
+                        if (routerARR[i].children.length > 0 || routerARR[i].path === path) {
+                            if (routerARR[i].path === path && routerARR[i].children.length < 1) {
+                                name = routerARR[i].name
+                                break
+                            }
+                            navTitle(path, routerARR[i].children)
+                        }
+                    }
+                    return name
+                }
                 this.$store.dispatch('addTab', {
-                    title: name,
+                    title: navTitle(key, router),
                     path: key
                 })
             }
-          }
-
+        }
     }
 </script>
 

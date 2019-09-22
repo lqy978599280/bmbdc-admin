@@ -1,5 +1,5 @@
 import store from '../index'
-import router from '../../router/index'
+import router from '../../router'
 export default {
   state: {
     info: ''  // 每次刷新都要通过token请求个人信息来筛选动态路由
@@ -12,17 +12,17 @@ export default {
         permissions: '超级管理员'
       }
       sessionStorage.setItem('info', JSON.stringify(store.getters.info))
-    },
-    setRole (state, options) {  // 切换角色，测试权限管理
-      state.info = {
-        role: options.role,
-        permissions: options.permissions
-      }
-      sessionStorage.setItem('info', JSON.stringify(store.getters.info));
-      store.dispatch('newRoutes', options.role)
-      router.addRoutes(store.getters.addRouters)
 
-    }
+    },
+    // setRole (state, options) {  // 切换角色，测试权限管理
+    //   state.info = {
+    //     role: options.role,
+    //     permissions: options.permissions
+    //   }
+    //   sessionStorage.setItem('info', JSON.stringify(store.getters.info));
+    //
+    //
+    // }
   },
   actions: {
     getInfo ({commit}, token) {

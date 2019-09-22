@@ -41,6 +41,46 @@ service.interceptors.request.use(
 
 )
 export  default  service
+
+
+router.beforeEach((to, from, next) => {
+  // console.log(store.getters.token)
+  // debugger
+
+  if (store.getters.token) {
+    store.dispatch('setToken', store.getters.token)
+    if (to.path === '/login') {
+      next()
+    } else {
+      if (!store.getters.info.role) {
+        !async function getAddRouters () {
+          await store.dispatch('getInfo', store.getters.token)
+          await store.dispatch('newRoutes', store.getters.info.role)
+          console.log(store.getters.addRouters)
+          await router.addRoutes(store.getters.addRouters)
+          next({path:'/index'})
+        }()
+      } else {
+        let is404 = to.matched.some(record => {
+          if(record.meta.role){
+            return record.meta.role.indexOf(store.getters.info.role) === -1
+          }
+        })
+        if(is404){
+          next({path: '/404'})
+          return false
+        }
+        next()
+      }
+    }
+  } else {
+    if (to.path === '/login') {
+      next()
+    }
+    next({path: '/login'})
+
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -42,7 +42,7 @@
         },
         methods:{
             submitForm(e){
-                if(this.account == "Admin"&&this.password =="123456"&&this.code==this.random)
+                if(this.account == "Admin" && this.password =="123456" && this.code==this.random){
                     this.$store.dispatch('setToken', this.account).then(() => {
                         this.$router.push('/index')
                     }).catch(res => {
@@ -52,6 +52,8 @@
                             type: 'error'
                         })
                     })
+                }
+
             },
             change:function () {
                 this.random=Math.round(Math.random()*899999+100000)
