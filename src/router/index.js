@@ -237,9 +237,9 @@ let addRouter = [
         path: '/overallViewManagement',
         name: '全景订单管理',
         component: overallViewManagement,
-        meta: {
-          role: ['admin']
-        },
+        // meta: {
+        //   role: ['admin']
+        // },
         children: []
       },
     ]

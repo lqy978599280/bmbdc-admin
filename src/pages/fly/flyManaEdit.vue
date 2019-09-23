@@ -51,7 +51,7 @@
 
       <el-button type="primary" @click="status2" v-show="buttonCommit ==='提交'">{{buttonCommit}}</el-button>
       <el-button type="primary" @click="status3" v-show="buttonCommit === '通过'">{{buttonCommit}}</el-button>
-      <el-button type="primary" @click="status2" v-show="buttonCommit === '重新提交'">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status1" v-show="buttonCommit === '重新提交'">{{buttonCommit}}</el-button>
     </div>
   </el-dialog>
 
@@ -161,6 +161,10 @@
             },
             status0(){
                 this.getdata.status = 0
+                this.statusChangeCommit()
+            },
+            status1(){
+                this.getdata.status = 1
                 this.statusChangeCommit()
             },
             status2(){

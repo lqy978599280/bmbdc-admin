@@ -17,7 +17,7 @@
       </el-form-item>
 
       <el-form-item label="申请区域*" :label-width="formLabelWidth">
-        <el-select v-model="getdata.areaName"  filterable placeholder="可输入快捷搜索"  style="width: 300px;">
+        <el-select v-model="getdata.mergername"  filterable placeholder="可输入快捷搜索"  style="width: 300px;">
           <el-option
             v-for="item in areasList"
             :key="item.id"
@@ -51,7 +51,7 @@
                 number:'',
                 name: '',
                 phone: '',
-                areaName:"",
+                mergername:"",
                 createTime:'',
                 passTime:'',
                 rejectReason:'',
@@ -84,7 +84,7 @@
                     number:'',
                     name: '',
                     phone: '',
-                    areaName:"",
+                    mergername:"",
                     createTime:'',
                     passTime:'',
                     rejectReason:'',
@@ -118,7 +118,7 @@
                 this.getdata.rejectReason = reason
                 // console.log(reason);
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
+                axios.post(`${this.global.config.url}/admin/houseResources/updateStatus`, {
                         id: this.pass_id,
                         rejectReason:this.getdata.rejectReason
                     }
@@ -184,7 +184,7 @@
             pass(){
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
+                axios.post(`${this.global.config.url}/admin/houseResources/updateStatus`, {
                         id: this.pass_id
                     }
                 )

@@ -12,7 +12,7 @@
 
       </el-form-item>
 
-      <el-form-item label="飞手姓名" :label-width="formLabelWidth">
+      <el-form-item label="全景社工姓名" :label-width="formLabelWidth">
         <el-input v-model="getdata.name" auto-complete="off" style="padding-right: 85px;"></el-input>
         任务发布人姓名
         <el-input v-model="getdata.adminUserName" auto-complete="off"></el-input>
@@ -51,7 +51,7 @@
 
       <el-button type="primary" @click="status2" v-show="buttonCommit ==='提交'">{{buttonCommit}}</el-button>
       <el-button type="primary" @click="status3" v-show="buttonCommit === '通过'">{{buttonCommit}}</el-button>
-      <el-button type="primary" @click="status2" v-show="buttonCommit === '重新提交'">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status1" v-show="buttonCommit === '重新提交'">{{buttonCommit}}</el-button>
     </div>
   </el-dialog>
 
@@ -135,8 +135,8 @@
                 this.getdata.rejectReason = reason
                 // console.log(reason);
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
-                        id: this.pass_id,
+                axios.post(`${this.global.config.url}/admin/wholesceneOrders/orderExamine`, {
+                    number: this.pass_id,
                         rejectReason: this.getdata.rejectReason
                     }
                 )
@@ -174,13 +174,18 @@
                 this.statusChangeCommit()
 
             },
+            status1(){
+                this.getdata.status = 1
+                this.statusChangeCommit()
+
+            },
 
 
             statusChangeCommit() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyerOrders/examineOrder`, {
-                        id: this.pass_id,
+                axios.post(`${this.global.config.url}/admin/wholesceneOrders/orderExamine`, {
+                        number: this.pass_id,
                         status:this.getdata.status
                     }
                 )

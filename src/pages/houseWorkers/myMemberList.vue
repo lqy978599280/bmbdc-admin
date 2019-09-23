@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="昵称/手机号" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
 
     </div>
@@ -135,22 +135,13 @@
                 dialogdel: false,
                 dialoginf: false,
                 del_id: '',
-                form: {
-                    number: '',
-                    name: '',
-                    phone: '',
-                    areaName: "",
-                    createTime: '',
-                    passTime: '',
-                    rejectReason: '',
-                    id: '',
-                }
+
             }
         },
         computed: {
             filterFlyData: function () {
                 return this.flyData.filter((data) => {
-                    return  data.phone.match(this.search)
+                    return  data.phone.match(this.search) || data.nickName.match(this.search)
                 })
             }
         },
@@ -164,10 +155,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin//user//userList?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/houseResources/selectAllRefUser?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.flyData = response.data.data.userList;
+                        this.flyData = response.data.data.refUserList;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {

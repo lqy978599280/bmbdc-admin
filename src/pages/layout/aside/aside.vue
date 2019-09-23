@@ -8,8 +8,9 @@
     <el-menu
              :default-active.prevent="$route.path"
              class="el-menu-vertical-demo"
-             background-color="#fff"
-             text-color="rgba(0, 0, 0, 0.7)"
+             background-color="rgba(27, 97, 106, 0.6)"
+             text-color="rgba(255, 255, 255, 0.85)"
+             active-text-color="#eab261"
              router
              :unique-opened = true
 
@@ -104,8 +105,7 @@
   @import url("//unpkg.com/element-ui@2.0.11/lib/theme-chalk/index.css");
 
   .el-aside {
-    background-color:#fff ;
-    color: #333;
+
     text-align: left;
 
   }
@@ -123,7 +123,7 @@
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color: #fff;
+    background-color:rgba(27, 97, 106, 0.8);
   }
 
   .el-menu-vertical-demo {

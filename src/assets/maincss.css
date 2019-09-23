@@ -19,7 +19,7 @@
   display: flex;
   justify-self: left;
   padding-bottom: 10px;
-  background-color: #f2f2f2;
+  background-color: #e9f1e7;
 }
 
 .el-input{
@@ -34,7 +34,10 @@
   padding:8px 15px;
 }
 
-
+@font-face {
+  font-family: 'PF';
+  src: url("../common/font-family/FZCYJ.ttf");
+}
 
 .el-table {
   border:1px solid gainsboro;
@@ -42,7 +45,7 @@
   border-radius: 10px;
   border-bottom: 0;
   font-size: 12px;
-  font-family: Arial,serif;
+  font-family: PF,serif;
 }
 .el-table ::-webkit-scrollbar {
   width: 10px;
@@ -51,4 +54,7 @@
 .el-table ::-webkit-scrollbar-thumb {
   background-color: rgba(100, 100, 100, 0.75);
   border-radius: 3px;
+}
+.el-pagination{
+  padding-top: 10px;
 }

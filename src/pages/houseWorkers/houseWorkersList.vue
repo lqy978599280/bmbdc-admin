@@ -137,7 +137,7 @@
                     {
                         label: '申请区域',
                         width: '150',
-                        type: 'areaName',
+                        type: 'mergername',
                     },
                     {
                         label: '申请时间',
@@ -156,7 +156,7 @@
                     number: '',
                     name: '',
                     phone: '',
-                    areaName: "",
+                    mergername: "",
                     createTime: '',
                     passTime: '',
                     rejectReason: '',
@@ -217,7 +217,7 @@
                     remark: '',
                     id: '',
                 }
-                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/houseResources/insertHouseResource`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -233,7 +233,7 @@
                 this.dialogadd = val;
                 // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/houseResources/updateHouseResource`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -246,8 +246,8 @@
                 this.dialogdel = val;
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
-                console.log(id);
-                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
+                // console.log(id);
+                axios.get(`${this.global.config.url}/admin/houseResources/deleteHouseResource`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -272,10 +272,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/houseResources/selectAllHouseResources?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        // console.log(response);
-                        this.flyData = response.data.data.flyingHandlist;
+                        console.log(response);
+                        this.flyData = response.data.data.list;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {

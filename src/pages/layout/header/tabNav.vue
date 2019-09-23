@@ -54,14 +54,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 35px;
-    line-height: 35px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     list-style: none;
     border: 1px solid rgb(216, 220, 229);
     margin: 0 3px ;
     padding:0 10px;
     transition: 0.1s;
+    border-radius: 5px;
   }
   .link{
     text-decoration:none;
@@ -72,7 +73,11 @@
 
   .active{
     background-color:  #409eff;
-    transition: 0.1s;
+    padding:0 10px;
+    margin: 0 13px ;
+
+    transition: 0.2s;
+    transform: scale(1.15);
   }
   .active >.link{
     color: white;

@@ -61,6 +61,23 @@
         type=="bonus"?scope.row.bonus:
         type=="approvalTime"?scope.row.approvalTime:
         type=="rejectTime"?scope.row.rejectTime:
+        type=="parentUserName"?scope.row.parentUserName:
+        type=="purHouseNumber"?scope.row.purHouseNumber:
+        type=="purHouseName"?scope.row.purHouseName:
+        type=="purHouseStatus"?scope.row.purHouseStatus:
+        type=="purHouseCreateTime"?scope.row.purHouseCreateTime:
+        type=="purHouseCheckTime"?scope.row.purHouseCheckTime:
+        type=="houseNumber"?scope.row.houseNumber:
+        type=="houseName"?scope.row.houseName:
+        type=="houseStatus"?scope.row.houseStatus:
+        type=="houseCreateTime"?scope.row.houseCreateTime:
+        type=="houseCheckTime"?scope.row.houseCheckTime:
+        type=="routeUrl"?scope.row.routeUrl:
+        type=="msgType"?scope.row.msgType:
+        type=="msgContent"?scope.row.msgContent:
+        type=="title"?scope.row.title:
+        type=="houseTitle"?scope.row.houseTitle:
+
         ''
 
 

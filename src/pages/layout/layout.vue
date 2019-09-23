@@ -49,7 +49,7 @@
 
   .el-header {
 
-    background-color:#f2f2f2;
+    background-color:#e9f1e7;
     color: #333;
     line-height: 50px ;
     height:60px!important;
@@ -67,7 +67,7 @@
     height: 100vh;
   }
   .el-main {
-    background-color: #f2f2f2;
+    background-color: #e9f1e7;
     color: #333;
     max-height: 100vh;
     /*margin-top:10px ;*/

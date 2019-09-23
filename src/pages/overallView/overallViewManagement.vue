@@ -87,7 +87,7 @@
                     },
                     {
                         label: '房源信息',
-                        width: '130',
+                        width: '160',
                         type: 'houseTitle',
                     },
                     {
@@ -171,6 +171,8 @@
                 this.select_id = row.number
                 switch (this.overallViewData[this.index].status) {
                     case  '已发布' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
                         break;
                     case  '待提交' :
                         this.buttonClose = '取消订单'
@@ -181,8 +183,12 @@
                         this.buttonCommit = '通过'
                         break;
                     case  '审核通过' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
                         break;
                     case  '审核未通过' :
+                        this.buttonClose = ''
+
                         this.buttonCommit = '重新提交'
                         break;
                 }
@@ -218,10 +224,10 @@
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyerOrders/selectAllFlyerOrders?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/wholesceneOrders/selectAllOrder?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.overallViewData = response.data.data.orderList;
+                        this.overallViewData = response.data.data.list;
                         this.total = response.data.data.total
                         this.change()
                     })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="房源名称/地址" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
 
     </div>
@@ -49,7 +49,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加会员", "编辑会员", '审核'],
+                // title: ["添加会员", "编辑会员", '审核'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -58,68 +58,85 @@
                 columntype: [
 
                     {
-                        label: '状态',
-                        width: '80',
-                        type: 'is_fc',
+                        label: '厅是卫生',
+                        width: '110',
+                        type: 'compose',
                     },
-                    {
-                        label: '序号',
-                        width: '60',
-                        type: 'userName',
-                    },
+
+                    // {
+                    //     label: '序号',
+                    //     width: '60',
+                    //     type: 'id',
+                    // },
                     {
                         label: '求购信息编号',
+                        width: '125',
+                        type: 'purHouseNumber',
+                    },
+                    {
+                        label: '求购人姓名',
                         width: '110',
-                        type: 'parentUserName',
+                        type: 'purHouseName',
+                    },
+                    {
+                        label: '求购信息状态',
+                        width: '80',
+                        type: 'purHouseStatus',
+                    },
+                    {
+                        label: '求购提交时间',
+                        width: '100',
+                        type: 'purHouseCreateTime',
+                    },
+                    {
+                        label: '求购审核时间',
+                        width: '100',
+                        type: 'purHouseCheckTime',
                     },
                     {
                         label: '对应房源编号',
+                        width: '125',
+                        type: 'houseNumber',
+                    },
+                    {
+                        label: '房源人姓名',
                         width: '110',
-                        type: 'password',
+                        type: 'houseName',
+                    },
+                    {
+                        label: '房源信息状态',
+                        width: '80',
+                        type: 'houseStatus',
+                    },
+                    {
+                        label: '房源提交时间',
+                        width: '100',
+                        type: 'houseCreateTime',
+                    },
+                    {
+                        label: '房源审核时间',
+                        width: '100',
+                        type: 'houseCheckTime',
                     },
                     {
                         label: '房源名称',
                         width: '100',
-                        type: 'phone',
+                        type: 'name',
                     },
                     {
                         label: '房源描述',
                         width: '130',
-                        type: 'nickName',
+                        type: 'title',
                     },
                     {
                         label: '具体地址',
-                        width: '130',
-                        type: 'sex',
+                        width: '140',
+                        type: 'address',
                     },
                     {
                         label: '面积',
                         width: '80',
-                        type: 'name',
-                    }, {
-                        label: '厅是卫生',
-                        width: '110',
-                        type: 'idCard',
-                    },
-                    {
-                        label: '提交时间',
-                        width: '100',
-                        type: 'balance',
-                    },
-                    {
-                        label: '审核时间',
-                        width: '100',
-                        type: 'is_fs',
-                    },
-                    {
-                        label: '求购信息发布时间',
-                        width: '100',
-                        type: 'is_qj',
-                    },
-                    {
-                        label: '求购信息发布人',
-                        width: '110',
-                        type: 'is_fy',
+                        type: 'areaMeasure',
                     },
 
 
@@ -131,22 +148,13 @@
                 dialogdel: false,
                 dialoginf: false,
                 del_id: '',
-                form: {
-                    number: '',
-                    name: '',
-                    phone: '',
-                    areaName: "",
-                    createTime: '',
-                    passTime: '',
-                    rejectReason: '',
-                    id: '',
-                }
+
             }
         },
         computed: {
             filterFlyData: function () {
                 return this.flyData.filter((data) => {
-                    return  data.phone.match(this.search)
+                    return  data.address.match(this.search) || data.name.match(this.search)
                 })
             }
         },
@@ -160,10 +168,10 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin//user//userList?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/houseResources/myRecommendHouses?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.flyData = response.data.data.userList;
+                        this.flyData = response.data.data.list
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {
