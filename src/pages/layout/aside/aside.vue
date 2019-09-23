@@ -123,7 +123,7 @@
     display: flex;
     justify-content: center;
     padding: 20px;
-    background-color:rgba(27, 97, 106, 0.8);
+    background-color:rgba(27, 97, 106,0.8);
   }
 
   .el-menu-vertical-demo {
