@@ -159,13 +159,6 @@
                 this.buttonCommit = '确定'
             },
 
-            information(index, row) {
-                this.dialoginf = true;
-                this.buttonClose = '拒绝'
-                this.buttonCommit = '通过'
-                this.select_id = row.id
-
-            },
             handleEdit(index) {
                 this.index = index
                 this.dialogedit = true;
@@ -189,7 +182,11 @@
                 // this.tableData.push(data)
                 this.form = {
                     name: '',
-                    remark: '',
+                    routeUrl: '',
+                    title: '',
+                    msgType: '',
+                    msgContent: '',
+                    status: '',
                     id: '',
                 }
                 axios.post(`${this.global.config.url}/admin/message/insertMessage`, data)

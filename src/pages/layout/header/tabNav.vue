@@ -40,6 +40,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
+    margin-left: 20px;
     /*border-right: 1px solid rgb(216, 220, 229);*/
   }
   .tabnavout::-webkit-scrollbar{

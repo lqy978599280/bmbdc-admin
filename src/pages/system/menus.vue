@@ -97,7 +97,16 @@
                         width: '130',
                         type: 'url',
                     },
-
+                    {
+                        label: '状态',
+                        width: '100',
+                        type: 'status',
+                    },
+                    {
+                        label: '是否菜单',
+                        width: '100',
+                        type: 'isMenu',
+                    },
                 ],
                 tableData: [],
                 total: 0,

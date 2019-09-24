@@ -77,6 +77,15 @@
         type=="msgContent"?scope.row.msgContent:
         type=="title"?scope.row.title:
         type=="houseTitle"?scope.row.houseTitle:
+        type=="catName"?scope.row.catName:
+        type=="keywords"?scope.row.keywords:
+        type=="catDesc"?scope.row.catDesc:
+        type=="pCatName"?scope.row.pCatName:
+        type=="userName"?scope.row.userName:
+        type=="isShow"?scope.row.isShow:
+        type=="author"?scope.row.author:
+        type=="content"?scope.row.content:
+        type=="createBy"?scope.row.createBy:
 
         ''
 

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
-      <el-button class="search bgc">搜 索</el-button>
+      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search" ></el-input>
+      <el-button class="search bgc" @click="mySearch">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
       <houseAgentEdit :data="form"
                :dialogFormVisible="dialogadd"
@@ -11,14 +11,14 @@
                :title="title[0]"
                :buttonClose="buttonClose"
                :buttonCommit="buttonCommit"></houseAgentEdit>
-      <houseAgentEdit :data="filterFlyData[index]"
+      <houseAgentEdit :data="flyData[index]"
                :dialogFormVisible="dialogedit"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
                :title="title[1]"
                :buttonClose="buttonClose"
                :buttonCommit="buttonCommit"></houseAgentEdit>
-      <houseAgentEdit :data="filterFlyData[index]"
+      <houseAgentEdit :data="flyData[index]"
                :dialogFormVisible="dialoginf"
                @dialogcommit="dialogeditcommit"
                @getdialogfv="getdialogfv"
@@ -35,7 +35,7 @@
     </div>
     <el-table
       class="bgc"
-      :data="filterFlyData"
+      :data="flyData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -93,7 +93,7 @@
     import houseAgentEdit from "../../components/houseAgentEdit";
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
-
+    const axios = require("axios")
     export default {
         components: {
             singleMenu,
@@ -137,7 +137,7 @@
                     {
                         label: '申请区域',
                         width: '150',
-                        type: 'areaName',
+                        type: 'mergername',
                     },
                     {
                         label: '申请时间',
@@ -156,7 +156,7 @@
                     number: '',
                     name: '',
                     phone: '',
-                    areaName: "",
+                    mergername: "",
                     createTime: '',
                     passTime: '',
                     rejectReason: '',
@@ -164,14 +164,26 @@
                 }
             }
         },
-        computed: {
-            filterFlyData: function () {
-                return this.flyData.filter((data) => {
-                    return data.name.match(this.search) || data.number.match(this.search) || data.phone.match(this.search)
-                })
+        // computed: {
+        //     filterFlyData: function () {
+        //         return this.flyData.filter((data) => {
+        //             return data.name.match(this.search) || data.number.match(this.search) || data.phone.match(this.search)
+        //         })
+        //     }
+        // },
+        watch:{
+            'search':function () {
+                axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgentsByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                    .then((response) => {
+                        console.log(response);
+                        this.flyData = response.data.data;
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         },
-
         mounted() {
             this.handleCurrentChange()
 
@@ -272,16 +284,28 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyingHand/selectAllFlyingHand?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgents?page=${this.currentPage}&size=8`)
                     .then((response) => {
-                        // console.log(response);
-                        this.flyData = response.data.data.flyingHandlist;
+                        console.log(response);
+                        this.flyData = response.data.data.list;
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
+            mySearch(){
+                const axios = require("axios")
+                axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgentsByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                    .then((response) => {
+                        console.log(response);
+                        this.flyData = response.data.data;
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
 
         }
     }

@@ -85,7 +85,7 @@
                     },
                     {
                         label: '求购提交时间',
-                        width: '100',
+                        width: '110',
                         type: 'purHouseCreateTime',
                     },
                     {
@@ -110,12 +110,12 @@
                     },
                     {
                         label: '房源提交时间',
-                        width: '100',
+                        width: '110',
                         type: 'houseCreateTime',
                     },
                     {
                         label: '房源审核时间',
-                        width: '100',
+                        width: '110',
                         type: 'houseCheckTime',
                     },
                     {

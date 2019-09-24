@@ -26,11 +26,11 @@
         <el-input v-model="getdata.url" auto-complete="off"></el-input>
       </el-form-item>
 
-<!--      <el-form-item label="是否菜单*" :label-width="formLabelWidth">-->
-<!--      <el-radio v-model="getdata.isMenu" label="是" >是</el-radio>-->
-<!--      <el-radio v-model="getdata.isMenu" label="否" >否</el-radio>-->
+      <el-form-item label="是否菜单*" :label-width="formLabelWidth">
+      <el-radio v-model="getdata.isMenu" label="是" >是</el-radio>
+      <el-radio v-model="getdata.isMenu" label="否" >否</el-radio>
 
-<!--      </el-form-item>-->
+      </el-form-item>
       <el-form-item label="图标地址" :label-width="formLabelWidth">
         <el-input v-model="getdata.icon" auto-complete="off"></el-input>
 
