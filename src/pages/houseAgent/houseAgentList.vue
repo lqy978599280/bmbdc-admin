@@ -94,6 +94,7 @@
     import dialogdel from "../../components/del";
     import authority from "../../components/authority";
     const axios = require("axios")
+
     export default {
         components: {
             singleMenu,
@@ -114,10 +115,11 @@
                 select_id: '',
                 columntype: [
 
+
                     {
-                        label: '申请通过时间',
-                        width: '130',
-                        type: 'passTime',
+                        label: '是否显示',
+                        width: '80',
+                        type: 'enable',
                     },
                     {
                         label: '房产经纪人编码',
@@ -141,8 +143,13 @@
                     },
                     {
                         label: '申请时间',
-                        width: '120',
+                        width: '110',
                         type: 'createTime',
+                    },
+                    {
+                        label: '申请通过时间',
+                        width: '110',
+                        type: 'passTime',
                     },
                 ],
                 flyData: [],
@@ -173,20 +180,23 @@
         // },
         watch:{
             'search':function () {
-                axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgentsByValue?value=${this.search}&page=${this.currentPage}&size=8`)
-                    .then((response) => {
-                        console.log(response);
-                        this.flyData = response.data.data;
+                this.delay.delay(()=>{
+                    axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgentsByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            // console.log(response);
+                            this.flyData = response.data.data.list;
+                            this.total = response.data.data.total
 
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
         mounted() {
             this.handleCurrentChange()
-
         },
         methods: {
 
@@ -229,7 +239,7 @@
                     remark: '',
                     id: '',
                 }
-                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/houseAgents/insertHouseAgent`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -245,7 +255,7 @@
                 this.dialogadd = val;
                 // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/houseAgents/updateHouseAgent`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -259,7 +269,7 @@
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
                 console.log(id);
-                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/houseAgents/deleteHouseAgents`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -279,8 +289,7 @@
                     duration: 1000
                 })
             },
-            authority() {
-            },
+
 
             handleCurrentChange() {
                 const axios = require("axios")

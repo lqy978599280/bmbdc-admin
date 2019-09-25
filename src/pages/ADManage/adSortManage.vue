@@ -11,7 +11,7 @@
                      :title="title[0]"
                      :buttonClose="buttonClose"
                      :buttonCommit="buttonCommit"></adSortEdit>
-      <adSortEdit :data="filterFlyData[index]"
+      <adSortEdit :data="flyData[index]"
                      :dialogFormVisible="dialogedit"
                      @dialogcommit="dialogeditcommit"
                      @getdialogfv="getdialogfv"
@@ -26,7 +26,7 @@
     </div>
     <el-table
       class="bgc"
-      :data="filterFlyData"
+      :data="flyData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -86,7 +86,7 @@ import adSortEdit from "./adSortEdit";
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加消息分类", "编辑消息分类", '删除'],
+                title: ["添加广告分类", "编辑广告分类", '删除'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -101,22 +101,12 @@ import adSortEdit from "./adSortEdit";
                     {
                         label: '名称',
                         width: '110',
-                        type: 'catName',
+                        type: 'adName',
                     },
                     {
                         label: '关键词',
                         width: '110',
-                        type: 'keywords',
-                    },
-                    {
-                        label: '描述',
-                        width: '150',
-                        type: 'catDesc',
-                    },
-                    {
-                        label: '上级分类名称',
-                        width: '110',
-                        type: 'pCatName',
+                        type: 'keyword',
                     },
                     {
                         label: '创建时间',
@@ -125,8 +115,18 @@ import adSortEdit from "./adSortEdit";
                     },
                     {
                         label: '创建人',
-                        width: '100',
+                        width: '110',
                         type: 'userName',
+                    },
+                    {
+                        label: '最后更新时间',
+                        width: '110',
+                        type: 'lastUpdateTime',
+                    },
+                    {
+                        label: '最后更新人',
+                        width: '100',
+                        type: 'lastUpdateBy',
                     },
 
 
@@ -139,25 +139,41 @@ import adSortEdit from "./adSortEdit";
                 del_id: '',
                 form: {
                     isShow: '',
-                    catName: '',
-                    keywords: '',
-                    catDesc: '',
-                    pCatName: '',
+                    adName: '',
+                    keyword: '',
+                    lastUpdateBy: '',
+                    lastUpdateTime: '',
                     createTime: '',
                     userName: '',
-                    sortOrder:0,
                     id: '',
                 }
             }
         },
-        computed: {
-            filterFlyData: function () {
-                return this.flyData.filter((data) => {
-                    return data.catName.match(this.search) || data.keywords.match(this.search)
-                })
+        // computed: {
+        //     filterFlyData: function () {
+        //         return this.flyData.filter((data) => {
+        //             return data.adName.match(this.search) || data.keyword.match(this.search)
+        //         })
+        //     }
+        // },
+        watch:{
+            'search':function () {
+                this.delay.delay(()=>{
+                    const axios = require('axios');
+                    axios.get(`${this.global.config.url}/admin/adList/selectAllAdListByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.flyData = response.data.data.list;
+                            this.total = response.data.data.total
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
-
         mounted() {
             this.handleCurrentChange()
 
@@ -198,11 +214,10 @@ import adSortEdit from "./adSortEdit";
                     pCatName: '',
                     createTime: '',
                     userName: '',
-                    sortOrder:0,
                     id: '',
                 }
                 // console.log(data);
-                axios.post(`${this.global.config.url}/admin/articleCat/insertArticleCat`, data)
+                axios.post(`${this.global.config.url}/admin/adList/insertAdList`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -218,7 +233,7 @@ import adSortEdit from "./adSortEdit";
                 this.dialogadd = val;
                 // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/articleCat/updateArticleCat`, data)
+                axios.post(`${this.global.config.url}/admin/adList/updateAdList`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -232,7 +247,7 @@ import adSortEdit from "./adSortEdit";
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
                 // console.log(id);
-                axios.get(`${this.global.config.url}/admin/articleCat/deleteArticleCat`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/adList/deleteAdList`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -256,17 +271,34 @@ import adSortEdit from "./adSortEdit";
             },
 
             handleCurrentChange() {
-                const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/articleCat/selectAll?page=${this.currentPage}&size=8`)
-                    .then((response) => {
-                        // console.log(response);
-                        this.flyData = response.data.data.list
-                        ;
-                        this.total = response.data.data.total
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                if (!this.search){
+                    const axios = require("axios")
+                    axios.get(`${this.global.config.url}/admin/adList/selectAllAdList?page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.flyData = response.data.data.list
+                            ;
+                            this.total = response.data.data.total
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+               else{
+                        const axios = require('axios');
+                        axios.get(`${this.global.config.url}/admin/adList/selectAllAdListByValue?value=${this.search}&page=${this.currentPage}&size=1`)
+                            .then((response) => {
+                                console.log(response);
+                                this.flyData = response.data.data.list;
+                                this.total = response.data.data.total
+
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+
+
+                }
             },
 
         }

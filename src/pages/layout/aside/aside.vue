@@ -124,6 +124,7 @@
     justify-content: center;
     padding: 20px;
     background-color:rgba(27, 97, 106,0.8);
+    box-shadow:10px 10px 20px  rgba(30, 100, 110,0.6) ;
   }
 
   .el-menu-vertical-demo {

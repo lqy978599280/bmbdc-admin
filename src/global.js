@@ -4,6 +4,13 @@ const config = {
 
   url:'http://192.168.1.6:8081'
 }
+const delay = (function() {
+  let timer = 0;
+  return function(callback, ms) {
+    clearTimeout(timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 //    url:'http://testadmin.api.bmbdc.com'
 let bindToGlobal = (obj, key) => {
   if (typeof window[key] === 'undefined') {
@@ -16,5 +23,5 @@ let bindToGlobal = (obj, key) => {
 }
 // bindToGlobal(config,'_const')
 export default {
- config
+ config,delay
 }

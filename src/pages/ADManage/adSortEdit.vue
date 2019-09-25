@@ -2,34 +2,12 @@
   <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'   >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="名称*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.catName" auto-complete="off" ></el-input>
+        <el-input v-model="getdata.adName" auto-complete="off" ></el-input>
       </el-form-item>
       <el-form-item label="关键词*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.keywords" auto-complete="off"  ></el-input>
+        <el-input v-model="getdata.keyword" auto-complete="off"  ></el-input>
       </el-form-item>
-      <el-form-item label="上级分类名称" :label-width="formLabelWidth" >
-        <el-select v-model="getdata.pCatName"  filterable placeholder="请选择类别"  style="width: 300px;"  >
-          <el-option
-            v-for="item in selectName"
-            :key="item.id"
-            :label="item.catName"
-            :value='item.catName+"_"+item.id'
-          >
-            <span style="float: left">{{ item.catName }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="描述" :label-width="formLabelWidth">
-        <el-input v-model="getdata.catDesc" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="是否显示" :label-width="formLabelWidth">
-        <el-radio v-model="getdata.isShow" label="是">是</el-radio>
-        <el-radio v-model="getdata.isShow" label="否">否</el-radio>
-      </el-form-item>
-      <el-form-item label="排序" :label-width="formLabelWidth">
-        <el-input v-model="getdata.sortOrder" auto-complete="off" ></el-input>
-      </el-form-item>
+
 
       <!--      <el-form-item label="状态" :label-width="formLabelWidth">-->
       <!--        <el-radio v-model="getdata.isMenu" label="启用" ></el-radio>-->
@@ -51,13 +29,12 @@
         props: {
             data: {
                 isShow: '',
-                catName: '',
-                keywords: '',
-                catDesc: '',
-                pCatName: '',
+                adName: '',
+                keyword: '',
+                lastUpdateBy: '',
+                lastUpdateTime: '',
                 createTime: '',
                 userName: '',
-                sortOrder:'',
                 id: '',
             },
             dialogFormVisible: '',
@@ -92,13 +69,12 @@
             return {
                 getdata: {
                     isShow: '',
-                    catName: '',
-                    keywords: '',
-                    catDesc: '',
-                    pCatName: '',
+                    adName: '',
+                    keyword: '',
+                    lastUpdateBy: '',
+                    lastUpdateTime: '',
                     createTime: '',
                     userName: '',
-                    sortOrder:'',
                     id: '',
                 },
                 formLabelWidth: '120px',
@@ -131,13 +107,7 @@
                         duration: 1000
                     })
                 }
-                else  if(isNaN(this.getdata.sortOrder) ||this.getdata.sortOrder<0 ||this.getdata.sortOrder>99 ) {
-                    this.$message({
-                        message: "请输入数字且在0-99之间",
-                        type: "warning",
-                        duration: 1000
-                    })
-                }
+
                 // else if(this.data.parentName.indexOf("_")!==-1) {
                 //     this.$message({
                 //         message: "部门名称不允许带有_",

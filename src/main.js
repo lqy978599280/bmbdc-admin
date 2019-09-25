@@ -9,9 +9,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueAMap from "vue-amap";
 import config from './global.js'
+import delay from './global.js'
 
 
 Vue.prototype.global = config
+Vue.prototype.delay = delay
+
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
   key: '958e3f2fa913bbf403c1f050081b6958',

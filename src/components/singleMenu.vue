@@ -86,6 +86,11 @@
         type=="author"?scope.row.author:
         type=="content"?scope.row.content:
         type=="createBy"?scope.row.createBy:
+        type=="enable"?scope.row.enable:
+        type=="keyword"?scope.row.keyword:
+        type=="adName"?scope.row.adName:
+        type=="lastUpdateBy"?scope.row.lastUpdateBy:
+        type=="lastUpdateTime"?scope.row.lastUpdateTime:
 
         ''
 

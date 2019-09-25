@@ -17,7 +17,7 @@
       </el-form-item>
 
       <el-form-item label="申请区域*" :label-width="formLabelWidth">
-        <el-select v-model="getdata.areaName"  filterable placeholder="可输入快捷搜索"  style="width: 300px;">
+        <el-select v-model="getdata.mergername"  filterable placeholder="可输入快捷搜索"  style="width: 300px;">
           <el-option
             v-for="item in areasList"
             :key="item.id"
@@ -51,7 +51,7 @@
                 number:'',
                 name: '',
                 phone: '',
-                areaName:"",
+                mergername:"",
                 createTime:'',
                 passTime:'',
                 rejectReason:'',
@@ -84,7 +84,7 @@
                     number:'',
                     name: '',
                     phone: '',
-                    areaName:"",
+                    mergername:"",
                     createTime:'',
                     passTime:'',
                     rejectReason:'',
@@ -100,7 +100,7 @@
         },
         mounted(){
             const axios = require('axios');
-            axios.get(`${this.global.config.url}/admin/flyingHand/selectAllAreaName?page=10&size=20`)
+            axios.get(`${this.global.config.url}/admin/houseAgents/selectAllHouseAgents?page=10&size=20`)
                 .then((response)=> {
                     // console.log(response);
                     this.areasList= response.data.data.areaList
@@ -118,7 +118,7 @@
                 this.getdata.rejectReason = reason
                 // console.log(reason);
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
+                axios.post(`${this.global.config.url}/admin/houseAgents/updateStatusById`, {
                         id: this.pass_id,
                         rejectReason:this.getdata.rejectReason
                     }
@@ -163,7 +163,7 @@
                         type: "warning",
                         duration: 1000
                     })
-                }else if (this.getdata.area === '') {
+                }else if (this.getdata.mergername === '') {
                     this.$message({
                         message: "请选择社工区域",
                         type: "warning",
@@ -181,12 +181,12 @@
             pass(){
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
+                axios.post(`${this.global.config.url}/admin/houseAgents/updateStatusById`, {
                         id: this.pass_id
                     }
                 )
                     .then((response) => {
-                        // console.log(response);
+                        console.log(response);
                         this.$emit('F5')
                         this.message(response)
 
