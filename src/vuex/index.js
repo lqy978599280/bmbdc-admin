@@ -28,34 +28,14 @@ const store = new Vuex.Store({
         resolve()
       })
     },
-    //获取权限列表
-    // getPermission({commit}){
-    //   return new Promise((resolve,reject) =>{
-    //     axios({
-    //       url:'' + sessionStorage.getItem('privId'),
-    //       methods:'get',
-    //       headers:{
-    //         token:sessionStorage.getItem('token'),
-    //         name:sessionStorage.getItem('name')
-    //       }
-    //     }).then((res)=>{
-    //       commit('setList',res.data.cust.privileges[0].children);
-    //       resolve(res.data.cust.privileges[0].children)
-    //       }).catch(()=>{
-    //         reject()
-    //     })
-    //   })
-    // }
+
   },
   getters: {
     addRouters: state => state.routerData.addRouters,
     token: state => state.token,
     info: state => state.role.info,
     routers: state => state.routerData.routers,
-
     tabnavBox: state => state.layout.tabnavBox,
-
-
   },
   modules: {
     routerData,

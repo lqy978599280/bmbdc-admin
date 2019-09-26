@@ -27,8 +27,8 @@
         <el-input v-model="getdata.phone" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="性别" :label-width="formLabelWidth">
-        <el-radio v-model="getdata.sex" label="男" value="1"></el-radio>
-        <el-radio v-model="getdata.sex" label="女" value="2"></el-radio>
+        <el-radio v-model="getdata.sex" label="男" ></el-radio>
+        <el-radio v-model="getdata.sex" label="女" ></el-radio>
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth">
         <el-input v-model="getdata.email" auto-complete="off"></el-input>

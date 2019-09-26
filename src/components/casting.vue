@@ -20,6 +20,7 @@
             role:{
                 realName: '',
                 roleName: '',
+                roleId: '',
                 sex: '',
                 userName: '',
                 password: '',
@@ -27,7 +28,8 @@
                 deptName: '',
                 email: '',
                 phone: '',
-                id: ''}
+                id: ''
+            }
         },
 
         watch:{
@@ -51,7 +53,7 @@
             const  axios = require('axios')
             axios.get(`${this.global.config.url}/admin/roles/selectAllRoles?page=10&size=20`)
                 .then((response)=> {
-                    // console.log(response);
+                    console.log(response);
                     this.roleList = response.data.data.rolesList;
                 })
                 .catch(function (error) {
@@ -63,12 +65,11 @@
 
             handleClose() {
                 this.$emit('getdialogfv', !this.dialogif)
-
                 this.roles = ''
             },
             dialogcommit() {
-                this.role.roleName = this.roles
-                this.$emit('commitcasting', !this.dialogif,this.role.roleName)
+
+                this.$emit('commitcasting', !this.dialogif,this.roles)
 
             }
         }

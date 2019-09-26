@@ -4,34 +4,29 @@
       <el-form-item label="标题*" :label-width="formLabelWidth">
         <el-input v-model="getdata.title" auto-complete="off" ></el-input>
       </el-form-item>
-      <el-form-item label="关键词*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.keywords" auto-complete="off"  ></el-input>
+      <el-form-item label="图片URL*" :label-width="formLabelWidth">
+        <el-input v-model="getdata.imgUrl" auto-complete="off"  ></el-input>
       </el-form-item>
-      <el-form-item label="头条分类名称" :label-width="formLabelWidth" >
-        <el-select v-model="getdata.catName"  filterable placeholder="请选择类别"  style="width: 400px;"  >
+      <el-form-item label="跳转链接URL*" :label-width="formLabelWidth" >
+        <el-input v-model="getdata.linkUrl" auto-complete="off"  ></el-input>
+      </el-form-item>
+      <el-form-item label="广告分类名称" :label-width="formLabelWidth" >
+        <el-select v-model="getdata.adName"  filterable placeholder="请选择类别"  style="width: 400px;"  >
           <el-option
             v-for="item in selectName"
             :key="item.id"
-            :label="item.catName"
-            :value='item.catName+"_"+item.id'
+            :label="item.adName"
+            :value='item.adName+"_"+item.id'
           >
-            <span style="float: left">{{ item.catName }}</span>
+            <span style="float: left">{{ item.adName }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="作者" :label-width="formLabelWidth">
-        <el-input v-model="getdata.author" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="是否显示" :label-width="formLabelWidth">
-        <el-radio v-model="getdata.isShow" label="是">是</el-radio>
-        <el-radio v-model="getdata.isShow" label="否">否</el-radio>
-      </el-form-item>
+
+
       <el-form-item label="排序" :label-width="formLabelWidth">
         <el-input v-model="getdata.sortOrder" auto-complete="off" ></el-input>
-      </el-form-item>
-      <el-form-item label="内容" :label-width="formLabelWidth">
-        <el-input type="textarea" style="height: 200px;font-size: 18px;width: 400px;" rows="7" v-model="getdata.content" ></el-input>
       </el-form-item>
 
       <!--      <el-form-item label="状态" :label-width="formLabelWidth">-->
@@ -55,12 +50,12 @@
             data: {
                 isShow: '',
                 title: '',
-                keywords: '',
+                linkUrl: '',
                 userName: '',
-                catName: '',
+                adName: '',
+
+                imgUrl: '',
                 createTime: '',
-                content: '',
-                author: '',
                 sortOrder:0,
                 id: '',
             },
@@ -82,10 +77,10 @@
         mounted(){
             const axios = require('axios');
 
-            axios.get(`${this.global.config.url}/admin/articleController/selectAllArticle?page=1&size=8`)
+            axios.get(`${this.global.config.url}/admin/AdContent/selectAllAdContent?page=1&size=8`)
                 .then((response)=> {
                     // console.log(response);
-                    this.selectName = response.data.data.nameList;
+                    this.selectName = response.data.data.adList;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -97,17 +92,15 @@
                 getdata: {
                     isShow: '',
                     title: '',
-                    keywords: '',
+                    adName: '',
+                    linkUrl: '',
                     userName: '',
-                    catName: '',
+                    imgUrl: '',
                     createTime: '',
-                    content: '',
-                    author: '',
                     sortOrder:0,
                     id: '',
                 },
                 formLabelWidth: '120px',
-                selectType:['买房信息','卖房信息'],
                 selectName:[]
 
 
@@ -123,15 +116,15 @@
             },
             dialogcommit() {
 
-                if(this.getdata.catName==='') {
+                if(this.getdata.title==='') {
                     this.$message({
-                        message: "请输入名称",
+                        message: "请输入标题",
                         type: "warning",
                         duration: 1000
                     })
-                } else  if(this.getdata.keywords==='') {
+                } else  if(this.getdata.imgUrla==='') {
                     this.$message({
-                        message: "请输入关键词",
+                        message: "请输入URL",
                         type: "warning",
                         duration: 1000
                     })

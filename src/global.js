@@ -2,7 +2,7 @@ const config = {
   name:'张三',
   age:'13',
 
-  url:'http://192.168.1.6:8081'
+  url:'http://192.168.1.4:8081'
 }
 const delay = (function() {
   let timer = 0;

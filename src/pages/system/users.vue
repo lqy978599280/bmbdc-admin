@@ -6,15 +6,15 @@
       <el-button class="add bgc" @click="dialogadd=true">添 加</el-button>
       <userEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv"
                 :title="title[0]"></userEdit>
-      <userEdit :data="filterUsersData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit"
+      <userEdit :data="userData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit"
                 @getdialogfv="getdialogfv" :title="title[1]"></userEdit>
       <dialogdel :dialogVisible="dialogdel" :del_id="del_id" @getdialogfv="getdialogfv"
                  @commitdel="commitdel"></dialogdel>
-      <casting :dialogVisible="dialogcasting" :role="filterUsersData[index]" @getdialogfv="getdialogfv" @commitcasting="commitcasting"></casting>
+      <casting :dialogVisible="dialogcasting" :role="userData[index]" @getdialogfv="getdialogfv" @commitcasting="commitcasting"></casting>
     </div>
     <el-table
       class="bgc"
-      :data="filterUsersData"
+      :data="userData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -53,7 +53,7 @@
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-size="10"
+        :page-size="8"
         layout="prev, pager, next, jumper"
         :total="userData.length">
       </el-pagination>
@@ -138,6 +138,7 @@
                 form: {
                     realName: '',
                     roleName: '',
+                    roleId: '',
                     sex: '',
                     userName: '',
                     password: '',
@@ -158,17 +159,7 @@
         },
 
         mounted() {
-            const axios = require('axios');
-            axios.get(`${this.global.config.url}/admin/adminUser/selectAllAdminUser?page=${this.currentPage}&size=10`)
-                .then((response) => {
-                    // console.log(response);
-                    this.userData = response.data.data.adminUserList;
-                    this.change()
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
+           this.handleCurrentChange()
         },
         methods: {
             handleEdit(index) {
@@ -191,15 +182,18 @@
                 this.dialogadd = val;
                 // this.tableData.push(data)
                 this.form = {
-                    name: '',
-                    code: '',
-                    parentcode: '',
-                    url: '',
-                    isMenu: '',
+                    realName: '',
+                    roleName: '',
+                    roleId: '',
+
+                    sex: '',
+                    userName: '',
+                    password: '',
                     status: '',
-                    icon: '',
-                    id: '',
-                    parentid: ''
+                    deptName: '',
+                    email: '',
+                    phone: '',
+                    id: ''
                 }
                 console.log(data);
                 axios.post(`${this.global.config.url}/admin/adminUser/insertAdminUser`, data)
@@ -207,7 +201,8 @@
                         // console.log(response);
                         this.message(response)
 
-                        this.userData = response.data.data.result;
+                        this.handleCurrentChange()
+
                         this.change()
 
 
@@ -228,7 +223,8 @@
                         console.log(response);
                         this.message(response)
 
-                        this.userData = response.data.data.result;
+                        this.handleCurrentChange()
+
                         this.change()
 
                     })
@@ -245,7 +241,7 @@
                         // console.log(response);
                         this.message(response)
 
-                        this.userData = response.data.data.result;
+                        this.handleCurrentChange()
                         this.change()
 
                     })
@@ -256,7 +252,6 @@
             change(){
                 for (let i=0 ;i<this.userData.length;i++){
                     this.userData[i].status = this.userData[i].status==true ? '启用' : '未启用'
-                    this.userData[i].sex = this.userData[i].sex==1 ? '男' : '女'
                 }
             },
             casting(index,row) {
@@ -272,10 +267,10 @@
 
                 axios.post(`${this.global.config.url}/admin/adminUser/updateRole`,  {'id': this.class_id , 'roleName':role})
                     .then((response) => {
-                        // console.log(response);
-
+                        console.log(response);
                         this.message(response)
-                        this.userData = response.data.data.result;
+                        this.handleCurrentChange()
+
                         this.change()
 
                     })
@@ -284,6 +279,17 @@
                     });
             },
             handleCurrentChange() {
+                const axios = require('axios');
+                axios.get(`${this.global.config.url}/admin/adminUser/selectAllAdminUser?page=${this.currentPage}&size=8`)
+                    .then((response) => {
+                        // console.log(response);
+                        this.userData = response.data.data.adminUserList;
+                        this.userData.length = response.data.data.total
+                        this.change()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
 
             },
             message(response){

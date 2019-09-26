@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="名称/关键词" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="标题/创建人" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
       <adEdit :data="form"
@@ -11,7 +11,7 @@
                            :title="title[0]"
                            :buttonClose="buttonClose"
                            :buttonCommit="buttonCommit"></adEdit>
-      <adEdit :data="filterFlyData[index]"
+      <adEdit :data="flyData[index]"
                            :dialogFormVisible="dialogedit"
                            @dialogcommit="dialogeditcommit"
                            @getdialogfv="getdialogfv"
@@ -26,7 +26,7 @@
     </div>
     <el-table
       class="bgc"
-      :data="filterFlyData"
+      :data="flyData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -86,7 +86,7 @@
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加消息分类", "编辑消息分类", '删除'],
+                title: ["添加消息", "编辑消息", '删除'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -104,25 +104,21 @@
                         type: 'title',
                     },
                     {
-                        label: '关键词',
-                        width: '110',
-                        type: 'keywords',
+                        label: '图片url',
+                        width: '200',
+                        type: 'imgUrl',
                     },
                     {
-                        label: '内容',
-                        width: '150',
-                        type: 'content',
+                        label: '跳转链接url',
+                        width: '200',
+                        type: 'linkUrl',
                     },
                     {
-                        label: '作者',
+                        label: '广告位置名称',
                         width: '100',
-                        type: 'author',
+                        type: 'adName',
                     },
-                    {
-                        label: '头条分类名称',
-                        width: '110',
-                        type: 'catName',
-                    },
+
                     {
                         label: '创建时间',
                         width: '110',
@@ -145,27 +141,34 @@
                 form: {
                     isShow: '',
                     title: '',
-                    keywords: '',
+                    adName: '',
                     userName: '',
-                    catName: '',
+                    linkUrl: '',
                     createTime: '',
-                    content: '',
-                    author: '',
+                    imgUrl: '',
                     sortOrder:0,
                     id: '',
                 }
             }
         },
-        computed: {
-            filterFlyData: function () {
-                return this.flyData.filter((data) => {
-                    return  data.keywords.match(this.search)
-                    // ||  data.title.match(this.search)
+        watch:{
+            'search':function () {
+                this.delay.delay(()=>{
+                    const axios = require('axios');
+                    axios.get(`${this.global.config.url}/admin/AdContent/selectCountByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.flyData = response.data.data.list;
+                            this.total = response.data.data.total
 
-                })
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
-
         mounted() {
             this.handleCurrentChange()
 
@@ -211,7 +214,7 @@
                     id: '',
                 }
                 // console.log(data);
-                axios.post(`${this.global.config.url}/admin/articleCat/insertArticleCat`, data)
+                axios.post(`${this.global.config.url}/admin/AdContent/insertAdContent`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -227,7 +230,7 @@
                 this.dialogadd = val;
                 // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/articleCat/updateArticleCat`, data)
+                axios.post(`${this.global.config.url}/admin/AdContent/updateAdContent`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -241,7 +244,7 @@
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
                 console.log(id);
-                axios.get(`${this.global.config.url}/admin/articleCat/deleteArticleCat`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/AdContent/deleteAdContent`, {params: {id: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -266,7 +269,7 @@
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/articleController/selectAllArticle?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/AdContent/selectAllAdContent?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
                         this.flyData = response.data.data.list

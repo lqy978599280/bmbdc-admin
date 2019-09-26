@@ -56,6 +56,8 @@
     padding-left: 0;
     padding-right: 0;
     border-bottom: 1px solid rgb(216, 220, 229);
+    box-shadow:10px 10px 20px  rgba(30, 100, 110,0.6) ;
+
   }
 
   /*.el-aside {*/
@@ -70,6 +72,8 @@
     background-color: #e9f1e7;
     color: #333;
     max-height: 100vh;
+    box-shadow:10px 10px 20px  rgba(30, 100, 110,0.6) ;
+
     /*margin-top:10px ;*/
     /*border-top: 1px solid gainsboro;*/
     /*border-left: 1px solid gainsboro;*/

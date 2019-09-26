@@ -91,6 +91,9 @@
         type=="adName"?scope.row.adName:
         type=="lastUpdateBy"?scope.row.lastUpdateBy:
         type=="lastUpdateTime"?scope.row.lastUpdateTime:
+        type=="imgUrl"?scope.row.imgUrl:
+        type=="linkUrl"?scope.row.linkUrl:
+        type=="lastUpdateTime"?scope.row.lastUpdateTime:
 
         ''
 
