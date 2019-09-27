@@ -84,7 +84,7 @@
         type=="userName"?scope.row.userName:
         type=="isShow"?scope.row.isShow:
         type=="author"?scope.row.author:
-        type=="content"?scope.row.content:
+        type=="content"?scope.row.content.substr(0,20)+"...":
         type=="createBy"?scope.row.createBy:
         type=="enable"?scope.row.enable:
         type=="keyword"?scope.row.keyword:
@@ -92,8 +92,8 @@
         type=="lastUpdateBy"?scope.row.lastUpdateBy:
         type=="lastUpdateTime"?scope.row.lastUpdateTime:
         type=="imgUrl"?scope.row.imgUrl:
-        type=="linkUrl"?scope.row.linkUrl:
         type=="lastUpdateTime"?scope.row.lastUpdateTime:
+        type=="linkUrl"?scope.row.linkUrl:
 
         ''
 
@@ -116,9 +116,9 @@
         data(){
             return {
                 type : this.coltype.type,
-
             }
-        }
+        },
+
     }
 </script>
 

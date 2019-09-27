@@ -1,24 +1,24 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号/区域" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="账号/手机号码/昵称" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
       <el-button class="add bgc" @click="add">添 加</el-button>
-      <houseAgentEdit :data="form"
+      <memberEdit :data="form"
                       :dialogFormVisible="dialogadd"
                       @dialogcommit="dialogcommit"
                       @getdialogfv="getdialogfv"
                       :title="title[0]"
                       :buttonClose="buttonClose"
-                      :buttonCommit="buttonCommit"></houseAgentEdit>
-      <houseAgentEdit :data="filterFlyData[index]"
+                      :buttonCommit="buttonCommit"></memberEdit>
+      <memberEdit :data="flyData[index]"
                       :dialogFormVisible="dialogedit"
                       @dialogcommit="dialogeditcommit"
                       @getdialogfv="getdialogfv"
                       :title="title[1]"
                       :buttonClose="buttonClose"
-                      :buttonCommit="buttonCommit"></houseAgentEdit>
-      <houseAgentEdit :data="filterFlyData[index]"
+                      :buttonCommit="buttonCommit"></memberEdit>
+      <memberEdit :data="flyData[index]"
                       :dialogFormVisible="dialoginf"
                       @dialogcommit="dialogeditcommit"
                       @getdialogfv="getdialogfv"
@@ -27,7 +27,7 @@
                       :title="title[2]"
                       :buttonClose="buttonClose"
                       :buttonCommit="buttonCommit"
-                      @F5="handleCurrentChange"></houseAgentEdit>
+                      @F5="handleCurrentChange"></memberEdit>
       <dialogdel :dialogVisible="dialogdel"
                  :del_id="select_id"
                  @getdialogfv="getdialogfv"
@@ -35,21 +35,17 @@
     </div>
     <el-table
       class="bgc"
-      :data="filterFlyData"
+      :data="flyData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
       </div>
 
-      <!--      <singleMenu  :coltype="this.columntype[0]"></singleMenu>-->
-      <!--      <singleMenu  :coltype="this.columntype[1]"></singleMenu>-->
-
-
       <el-table-column label="操作" width="450">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index)">详 情
+            @click="inf(scope.$index,scope.row)">详 情
           </el-button>
           <el-button
             size="mini"
@@ -90,23 +86,21 @@
 
 <script>
     import singleMenu from "../components/singleMenu";
-    import houseAgentEdit from "../components/houseAgentEdit";
+    import memberEdit from "../components/memberEdit";
     import dialogdel from "../components/del";
-    import authority from "../components/authority";
 
     export default {
         components: {
             singleMenu,
-            houseAgentEdit,
             dialogdel,
-            authority
+            memberEdit
         },
         data() {
             return {
                 searching: '',
                 search: '',
                 index: 0,
-                title: ["添加会员", "编辑会员", '审核'],
+                title: ["添加会员", "编辑会员", '详情'],
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -155,7 +149,7 @@
                         type: 'name',
                     }, {
                         label: '身份证号码',
-                        width: '140',
+                        width: '120',
                         type: 'idCard',
                     },
                     {
@@ -192,23 +186,42 @@
                 dialogdel: false,
                 dialoginf: false,
                 del_id: '',
+                init_id:'',
                 form: {
-                    number: '',
+                    is_fc: '',
+                    is_fy: '',
+                    is_qj: '',
+                    is_fs: "",
+                    balance: '',
                     name: '',
+                    idCard: '',
+                    sex: '',
+                    nickName: '',
                     phone: '',
-                    areaName: "",
-                    createTime: '',
-                    passTime: '',
-                    rejectReason: '',
-                    id: '',
+                    password: '',
+                    parentUserName: '',
+                    userName: '',
+                    isActive: '',
+                    uid: '',
                 }
             }
         },
-        computed: {
-            filterFlyData: function () {
-                return this.flyData.filter((data) => {
-                    return  data.phone.match(this.search)
-                })
+        watch:{
+            'search':function () {
+                this.delay.delay(()=>{
+                    const axios = require('axios');
+                    axios.get(`${this.global.config.url}/admin/user/selectAllUsersByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.flyData = response.data.data.list;
+                            this.total = response.data.data.total
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
 
@@ -224,11 +237,13 @@
                 this.buttonCommit = '确定'
             },
 
-            initPassword(index, row) {
+            inf(index,row){
+                this.index = index
                 this.dialoginf = true;
                 this.buttonClose = '拒绝'
+
                 this.buttonCommit = '通过'
-                this.select_id = row.id
+                this.select_id = row.uid
 
             },
             handleEdit(index) {
@@ -239,7 +254,7 @@
             },
             handleDelete(index, row) {
                 this.dialogdel = true
-                this.select_id = row.id
+                this.select_id = row.uid
             },
             getdialogfv(val) {
                 this.dialogedit = val;
@@ -253,11 +268,23 @@
                 this.dialogadd = val;
                 // this.tableData.push(data)
                 this.form = {
+                    is_fc: '',
+                    is_fy: '',
+                    is_qj: '',
+                    is_fs: "",
+                    balance: '',
                     name: '',
-                    remark: '',
-                    id: '',
+                    idCard: '',
+                    sex: '',
+                    nickName: '',
+                    phone: '',
+                    password: '',
+                    parentUserName: '',
+                    userName: '',
+                    isActive: '',
+                    uid: '',
                 }
-                axios.post(`${this.global.config.url}/admin/flyingHand/insertFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/user/insertUser`, data)
                     .then((response) => {
                         console.log(response);
                         this.message(response)
@@ -273,7 +300,7 @@
                 this.dialogadd = val;
                 // console.log(data);
                 this.flyData[this.index] = data;
-                axios.post(`${this.global.config.url}/admin/flyingHand/updateFlyingHand`, data)
+                axios.post(`${this.global.config.url}/admin/user/updateUser`, data)
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -287,7 +314,7 @@
                 const axios = require('axios');
                 // console.log( row.id instanceof Integer )
                 console.log(id);
-                axios.get(`${this.global.config.url}/admin/flyingHand/updateEnableById`, {params: {id: id}})
+                axios.get(`${this.global.config.url}/admin/user/deleteUser`, {params: {uid: id}})
                     .then((response) => {
                         this.message(response)
                         this.handleCurrentChange()
@@ -307,22 +334,43 @@
                     duration: 1000
                 })
             },
-            authority() {
+            change() {
+                for (let i=0,len = this.flyData.length;i<len;i++){
+                    if(this.flyData[i].idCard){
+                        this.flyData[i].idCard = this.flyData[i].idCard.substr(0,4)+"****"+this.flyData[i].idCard.substr(14,4)
+                    }
+                    if(this.flyData[i].password){
+                        this.flyData[i].password = "******"
+                    }
+                }
             },
 
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin//user//userList?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/user/selectAllUsers?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.flyData = response.data.data.userList;
+                        this.flyData = response.data.data.list;
+                        this.change()
                         this.total = response.data.data.total
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
+            initPassword(index,row){
+                this.init_id = row.uid
+                const axios = require('axios');
 
+                axios.get(`${this.global.config.url}/admin/user/updatePassword`, {params: {uid: this.init_id}})
+                    .then((response) => {
+                        this.message(response)
+                        this.handleCurrentChange()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
         }
     }
 </script>

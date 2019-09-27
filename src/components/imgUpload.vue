@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="upload-demo"
-    action='http://192.168.1.6:8081/admin/house/uploadImg'
+    action='http://192.168.1.4:8081/admin/house/uploadImg'
     :on-preview="handlePreview"
     :on-remove="handleRemove"
     :on-success="success"

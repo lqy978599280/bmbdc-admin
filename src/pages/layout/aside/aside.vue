@@ -107,6 +107,7 @@
   .el-aside {
 
     text-align: left;
+    background-color:rgb(73, 129, 136)
 
   }
 

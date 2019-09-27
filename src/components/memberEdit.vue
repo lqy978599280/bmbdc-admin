@@ -1,69 +1,81 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="550px" :before-close='dialogfv'   >
-    <passEdit :rejected="rejected" @getinnerDiafv="innerDiafv" @rejectedCommit="rejectedCommit"></passEdit>
-
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="50%" :before-close='dialogfv'   >
     <el-form :model="getdata" style="margin: 0 auto" :disabled="readOnly">
-      <el-form-item label="房产经纪人编号" :label-width="formLabelWidth" v-show="title!=='添加房产经纪人'" >
-        <el-input v-model="getdata.number" auto-complete="off" disabled></el-input>
+      <el-form-item label="登录账号*" :label-width="formLabelWidth">
+        <el-input  v-model="getdata.userName" auto-complete="off"></el-input>
       </el-form-item>
-
-      <el-form-item label="姓名*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.name" auto-complete="off"></el-input>
-
+      <el-form-item label="密码*" :label-width="formLabelWidth">
+        <el-input v-model="getdata.password" auto-complete="off"></el-input>
       </el-form-item>
-
       <el-form-item label="手机号码*" :label-width="formLabelWidth">
         <el-input v-model="getdata.phone" auto-complete="off"></el-input>
+
+      </el-form-item>
+      <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-input v-model="getdata.name" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="昵称" :label-width="formLabelWidth">
+        <el-input v-model="getdata.nickName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="身份证号码" :label-width="formLabelWidth">
+        <el-input v-model="getdata.idCard" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="性别" :label-width="formLabelWidth">
+        <el-radio v-model="getdata.sex" label="男" ></el-radio>
+        <el-radio v-model="getdata.sex" label="女" ></el-radio>
+      </el-form-item>
+      <el-form-item label="飞手社工" :label-width="formLabelWidth">
+        <el-radio v-model="getdata.is_fs" label="是" ></el-radio>
+        <el-radio v-model="getdata.is_fs" label="否" ></el-radio>
+      </el-form-item>
+      <el-form-item label="全景社工" :label-width="formLabelWidth">
+        <el-radio v-model="getdata.is_qj" label="是" ></el-radio>
+        <el-radio v-model="getdata.is_qj" label="否" ></el-radio>
+      </el-form-item>
+      <el-form-item label="房源社工" :label-width="formLabelWidth">
+        <el-radio v-model="getdata.is_fy" label="是" ></el-radio>
+        <el-radio v-model="getdata.is_fy" label="否" ></el-radio>
+      </el-form-item>
+      <el-form-item label="房产经纪人" :label-width="formLabelWidth">
+        <el-radio v-model="getdata.is_fc" label="是" ></el-radio>
+        <el-radio v-model="getdata.is_fc" label="否" ></el-radio>
       </el-form-item>
 
-      <el-form-item label="申请区域*" :label-width="formLabelWidth">
-        <el-select v-model="getdata.areaName"  filterable placeholder="可输入快捷搜索"  style="width: 300px;">
-          <el-option
-            v-for="item in areasList"
-            :key="item.id"
-            :label="item.mergername"
-            :value='item.mergername+"_"+item.id'
-          >
-            <span style="float: left">{{ item.mergername }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
-          </el-option>
-        </el-select>
-      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogfv" v-show="buttonClose!=='拒绝'">{{buttonClose}}</el-button>
-      <el-button @click="reject" v-show="buttonClose === '拒绝'">{{buttonClose}}</el-button>
-      <el-button type="primary" @click="dialogcommit" v-show="buttonClose!=='拒绝'">{{buttonCommit}}</el-button>
-      <el-button type="primary" @click="pass" v-show="buttonClose === '拒绝'">{{buttonCommit}}</el-button>
+      <el-button @click="dialogfv" >{{buttonClose}}</el-button>
+      <el-button type="primary" @click="dialogcommit" >{{buttonCommit}}</el-button>
     </div>
   </el-dialog>
 
 </template>
 
 <script>
-    import passEdit from "./passEdit";
-
     export default {
         name: "menuEdit",
-        components:{passEdit},
         props: {
             data: {
-                number:'',
+                is_fc: '',
+                is_fy: '',
+                is_qj: '',
+                is_fs: "",
+                balance: '',
                 name: '',
+                idCard: '',
+                sex: '',
+                nickName: '',
                 phone: '',
-                areaName:"",
-                createTime:'',
-                passTime:'',
-                rejectReason:'',
-                id:'',
+                password: '',
+                parentUserName: '',
+                userName: '',
+                isActive: '',
+                uid: '',
             },
             dialogFormVisible: '',
             title: '',
+            readOnly:false,
             buttonClose:'',
             buttonCommit:'',
-            readOnly:false,
-            pass_id:''
-
         },
         computed: {
             dialogif: function () {
@@ -74,138 +86,73 @@
         watch: {
             "dialogFormVisible": function () {
                 this.getdata = JSON.parse(JSON.stringify(this.data))
-
             }
 
-        },
-        data() {
-            return {
-                getdata: {
-                    number:'',
-                    name: '',
-                    phone: '',
-                    areaName:"",
-                    createTime:'',
-                    passTime:'',
-                    rejectReason:'',
-                    id:'',
-                },
-                formLabelWidth: '120px',
-                rejected: false,
-                areasList:[]
-
-
-
-            }
         },
         mounted(){
             const axios = require('axios');
-            axios.get(`${this.global.config.url}/admin/flyingHand/selectAllAreaName?page=10&size=20`)
+            axios.get(`${this.global.config.url}/admin/depts/selectAllDepts?page=1&size=100`)
                 .then((response)=> {
                     // console.log(response);
-                    this.areasList= response.data.data.areaList
+                    this.selectParent = response.data.data.deptList;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         },
+        data() {
+            return {
+                getdata: {
+                    is_fc: '',
+                    is_fy: '',
+                    is_qj: '',
+                    is_fs: "",
+                    balance: '',
+                    name: '',
+                    idCard: '',
+                    sex: '',
+                    nickName: '',
+                    phone: '',
+                    password: '',
+                    parentUserName: '',
+                    userName: '',
+                    isActive: '',
+                    uid: '',
+                },
+                formLabelWidth: '180px',
+                selectParent:[]
+
+
+            }
+        },
+
         methods: {
-            innerDiafv() {
-                this.rejected = false
-            },
-            rejectedCommit(reason) {
-                this.rejected = false
-                this.getdata.rejectReason = reason
-                // console.log(reason);
-                const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
-                        id: this.pass_id,
-                        rejectReason:this.getdata.rejectReason
-                    }
-
-                )
-                    .then((response) => {
-                        console.log(response);
-                        this.$emit('F5')
-                        this.message(response)
-
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
             dialogfv() {
-                this.map = false;
                 this.$emit('getdialogfv', !this.dialogFormVisible)
-                this.getdata = {}
-            },
-            reject() {
-                this.rejected = true
-                this.$emit('getdialogfv', !this.dialogFormVisible)
-                this.getdata = {}
+                this.getdata = {
+
+                }
             },
             dialogcommit() {
 
-                // this.data = JSON.parse(JSON.stringify(this.getdata))
-                // this.getdata = {}
-                this.map = false;
-
-                if (this.getdata.name === '') {
+                if(this.getdata.userName==='') {
                     this.$message({
-                        message: "请填写社工姓名",
-                        type: "warning",
-                        duration: 1000
-                    })
-                }else if (this.getdata.phone === '') {
-                    this.$message({
-                        message: "请填写社工手机号码",
-                        type: "warning",
-                        duration: 1000
-                    })
-                }else if (this.getdata.area === '') {
-                    this.$message({
-                        message: "请选择社工区域",
+                        message: "请填写账号",
                         type: "warning",
                         duration: 1000
                     })
                 }
-                else {
+                else if(this.getdata.password==='') {
+                    this.$message({
+                        message: "请输入密码",
+                        type: "warning",
+                        duration: 1000
+                    })
+                }
+                else{
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
-
                 }
 
-            },
-
-
-            pass(){
-                this.$emit('getdialogfv', !this.dialogFormVisible)
-                const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/flyingHand/flyingHandExamine`, {
-                        id: this.pass_id
-                    }
-                )
-                    .then((response) => {
-                        // console.log(response);
-                        this.$emit('F5')
-                        this.message(response)
-
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            message(response) {
-                let type = false;
-                if (response.data.code === 0) {
-                    type = "success"
-                } else type = "warning"
-                this.$message({
-                    message: response.data.message,
-                    type: type,
-                    duration: 1000
-                })
             },
 
         }
