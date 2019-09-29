@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'  width="700px"  >
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'  width="900px"  >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="标题*" :label-width="formLabelWidth">
         <el-input v-model="getdata.title" auto-complete="off" ></el-input>
@@ -32,9 +32,8 @@
       </el-form-item>
       <el-form-item label="内容" :label-width="formLabelWidth">
 <!--        <el-input type="textarea" style="height: 200px;font-size: 18px;width: 400px;" rows="7" v-model="getdata.content" ></el-input>-->
-
         <div style="line-height: 0">
-          <vue-ueditor-wrap v-model="getdata.content" :config="myConfig"></vue-ueditor-wrap>
+          <editor-bar v-model="getdata.content" :isClear="isClear"></editor-bar>
           <button @click.prevent="getContent">获取文本</button>
         </div>
       </el-form-item>
@@ -54,7 +53,7 @@
 </template>
 
 <script>
-    import VueUeditorWrap from "vue-ueditor-wrap"; // ES6 Module
+    import EditorBar from "./WangEditor"; // ES6 Module
     export default {
         name: "menuEdit",
         props: {
@@ -73,7 +72,7 @@
             dialogFormVisible: '',
             title: ''
         },
-        components:{VueUeditorWrap},
+        components:{EditorBar},
         computed: {
             dialogif: function () {
                 return this.dialogFormVisible
@@ -116,19 +115,7 @@
                 formLabelWidth: '120px',
                 selectType:['买房信息','卖房信息'],
                 selectName:[],
-                myConfig: {
-                    // 编辑器不自动被内容撑高
-                    autoHeightEnabled: false,
-                    // 初始容器高度
-                    initialFrameHeight: 240,
-                    // 初始容器宽度
-                    initialFrameWidth: '100%',
-                    // 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-                    serverUrl: 'http://192.168.1.4:8081/admin/Img/uploadImg',
-                    // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
-                    UEDITOR_HOME_URL: '/static/UE/'
-                }
-
+                isClear : false,
             }
         },
 
@@ -138,12 +125,9 @@
             },
             dialogfv() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
-                this.getdata = {
-                }
-
+                this.getdata = {}
             },
             dialogcommit() {
-
                 if(this.getdata.title==='') {
                     this.$message({
                         message: "请输入标题",
@@ -164,20 +148,11 @@
                         duration: 1000
                     })
                 }
-                // else if(this.data.parentName.indexOf("_")!==-1) {
-                //     this.$message({
-                //         message: "部门名称不允许带有_",
-                //         type: "warning",
-                //         duration: 1000
-                //     })
-                // }
-
                 else{
                     this.$emit('dialogcommit', !this.dialogFormVisible, this.getdata)
                 }
 
             },
-
         }
     }
 
