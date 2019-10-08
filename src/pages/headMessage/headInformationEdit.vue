@@ -2,13 +2,17 @@
   <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close='dialogfv'  width="900px"  >
     <el-form :model="getdata" style="margin: 0 auto">
       <el-form-item label="标题*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.title" auto-complete="off" ></el-input>
+        <el-input v-model="getdata.title" auto-complete="off"  style="padding-right: 40px"></el-input>
+        作者
+        <el-input v-model="getdata.author" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="关键词*" :label-width="formLabelWidth">
-        <el-input v-model="getdata.keywords" auto-complete="off"  ></el-input>
+        <el-input v-model="getdata.keywords" auto-complete="off"  style="padding-right: 40px"></el-input>
+        排序
+        <el-input v-model="getdata.sortOrder" auto-complete="off" ></el-input>
       </el-form-item>
       <el-form-item label="头条分类名称" :label-width="formLabelWidth" >
-        <el-select v-model="getdata.catName"  filterable placeholder="请选择类别"  style="width: 400px;"  >
+        <el-select v-model="getdata.catName"  filterable placeholder="请选择类别"  style="width: 330px;padding-right: 40px"  >
           <el-option
             v-for="item in selectName"
             :key="item.id"
@@ -19,17 +23,20 @@
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="作者" :label-width="formLabelWidth">
-        <el-input v-model="getdata.author" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="是否显示" :label-width="formLabelWidth">
-        <el-radio v-model="getdata.isShow" label="是">是</el-radio>
+        是否显示
+        <el-radio v-model="getdata.isShow" label="是" style="padding-left: 20px">是</el-radio>
         <el-radio v-model="getdata.isShow" label="否">否</el-radio>
       </el-form-item>
-      <el-form-item label="排序" :label-width="formLabelWidth">
-        <el-input v-model="getdata.sortOrder" auto-complete="off" ></el-input>
-      </el-form-item>
+<!--      <el-form-item label="作者" :label-width="formLabelWidth">-->
+
+<!--      </el-form-item>-->
+<!--      <el-form-item label="是否显示" :label-width="formLabelWidth">-->
+<!--        <el-radio v-model="getdata.isShow" label="是">是</el-radio>-->
+<!--        <el-radio v-model="getdata.isShow" label="否">否</el-radio>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="排序" :label-width="formLabelWidth">-->
+
+<!--      </el-form-item>-->
       <el-form-item label="内容" :label-width="formLabelWidth">
 <!--        <el-input type="textarea" style="height: 200px;font-size: 18px;width: 400px;" rows="7" v-model="getdata.content" ></el-input>-->
         <div style="line-height: 0">
@@ -112,7 +119,7 @@
                     sortOrder:0,
                     id: '',
                 },
-                formLabelWidth: '120px',
+                formLabelWidth: '110px',
                 selectType:['买房信息','卖房信息'],
                 selectName:[],
                 isClear : false,
@@ -160,7 +167,7 @@
 
 <style scoped>
   .el-input {
-    width: 400px;
+    width: 330px;
   }
 
 </style>

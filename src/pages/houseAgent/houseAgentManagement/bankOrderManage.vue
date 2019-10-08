@@ -1,24 +1,24 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="房源信息/社工姓名" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
 
 
-      <!--      <overallViewManaEdit :data="filteroverallViewData[index]"-->
-      <!--                           :dialogFormVisible="dialoginf"-->
-      <!--                           @getdialogfv="getdialogfv"-->
-      <!--                           :readOnly='true'-->
-      <!--                           :pass_id="select_id"-->
-      <!--                           :title="title"-->
-      <!--                           :buttonClose="buttonClose"-->
-      <!--                           :buttonCommit="buttonCommit"-->
-      <!--                           @F5="handleCurrentChange"></overallViewManaEdit>-->
+      <BOMList :data="overallViewData[index]"
+                           :dialogFormVisible="dialoginf"
+                           @getdialogfv="getdialogfv"
+                           :readOnly='true'
+                           :pass_id="select_id"
+                           :title="title"
+                           :buttonClose="buttonClose"
+                           :buttonCommit="buttonCommit"
+                           @F5="handleCurrentChange"></BOMList>
 
     </div>
     <el-table
       class="bgc"
-      :data="filteroverallViewData"
+      :data="overallViewData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -55,19 +55,18 @@
 
 <script>
     import singleMenu from "../../../components/singleMenu";
-    // import overallViewManaEdit from "./overallViewManaEdit";
-
+import BOMList from "./BOMList";
     export default {
         components: {
             singleMenu,
-            // overallViewManaEdit,
+            BOMList,
         },
         data() {
             return {
                 searching: '',
                 search: '',
                 index: 0,
-                title: "全景社工订单",
+                title: "银行按揭订单",
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
@@ -86,70 +85,72 @@
                         type: 'number',
                     },
                     {
-                        label: '房源信息',
-                        width: '130',
+                        label: '房源介绍',
+                        width: '160',
                         type: 'houseTitle',
                     },
                     {
-                        label: '买房姓名',
+                        label: '买方姓名',
                         width: '90',
                         type: 'name',
                     },
                     {
-                        label: '买房手机号码',
-                        width: '100',
-                        type: 'acceptTime',
+                        label: '买方手机号码',
+                        width: '140',
+                        type: 'phone',
                     },
                     {
                         label: '卖方姓名',
-                        width: '100',
-                        type: 'submitTime',
+                        width: '90',
+                        type: 'name',
                     },
                     {
                         label: '房产经纪人姓名',
-                        width: '80',
-                        type: 'totalAmout',
+                        width: '90',
+                        type: 'name',
                     },
                     {
                         label: '订单金额',
                         width: '80',
-                        type: 'bonus',
+                        type: 'totalAmout',
                     },
                     {
-                        label: '预约看房时间',
+                        label: '预约时间',
                         width: '100',
-                        type: 'approvalTime',
+                        type: 'acceptTime',
                     },
                     {
                         label: '买方提交时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
                     {
                         label: '卖方确认时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
                     {
-                        label: '卖方支付时间',
+                        label: '买方支付时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
                     {
                         label: '经纪人接单时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
                     {
                         label: '经纪人完成时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
                     {
                         label: '买方确认时间',
                         width: '100',
-                        type: 'rejectTime',
+                        type: 'acceptTime',
                     },
+
+
 
 
                 ],
@@ -165,50 +166,76 @@
                     name: '',
                     rejectReason: '',
                     id: '',
-                    houseTitle: '',
-                    adminUserName: '',
-                    totalamout: '',
-                    bonus: '',
-                    publishTime: '',
-                    acceptTime: '',
-                    submitTime: '',
-                    approvalTime: '',
-                    rejectTime: '',
+                    houseTitle:'',
+                    adminUserName:'',
+                    totalamout:'',
+                    bonus:'',
+                    publishTime:'',
+                    acceptTime:'',
+                    submitTime:'',
+                    approvalTime:'',
+                    rejectTime:'',
                 }
             }
         },
-        computed: {
-            filteroverallViewData: function () {
-                return this.overallViewData.filter((data) => {
-                    return data.houseTitle.match(this.search) || data.name.match(this.search)
-                })
+        // computed: {
+        //     filteroverallViewData: function () {
+        //         return this.overallViewData.filter((data) => {
+        //             return data.houseTitle.match(this.search) || data.name.match(this.search)
+        //         })
+        //     }
+        // },
+        watch:{
+            'search':function () {
+                this.delay.delay(()=>{
+                    const axios = require('axios');
+                    axios.get(`${this.global.config.url}/admin/adList/selectAllAdListByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.overallViewData = response.data.data.list;
+                            this.total = response.data.data.total
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
-
         mounted() {
             this.handleCurrentChange()
 
         },
         methods: {
 
-            handleEdit(index, row) {
+            handleEdit(index,row) {
                 this.index = index
                 this.select_id = row.number
                 switch (this.overallViewData[this.index].status) {
                     case  '已发布' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
                         break;
-                    case  '待提交' :
-                        this.buttonClose = '取消订单'
-                        this.buttonCommit = '提交'
+                    case  '待卖方确认' :
+                        this.buttonClose = '取消'
+                        this.buttonCommit = '确认'
                         break;
-                    case  '待审核' :
-                        this.buttonClose = '拒绝'
-                        this.buttonCommit = '通过'
+                    case  '待卖方支付' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '支付'
                         break;
-                    case  '审核通过' :
+                    case  '待接单' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '立即抢单'
                         break;
-                    case  '审核未通过' :
-                        this.buttonCommit = '重新提交'
+                    case  '待经纪人完成' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '完成'
+                        break;
+                    case  '待买方确实' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '确认'
                         break;
                 }
                 this.dialoginf = true;
@@ -243,10 +270,10 @@
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyerOrders/selectAllFlyerOrders?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/wholesceneOrders/selectAllOrder?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.overallViewData = response.data.data.orderList;
+                        this.overallViewData = response.data.data.list;
                         this.total = response.data.data.total
                         this.change()
                     })
