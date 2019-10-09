@@ -52,7 +52,7 @@
                 this.editor.customConfig.debug = true;
                 this.editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0
                 // this.editor.customConfig.uploadImgShowBase64 = false   // 使用 base64 保存图片
-                this.editor.customConfig.uploadImgServer = 'http://192.168.1.7:8081/admin/house/uploadImg'  // 上传图片到服务器
+                this.editor.customConfig.uploadImgServer = `${this.global.config.url}/admin/house/uploadImg`// 上传图片到服务器
                 this.editor.customConfig.showLinkImg = false
                 this.editor.customConfig.uploadImgHeaders = {'Accept': 'text/x-json'}  // 自定义header
                 this.editor.customConfig.uploadFileName = 'img'  // 后端接受上传文件的参数名

@@ -94,9 +94,21 @@
         type=="imgUrl"?scope.row.imgUrl:
         type=="lastUpdateTime"?scope.row.lastUpdateTime:
         type=="linkUrl"?scope.row.linkUrl:
+        type=="sellerUserName"?scope.row.sellerUserName:
+        type=="hAgentUserName"?scope.row.hAgentUserName:
+        type=="reserveTime"?scope.row.reserveTime:
+        type=="sellerCheckTime"?scope.row.sellerCheckTime:
+        type=="completeTime"?scope.row.completeTime:
+        type=="buyerCheckTime"?scope.row.buyerCheckTime:
+        type=="buyerPayTime"?scope.row.buyerPayTime:
+        type=="sellerSignTime"?scope.row.sellerSignTime:
+        type=="buyerSignTime"?scope.row.buyerSignTime:
+        type=="postTime"?scope.row.postTime:
+        type=="sellerConfirmTime"?scope.row.sellerConfirmTime:
+        type=="buyerConfirmTime"?scope.row.buyerConfirmTime:
+        type=="adminConfirmTime"?scope.row.adminConfirmTime:
 
         ''
-
 
         }}</span>
     </template>

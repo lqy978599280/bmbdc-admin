@@ -73,7 +73,6 @@ import BOMList from "./BOMList";
                 total: 1,
                 select_id: '',
                 columntype: [
-
                     {
                         label: '状态',
                         width: '100',
@@ -91,23 +90,23 @@ import BOMList from "./BOMList";
                     },
                     {
                         label: '买方姓名',
-                        width: '90',
-                        type: 'name',
+                        width: '80',
+                        type: 'userName',
                     },
                     {
                         label: '买方手机号码',
-                        width: '140',
+                        width: '120',
                         type: 'phone',
                     },
                     {
                         label: '卖方姓名',
-                        width: '90',
-                        type: 'name',
+                        width: '80',
+                        type: 'sellerUserName',
                     },
                     {
                         label: '房产经纪人姓名',
-                        width: '90',
-                        type: 'name',
+                        width: '80',
+                        type: 'hAgentUserName',
                     },
                     {
                         label: '订单金额',
@@ -116,43 +115,39 @@ import BOMList from "./BOMList";
                     },
                     {
                         label: '预约时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'reserveTime',
                     },
                     {
                         label: '买方提交时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'createTime',
                     },
                     {
                         label: '卖方确认时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'sellerCheckTime',
                     },
                     {
                         label: '买方支付时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'buyerPayTime',
                     },
                     {
                         label: '经纪人接单时间',
-                        width: '100',
+                        width: '110',
                         type: 'acceptTime',
                     },
                     {
                         label: '经纪人完成时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'completeTime',
                     },
                     {
                         label: '买方确认时间',
-                        width: '100',
-                        type: 'acceptTime',
+                        width: '110',
+                        type: 'buyerCheckTime',
                     },
-
-
-
-
                 ],
                 overallViewData: [],
 
@@ -163,33 +158,28 @@ import BOMList from "./BOMList";
                 del_id: '',
                 form: {
                     number: '',
-                    name: '',
-                    rejectReason: '',
+                    userName: '',
                     id: '',
                     houseTitle:'',
-                    adminUserName:'',
-                    totalamout:'',
-                    bonus:'',
-                    publishTime:'',
+                    sellerUserName:'',
+                    totalAmout:'',
+                    hAgentUserName:'',
+                    buyerCheckTime:'',
+                    completeTime:'',
                     acceptTime:'',
-                    submitTime:'',
-                    approvalTime:'',
-                    rejectTime:'',
+                    buyerPayTime:'',
+                    sellerCheckTime:'',
+                    createTime:'',
+                    reserveTime:'',
+                    bonus:'',
                 }
             }
         },
-        // computed: {
-        //     filteroverallViewData: function () {
-        //         return this.overallViewData.filter((data) => {
-        //             return data.houseTitle.match(this.search) || data.name.match(this.search)
-        //         })
-        //     }
-        // },
         watch:{
             'search':function () {
                 this.delay.delay(()=>{
                     const axios = require('axios');
-                    axios.get(`${this.global.config.url}/admin/adList/selectAllAdListByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                    axios.get(`${this.global.config.url}/admin/bankloanOrders/selectAllBankloanOrdersByValue?value=${this.search}&page=${this.currentPage}&size=8`)
                         .then((response) => {
                             console.log(response);
                             this.overallViewData = response.data.data.list;
@@ -205,13 +195,11 @@ import BOMList from "./BOMList";
         },
         mounted() {
             this.handleCurrentChange()
-
         },
         methods: {
-
             handleEdit(index,row) {
                 this.index = index
-                this.select_id = row.number
+                this.select_id = row.id
                 switch (this.overallViewData[this.index].status) {
                     case  '已发布' :
                         this.buttonClose = ''
@@ -221,31 +209,28 @@ import BOMList from "./BOMList";
                         this.buttonClose = '取消'
                         this.buttonCommit = '确认'
                         break;
-                    case  '待卖方支付' :
+                    case  '待买方支付' :
                         this.buttonClose = ''
                         this.buttonCommit = '支付'
                         break;
-                    case  '待接单' :
+                    case  '待房产经纪人接单' :
                         this.buttonClose = ''
                         this.buttonCommit = '立即抢单'
                         break;
-                    case  '待经纪人完成' :
+                    case  '待房产经纪人完成' :
                         this.buttonClose = ''
                         this.buttonCommit = '完成'
                         break;
-                    case  '待买方确实' :
+                    case  '待买方确认' :
                         this.buttonClose = ''
                         this.buttonCommit = '确认'
                         break;
                 }
                 this.dialoginf = true;
             },
-
-
             getdialogfv(val) {
                 this.dialoginf = val;
             },
-
             message(response) {
                 let type = false;
                 if (response.data.code === 0) {
@@ -259,18 +244,19 @@ import BOMList from "./BOMList";
             },
             change() {
                 for (let i = 0; i < this.overallViewData.length; i++) {
-
-                    this.overallViewData[i].status = this.overallViewData[i].status == 0 ? '已发布' :
-                        this.overallViewData[i].status == 1 ? '待提交' :
-                            this.overallViewData[i].status == 2 ? '待审核' :
-                                this.overallViewData[i].status == 3 ? '审核通过' :
-                                    this.overallViewData[i].status == 4 ? '审核未通过' : ''
-
+                    this.overallViewData[i].status = this.overallViewData[i].status == 0 ? '已提交' :
+                        this.overallViewData[i].status == 1 ? '待卖方确认' :
+                            this.overallViewData[i].status == 2 ? '待买方支付' :
+                                this.overallViewData[i].status == 3 ? '待房产经纪人接单' :
+                                    this.overallViewData[i].status == 4 ? '待房产经纪人完成' :
+                                        this.overallViewData[i].status == 5 ? '待买方确认' :
+                                           this.overallViewData[i].status == 6 ? '完成' :
+                                        ''
                 }
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/wholesceneOrders/selectAllOrder?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/bankloanOrders/selectAllBankloanOrders?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
                         this.overallViewData = response.data.data.list;

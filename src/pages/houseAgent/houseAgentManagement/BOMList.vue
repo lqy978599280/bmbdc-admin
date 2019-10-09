@@ -1,6 +1,5 @@
 <template>
   <el-dialog :title="title" :visible.sync="dialogFormVisible" width="800px" :before-close='dialogfv'>
-    <passEdit :rejected="rejected" @getinnerDiafv="innerDiafv" @rejectedCommit="rejectedCommit"></passEdit>
 
     <el-form :model="getdata" style="margin: 0 auto" :disabled="readOnly">
       <el-form-item label="订单编号" :label-width="formLabelWidth" v-show="title!=='添加房产经纪人'">
@@ -14,48 +13,53 @@
 
 
       <el-form-item label="卖方姓名" :label-width="formLabelWidth">
-        <el-input v-model="getdata.name" auto-complete="off" style="padding-right: 85px;"></el-input>
+        <el-input v-model="getdata.sellerUserName" auto-complete="off" style="padding-right: 85px;"></el-input>
         任务发布人姓名
-        <el-input v-model="getdata.adminUserName" auto-complete="off"></el-input>
+        <el-input v-model="getdata.userName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="房产经纪人姓名" :label-width="formLabelWidth">
-        <el-input v-model="getdata.houseTitle" auto-complete="off" style="width: 600px;"></el-input>
+        <el-input v-model="getdata.hAgentUserName" auto-complete="off" style="width: 600px;"></el-input>
       </el-form-item>
 
       <el-form-item label="买方发布时间" :label-width="formLabelWidth">
-        <el-input v-model="getdata.publishTime" auto-complete="off" style="padding-right: 130px;"></el-input>
+        <el-input v-model="getdata.createTime" auto-complete="off" style="padding-right: 100px;"></el-input>
         卖方确认时间
-        <el-input v-model="getdata.acceptTime" auto-complete="off"></el-input>
+        <el-input v-model="getdata.sellerCheckTime" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item label="买方支付时间" :label-width="formLabelWidth">
-        <el-input v-model="getdata.submitTime" auto-complete="off" style="padding-right: 130px;"></el-input>
+        <el-input v-model="getdata.buyerPayTime" auto-complete="off" style="padding-right: 100px;"></el-input>
         社工接单时间
-        <el-input v-model="getdata.approvalTime" auto-complete="off"></el-input>
+        <el-input v-model="getdata.acceptTime" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item label="经纪人完成时间" :label-width="formLabelWidth">
-        <el-input v-model="getdata.rejectTime" auto-complete="off" style="padding-right: 130px;"></el-input>
+        <el-input v-model="getdata.completeTime" auto-complete="off" style="padding-right: 100px;"></el-input>
         买方确实时间
-        <el-input v-model="getdata.status" auto-complete="off"></el-input>
+        <el-input v-model="getdata.buyerCheckTime" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="订单金额" :label-width="formLabelWidth">
-        <el-input v-model="getdata.totalamout" auto-complete="off" style="padding-right: 130px;"></el-input>
+        <el-input v-model="getdata.totalAmout" auto-complete="off" style="padding-right: 130px;"></el-input>
         收益金额
         <el-input v-model="getdata.bonus" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item label="订单状态" :label-width="formLabelWidth">
-        <el-input v-model="getdata.rejectReason" auto-complete="off" disabled style="width: 600px;"></el-input>
+        <el-input v-model="getdata.status" auto-complete="off" disabled style="width: 600px;"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="status0" v-show="buttonClose ==='取消订单'">{{buttonClose}}</el-button>
-      <el-button @click="reject" v-show="buttonClose === '拒绝'">{{buttonClose}}</el-button>
+      <el-button @click="status0" v-show="getdata.status ==='待卖方确认'&&buttonClose">{{buttonClose}}</el-button>
+<!--      <el-button @click="status0" v-show="getdata.status ==='待买方支付'&&buttonClose">{{buttonClose}}</el-button>-->
+<!--      <el-button @click="status0" v-show="getdata.status ==='待接单'&&buttonClose">{{buttonClose}}</el-button>-->
+<!--      <el-button @click="status0" v-show="getdata.status ==='待经纪人完成'&&buttonClose">{{buttonClose}}</el-button>-->
+<!--      <el-button @click="status0" v-show="getdata.status ==='待买方确认'&&buttonClose">{{buttonClose}}</el-button>-->
 
-      <el-button type="primary" @click="status2" v-show="buttonCommit ==='提交'">{{buttonCommit}}</el-button>
-      <el-button type="primary" @click="status3" v-show="buttonCommit === '通过'">{{buttonCommit}}</el-button>
-      <el-button type="primary" @click="status1" v-show="buttonCommit === '重新提交'">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status2" v-show="getdata.status ==='待卖方确认'&&buttonCommit">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status3" v-show="getdata.status ==='待买方支付'&&buttonCommit">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status4" v-show="getdata.status ==='待房产经纪人接单'&&buttonCommit">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status5" v-show="getdata.status ==='待房产经纪人完成'&&buttonCommit">{{buttonCommit}}</el-button>
+      <el-button type="primary" @click="status6" v-show="getdata.status ==='待买方确认'&&buttonCommit">{{buttonCommit}}</el-button>
     </div>
   </el-dialog>
 
@@ -63,25 +67,27 @@
 
 <script>
     import passEdit from "../../../components/passEdit";
-
+    const axios = require('axios');
     export default {
         name: "menuEdit",
         components: {passEdit},
         props: {
             data: {
                 number: '',
-                name: '',
-                rejectReason: '',
+                userName: '',
                 id: '',
                 houseTitle:'',
-                adminUserName:'',
-                totalamout:'',
-                bonus:'',
-                publishTime:'',
+                sellerUserName:'',
+                totalAmout:'',
+                hAgentUserName:'',
+                buyerCheckTime:'',
+                completeTime:'',
                 acceptTime:'',
-                submitTime:'',
-                approvalTime:'',
-                rejectTime:'',
+                buyerPayTime:'',
+                sellerCheckTime:'',
+                createTime:'',
+                reserveTime:'',
+                bonus:'',
 
             },
             dialogFormVisible: '',
@@ -109,21 +115,23 @@
             return {
                 getdata: {
                     number: '',
-                    name: '',
-                    rejectReason: '',
+                    userName: '',
                     id: '',
                     houseTitle:'',
-                    adminUserName:'',
-                    totalamout:'',
-                    bonus:'',
-                    publishTime:'',
+                    sellerUserName:'',
+                    totalAmout:'',
+                    hAgentUserName:'',
+                    buyerCheckTime:'',
+                    completeTime:'',
                     acceptTime:'',
-                    submitTime:'',
-                    approvalTime:'',
-                    rejectTime:'',
+                    buyerPayTime:'',
+                    sellerCheckTime:'',
+                    createTime:'',
+                    reserveTime:'',
+                    bonus:'',
+
                 },
                 formLabelWidth: '120px',
-                rejected: false,
                 areasList: []
 
 
@@ -131,37 +139,12 @@
         },
 
         methods: {
-            innerDiafv() {
-                this.rejected = false
-            },
-            rejectedCommit(reason) {
-                this.rejected = false
-                this.getdata.rejectReason = reason
-                // console.log(reason);
-                const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/wholesceneOrders/orderExamine`, {
-                        number: this.pass_id,
-                        rejectReason: this.getdata.rejectReason
-                    }
-                )
-                    .then((response) => {
-                        console.log(response);
-                        this.$emit('F5')
-                        this.message(response)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
+
             dialogfv() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
                 this.getdata = {}
             },
-            reject() {
-                this.rejected = true
-                this.$emit('getdialogfv', !this.dialogFormVisible)
-                this.getdata = {}
-            },
+
             status0(){
                 this.getdata.status = 0
                 this.statusChangeCommit()
@@ -178,11 +161,23 @@
                 this.getdata.status = 1
                 this.statusChangeCommit()
             },
+            status4(){
+                this.getdata.status = 4
+                this.statusChangeCommit()
+            },
+            status5(){
+                this.getdata.status = 5
+                this.statusChangeCommit()
+            },
+            status6(){
+                this.getdata.status = 6
+                this.statusChangeCommit()
+            },
             statusChangeCommit() {
                 this.$emit('getdialogfv', !this.dialogFormVisible)
-                const axios = require('axios');
-                axios.post(`${this.global.config.url}/admin/wholesceneOrders/orderExamine`, {
-                        number: this.pass_id,
+
+                axios.post(`${this.global.config.url}/admin/bankloanOrders/updateStatus`, {
+                        id: this.pass_id,
                         status:this.getdata.status
                     }
                 )

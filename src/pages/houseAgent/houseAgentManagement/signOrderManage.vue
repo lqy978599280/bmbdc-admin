@@ -1,24 +1,24 @@
 <template>
   <div>
     <div class="main-top">
-      <el-input class="bgc" type="text" placeholder="房源信息/社工姓名" v-model="search"></el-input>
+      <el-input class="bgc" type="text" placeholder="编号/姓名/手机号" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
 
 
-      <!--      <overallViewManaEdit :data="filteroverallViewData[index]"-->
-      <!--                           :dialogFormVisible="dialoginf"-->
-      <!--                           @getdialogfv="getdialogfv"-->
-      <!--                           :readOnly='true'-->
-      <!--                           :pass_id="select_id"-->
-      <!--                           :title="title"-->
-      <!--                           :buttonClose="buttonClose"-->
-      <!--                           :buttonCommit="buttonCommit"-->
-      <!--                           @F5="handleCurrentChange"></overallViewManaEdit>-->
+      <SOMList :data="overallViewData[index]"
+               :dialogFormVisible="dialoginf"
+               @getdialogfv="getdialogfv"
+               :readOnly='true'
+               :pass_id="select_id"
+               :title="title"
+               :buttonClose="buttonClose"
+               :buttonCommit="buttonCommit"
+               @F5="handleCurrentChange"></SOMList>
 
     </div>
     <el-table
       class="bgc"
-      :data="filteroverallViewData"
+      :data="overallViewData"
     >
       <div v-for="data in columntype">
         <singleMenu :coltype="data"></singleMenu>
@@ -55,26 +55,24 @@
 
 <script>
     import singleMenu from "../../../components/singleMenu";
-    // import overallViewManaEdit from "./overallViewManaEdit";
-
+import SOMList from "./SOMList";
     export default {
         components: {
             singleMenu,
-            // overallViewManaEdit,
+            SOMList,
         },
         data() {
             return {
                 searching: '',
                 search: '',
                 index: 0,
-                title: "全景社工订单",
+                title: "网签过户订单",
                 buttonClose: '',
                 buttonCommit: '',
                 currentPage: 1,
                 total: 1,
                 select_id: '',
                 columntype: [
-
                     {
                         label: '状态',
                         width: '100',
@@ -86,72 +84,86 @@
                         type: 'number',
                     },
                     {
-                        label: '房源信息',
-                        width: '130',
+                        label: '房源介绍',
+                        width: '160',
                         type: 'houseTitle',
                     },
                     {
-                        label: '买房姓名',
-                        width: '90',
-                        type: 'name',
+                        label: '买方姓名',
+                        width: '80',
+                        type: 'userName',
                     },
                     {
-                        label: '买房手机号码',
-                        width: '100',
-                        type: 'acceptTime',
+                        label: '买方手机号码',
+                        width: '120',
+                        type: 'phone',
                     },
                     {
                         label: '卖方姓名',
-                        width: '100',
-                        type: 'submitTime',
+                        width: '80',
+                        type: 'sellerUserName',
                     },
                     {
                         label: '房产经纪人姓名',
                         width: '80',
-                        type: 'totalAmout',
+                        type: 'hAgentUserName',
                     },
                     {
                         label: '订单金额',
                         width: '80',
-                        type: 'bonus',
+                        type: 'totalAmout',
                     },
                     {
-                        label: '预约看房时间',
-                        width: '100',
-                        type: 'approvalTime',
+                        label: '预约时间',
+                        width: '110',
+                        type: 'reserveTime',
                     },
                     {
                         label: '买方提交时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        width: '110',
+                        type: 'createTime',
                     },
                     {
                         label: '卖方确认时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        width: '110',
+                        type: 'sellerConfirmTime',
                     },
                     {
-                        label: '卖方支付时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        label: '买方支付时间',
+                        width: '110',
+                        type: 'buyerPayTime',
                     },
                     {
                         label: '经纪人接单时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        width: '110',
+                        type: 'acceptTime',
                     },
                     {
+                        label: '卖方签署合同时间',
+                        width: '110',
+                        type: 'sellerSignTime',
+                    },
+                    {
+                        label: '买方签署合同时间',
+                        width: '110',
+                        type: 'buyerSignTime',
+                    },
+                    {
+                        label: '总部邮寄时间',
+                        width: '110',
+                        type: 'postTime',
+                    },
+
+                    {
                         label: '经纪人完成时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        width: '110',
+                        type: 'completeTime',
                     },
                     {
                         label: '买方确认时间',
-                        width: '100',
-                        type: 'rejectTime',
+                        width: '110',
+                        type: 'buyerConfirmTime',
                     },
-
-
                 ],
                 overallViewData: [],
 
@@ -162,63 +174,90 @@
                 del_id: '',
                 form: {
                     number: '',
-                    name: '',
-                    rejectReason: '',
+                    userName: '',
                     id: '',
-                    houseTitle: '',
-                    adminUserName: '',
-                    totalamout: '',
-                    bonus: '',
-                    publishTime: '',
-                    acceptTime: '',
-                    submitTime: '',
-                    approvalTime: '',
-                    rejectTime: '',
+                    houseTitle:'',
+                    sellerUserName:'',
+                    totalAmout:'',
+                    hAgentUserName:'',
+                    buyerConfirmTime:'',
+                    completeTime:'',
+                    acceptTime:'',
+                    buyerPayTime:'',
+                    sellerConfirmTime:'',
+                    createTime:'',
+                    reserveTime:'',
+                    bonus:'',
+                    sellerSignTime:'',
+                    buyerSignTime:'',
+                    postTime:'',
                 }
             }
         },
-        computed: {
-            filteroverallViewData: function () {
-                return this.overallViewData.filter((data) => {
-                    return data.houseTitle.match(this.search) || data.name.match(this.search)
-                })
+        watch:{
+            'search':function () {
+                this.delay.delay(()=>{
+                    const axios = require('axios');
+                    axios.get(`${this.global.config.url}/admin/onlinesignOrders/selectAllOnlinesignOrdersByValue?value=${this.search}&page=${this.currentPage}&size=8`)
+                        .then((response) => {
+                            console.log(response);
+                            this.overallViewData = response.data.data.list;
+                            this.total = response.data.data.total
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },500)
+
             }
         },
-
         mounted() {
             this.handleCurrentChange()
-
         },
         methods: {
-
-            handleEdit(index, row) {
+            handleEdit(index,row) {
                 this.index = index
-                this.select_id = row.number
+                this.select_id = row.id
                 switch (this.overallViewData[this.index].status) {
                     case  '已发布' :
+                        this.buttonClose = ''
+                        this.buttonCommit = ''
                         break;
-                    case  '待提交' :
-                        this.buttonClose = '取消订单'
-                        this.buttonCommit = '提交'
+                    case  '待卖方确认' :
+                        this.buttonClose = '取消'
+                        this.buttonCommit = '确认'
                         break;
-                    case  '待审核' :
-                        this.buttonClose = '拒绝'
-                        this.buttonCommit = '通过'
+                    case  '待买方支付' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '支付'
                         break;
-                    case  '审核通过' :
+                    case  '待房产经纪人接单' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '立即抢单'
                         break;
-                    case  '审核未通过' :
-                        this.buttonCommit = '重新提交'
+                    case  '待买卖双方签署合同' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '签署'
+                        break;
+                    case  '待总部邮寄' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '邮寄'
+                        break;
+                    case  '待房产经纪人完成' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '完成'
+                        break;
+                    case  '待买方确认' :
+                        this.buttonClose = ''
+                        this.buttonCommit = '确认'
                         break;
                 }
                 this.dialoginf = true;
             },
-
-
             getdialogfv(val) {
                 this.dialoginf = val;
             },
-
             message(response) {
                 let type = false;
                 if (response.data.code === 0) {
@@ -232,21 +271,24 @@
             },
             change() {
                 for (let i = 0; i < this.overallViewData.length; i++) {
-
-                    this.overallViewData[i].status = this.overallViewData[i].status == 0 ? '已发布' :
-                        this.overallViewData[i].status == 1 ? '待提交' :
-                            this.overallViewData[i].status == 2 ? '待审核' :
-                                this.overallViewData[i].status == 3 ? '审核通过' :
-                                    this.overallViewData[i].status == 4 ? '审核未通过' : ''
-
+                    this.overallViewData[i].status = this.overallViewData[i].status == 0 ? '已提交' :
+                        this.overallViewData[i].status == 1 ? '待卖方确认' :
+                            this.overallViewData[i].status == 2 ? '待买方支付' :
+                                this.overallViewData[i].status == 3 ? '待房产经纪人接单' :
+                                     this.overallViewData[i].status == 4 ? '待买卖双方签署合同' :
+                                          this.overallViewData[i].status == 5 ? '待总部邮寄' :
+                                              this.overallViewData[i].status == 6 ? '待房产经纪人完成' :
+                                                  this.overallViewData[i].status == 7 ? '待买方确认' :
+                                                      this.overallViewData[i].status == 8 ? '完成' :
+                                                          ''
                 }
             },
             handleCurrentChange() {
                 const axios = require("axios")
-                axios.get(`${this.global.config.url}/admin/flyerOrders/selectAllFlyerOrders?page=${this.currentPage}&size=8`)
+                axios.get(`${this.global.config.url}/admin/onlinesignOrders/selectAllOnlinesignOrders?page=${this.currentPage}&size=8`)
                     .then((response) => {
                         console.log(response);
-                        this.overallViewData = response.data.data.orderList;
+                        this.overallViewData = response.data.data.list;
                         this.total = response.data.data.total
                         this.change()
                     })
