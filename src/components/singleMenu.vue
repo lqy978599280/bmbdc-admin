@@ -107,6 +107,11 @@
         type=="sellerConfirmTime"?scope.row.sellerConfirmTime:
         type=="buyerConfirmTime"?scope.row.buyerConfirmTime:
         type=="adminConfirmTime"?scope.row.adminConfirmTime:
+        type=="floorDes"?scope.row.floorDes:
+        type=="publishTime"?scope.row.publishTime:
+        type=="wholeSceneUserName"?scope.row.wholeSceneUserName:
+        type=="adminUserName"?scope.row.adminUserName:
+        type=="rejectReason"?scope.row.rejectReason:
 
         ''
 

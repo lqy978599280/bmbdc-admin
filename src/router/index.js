@@ -41,6 +41,13 @@ const houseOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/h
 const moneyOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/moneyOrderManage')
 const signOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/signOrderManage')
 const bankOrderManage = () => import('@/pages/houseAgent/houseAgentManagement/bankOrderManage')
+const bank = () => import('@/pages/trust/bank')
+const sell = () => import('@/pages/trust/sell')
+const buy = () => import('@/pages/trust/buy')
+const look = () => import('@/pages/trust/look')
+const sign = () => import('@/pages/trust/sign')
+const money = () => import('@/pages/trust/money')
+const picture = () => import('@/pages/trust/picture')
 
 Vue.use(Router)
 
@@ -319,6 +326,58 @@ let addRouter = [
     ]
   },
   {
+    path: '/village',
+    name: '委托管理',
+    component: layout,
+    iconCls: 'fa fa-magnet',
+
+    children: [
+      {
+        path: '/sell',
+        name: '委托卖房管理',
+        component: sell,
+        children: []
+      },
+      {
+        path: '/buy',
+        name: '委托买房管理',
+        component: buy,
+        children: []
+      },
+      {
+        path: '/look',
+        name: '带看房管理',
+        component: look,
+        children: []
+      },
+      {
+        path: '/money',
+        name: '定金合同管理',
+        component: money,
+        children: []
+      },
+      {
+        path: '/sign',
+        name: '网签过户管理',
+        component: sign,
+        children: []
+      },
+      {
+        path: '/bank',
+        name: '银行按揭管理',
+        component: bank,
+        children: []
+      },
+      {
+        path: '/picture',
+        name: '全景拍摄管理',
+        component: picture,
+        children: []
+      },
+
+    ]
+  },
+  {
     path: '/block',
     name: '区域信息管理',
     component: layout,
@@ -363,21 +422,7 @@ let addRouter = [
       },
     ]
   },
-  // {
-  //   path: '/village',
-  //   name: '委托管理',
-  //   component: layout,
-  //   iconCls: 'fa fa-magnet',
-  //
-  //   children: [
-  //     {
-  //       path: '/village',
-  //       name: '委托买房管理',
-  //       component: village,
-  //       children: []
-  //     },
-  //   ]
-  // },
+
   {
     path: '*',  // 通配符拦截放在最后，不存在的路由全都指向404页面
     redirect: '/404',
