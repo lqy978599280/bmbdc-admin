@@ -326,7 +326,7 @@ let addRouter = [
     ]
   },
   {
-    path: '/village',
+    path: '/trust',
     name: '委托管理',
     component: layout,
     iconCls: 'fa fa-magnet',
