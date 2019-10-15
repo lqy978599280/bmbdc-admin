@@ -4,7 +4,8 @@
     <div class="main-top">
       <el-input class="bgc" type="text" placeholder="房源编号/房东姓名/联系方式" v-model="search"></el-input>
       <el-button class="search bgc">搜 索</el-button>
-      <el-button class="add bgc" @click='add'>添 加</el-button>
+      <el-button class="add bgc" @click='add' v-show="!dispatchStatus">添 加</el-button>
+      <el-button class="add bgc" @click='dispatchIds' v-show="dispatchStatus">确 认</el-button>
       <villageEdit :data="form" :dialogFormVisible="dialogadd" @dialogcommit="dialogcommit" @getdialogfv="getdialogfv"
                     :title="title[0]" :buttonClose="buttonClose" :buttonCommit="buttonCommit"></villageEdit>
       <villageEdit :data="filterHouseResData[index]" :dialogFormVisible="dialogedit" @dialogcommit="dialogeditcommit"
@@ -19,17 +20,23 @@
     <el-table
       class="bgc"
       :data="filterHouseResData"
+      @selection-change="out"
     >
-      <div v-for="data in columntype">
-        <singleMenu :coltype="data"></singleMenu>
+      <div >
+          <el-table-column type="selection" >
+          </el-table-column>
       </div>
 
+      <template v-for="data in columntype">
+        <singleMenu :coltype="data"></singleMenu>
+      </template>
 
-      <el-table-column label="操作" width="520">
+
+      <el-table-column label="操作" width="520" v-if="!dispatchStatus">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index)">详 情
+            @click="information(scope.$index)">详 情
           </el-button>
           <el-button
             size="mini"
@@ -40,7 +47,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="information(scope.$index, scope.row)">派 单
+            @click.prevent="dispatch(scope.$index, scope.row)">派 单
           </el-button>
           <el-button
             size="mini"
@@ -93,11 +100,7 @@
                 title: ["添加房源", "编辑房源", '审核'],
 
                 columntype: [
-                    {
-                        label: '房源性质',
-                        width: '100',
-                        type: 'houseUsageName',
-                    },
+
                     {
                         label: '小区编号',
                         width: '120',
@@ -108,10 +111,9 @@
                         width: '80',
                         type: 'name',
                     },
-
                     {
                         label: '所在区域',
-                        width: '120',
+                        width: '110',
                         type: 'areaName',
                     },
                     {
@@ -126,7 +128,7 @@
                     },
                     {
                         label: '纬度',
-                        width: '80',
+                        width: '100',
                         type: 'lng',
                     },
                     {
@@ -152,11 +154,12 @@
                     },
                 ],
                 houseResData: [],
-
+                ids:[],
                 dialogadd: false,
                 dialogedit: false,
                 dialogdel: false,
                 dialoginf: false,
+                dispatchStatus:false,
                 select_id: '',
                 form: {
                     name: '',
@@ -213,6 +216,14 @@
                 this.select_id = row.id
 
             },
+            dispatch(index,row){
+              this.dispatchStatus = true
+            },
+            dispatchIds(){
+                this.dispatchStatus = false
+                console.log(this.ids);
+
+            },
             handleEdit(index) {
                 this.index = index
                 this.dialogedit = true;
@@ -222,30 +233,6 @@
             handleDelete(index, row) {
                 this.dialogdel = true
                 this.select_id = row.id
-            },
-            onlineHouse(index, row) {
-                const axios = require('axios');
-                axios.get(`${this.global.config.url}/admin/house/onlineHouse`, {params: {id: row.id}})
-                    .then((response) => {
-                        // console.log(response);
-                        this.message(response)
-                        this.handleCurrentChange()
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            offlineHouse(index, row) {
-                const axios = require('axios');
-                axios.get(`${this.global.config.url}/admin/house/offlineHouse`, {params: {id: row.id}})
-                    .then((response) => {
-                        // console.log(response);
-                        this.message(response)
-                        this.handleCurrentChange()
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
             },
 
             getdialogfv(val) {
@@ -259,41 +246,7 @@
                 this.dialogedit = val;
                 this.dialogadd = val;
                 // this.tableData.push(data)
-                this.form = {name: '',
-                    number: '',
-                    compose:'',
-                    phone: '',
-                    areaName: '',
-                    villageName: '',
-                    areaMeasure: '',
-                    totalPrice: '',
-                    is_twoYear: '',
-                    houseUsageName: '',
-                    id: '',
-                    matchingNames:[],
-                    buildYear:'',
-                    status:'',
-
-                    tagNames:[],
-                    lng: '',
-                    lat: '',
-                    decorateName:'',
-                    oriName:'',
-                    otherInformation: '',
-                    bedroom: '',
-                    livingroom: '',
-                    washroom: '',
-                    balcony:'',
-
-                    building: '',
-                    unit: '',
-                    house: '',
-                    floor: '',
-                    floorAll: '',
-                    thumbImgUrl:[],
-                    imgList:[],
-                    VRImgUrl:[],
-                    houseImgUrl:[]}
+                this.form = {}
                 data.matchingNames =data.matchingNames.join(',')
                 data.tagNames =data.tagNames.join(',')
                 console.log(data);
@@ -419,6 +372,13 @@
                         console.log(error);
                     });
             },
+            out(val){
+                this.ids =[]
+                for (let i = 0 ,len = val.length;i<len;i++){
+                    this.ids[i] = val[i].id
+                }
+                console.log(this.ids);
+            }
         }
     }
 </script>

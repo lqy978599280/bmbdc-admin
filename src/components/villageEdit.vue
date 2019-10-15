@@ -1,33 +1,29 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="950px" :before-close='dialogfv'>
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="1000px" :before-close='dialogfv'>
     <passEdit :rejected="rejected" @getinnerDiafv="innerDiafv" @rejectedCommit="rejectedCommit"></passEdit>
 
     <div class="button">
       <el-button @click="show=1">基本信息</el-button>
       <el-button @click="show=2">图片信息</el-button>
-      <el-button @click="show=3">其他</el-button>
     </div>
 
     <div class="basic" v-show="show===1">
       <el-form :model="getdata" :disabled="readOnly" style="margin: 0 auto">
-        <el-form-item label="房东姓名*" :label-width="formLabelWidth">
+        <el-form-item label="小区名称*" :label-width="formLabelWidth">
 
-          <el-input v-model="getdata.name" auto-complete="off" style="width: 160px;margin-right: 60px"></el-input>
-          <div v-show="title==='审核'" style="display: inline-block">
-            房源编号*
-            <el-input v-model="getdata.number" auto-complete="off" style="width: 160px;margin-right: 60px"></el-input>
+          <el-input v-model="getdata.name" auto-complete="off" style="width: 250px;margin-right: 110px"></el-input>
+          <div v-show="title==='审核'" style="display: inline-block;width: 450px">
+            小区编号*
+            <el-input v-model="getdata.number" auto-complete="off" style="width: 275px;margin-right: 60px"></el-input>
 
           </div>
           &nbsp;
           <div v-show="title!=='审核'" style="width: 160px;margin-right: 60px;display: inline-block">
 
           </div>
-
-          房东手机号码
-          <el-input v-model="getdata.phone" auto-complete="off" style="width: 160px;"></el-input>
         </el-form-item>
 
-        <el-form-item label="小区名称" :label-width="formLabelWidth">
+        <el-form-item label="小区名称*" :label-width="formLabelWidth">
           <el-select v-model="getdata.villageName" filterable placeholder="可输入快捷搜索"
                      style="width: 250px;padding:5px 110px 5px 10px">
             <el-option
@@ -40,9 +36,9 @@
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
             </el-option>
           </el-select>
-          地区
+          地区*
           <el-select v-model="getdata.areaName" filterable placeholder="可输入快捷搜索"
-                     style="width: 315px;padding-left: 10px">
+                     style="width: 305px;padding-left: 10px">
             <el-option
               v-for="item in areasList"
               :key="item.id"
@@ -56,120 +52,106 @@
         </el-form-item>
 
 
-        <el-form-item label="标题" :label-width="formLabelWidth">
+        <el-form-item label="标题*" :label-width="formLabelWidth">
           <el-input v-model="getdata.title" auto-complete="off" style="width: 725px;"></el-input>
         </el-form-item>
 
-        <el-form-item label="楼层" class="border" :label-width="formLabelWidth">
-          <el-input v-model="getdata.floor" auto-complete="off" style="width: 110px;">
-            <template slot="append">层</template>
 
+
+
+        <el-form-item label="建筑面积*" class="border" :label-width="formLabelWidth">
+          <el-input v-model="getdata.building" auto-complete="off" style="width: 250px;margin-right: 110px">
+            <template slot="append">平方米</template>
           </el-input>
 
-          <el-input v-model="getdata.floorAll" auto-complete="off" style="width: 180px; margin-right: 165px">
-            <template slot="prepend">共</template>
-            <template slot="append">层</template>
+
+          规划面积*
+          <el-input v-model="getdata.unit" auto-complete="off" style="width: 275px;">
+            <template slot="append">平方米</template>
           </el-input>
 
-          是否满两年
-          <el-radio v-model="getdata.is_twoYear" style="padding-left: 10px" label="是" value="1"></el-radio>
-          <el-radio v-model="getdata.is_twoYear" label="否" value="0"></el-radio>
-
-        </el-form-item>
-
-        <el-form-item label="门牌号" class="border" :label-width="formLabelWidth">
-          <el-input v-model="getdata.building" auto-complete="off" style="width: 110px;">
-            <template slot="append">幢</template>
-          </el-input>
-          <el-input v-model="getdata.unit" auto-complete="off" style="width: 125px;">
-            <template slot="append">单元</template>
-          </el-input>
-          <el-input v-model="getdata.house" auto-complete="off" style="width: 110px;margin-right: 90px">
-            <template slot="append">室</template>
-          </el-input>
 
 
         </el-form-item>
 
-        <el-form-item label="户型" class="border" :label-width="formLabelWidth">
-          <el-input v-model="getdata.bedroom" auto-complete="off" style="width: 110px;">
-            <template slot="append">室</template>
-          </el-input>
-          <el-input v-model="getdata.livingroom" auto-complete="off" style="width: 125px;">
-            <template slot="append">厅</template>
-          </el-input>
-          <el-input v-model="getdata.washroom" auto-complete="off" style="width: 110px;">
-            <template slot="append">卫</template>
-          </el-input>
-          <el-input v-model="getdata.balcony" auto-complete="off" style="width: 130px;">
-            <template slot="append">阳台</template>
+        <el-form-item label="开发商名称*" :label-width="formLabelWidth">
+          <el-input v-model="getdata.title" auto-complete="off" style="width: 725px;"></el-input>
+        </el-form-item>
+        <el-form-item label="物业名称*" :label-width="formLabelWidth">
+          <el-input v-model="getdata.title" auto-complete="off" style="width: 725px;"></el-input>
+        </el-form-item>
+        <el-form-item label="绿化率(%)" class="border" :label-width="formLabelWidth">
+          <el-input v-model="getdata.building" auto-complete="off" style="width: 250px;margin-right: 110px">
           </el-input>
 
+          容积率(%)
+          <el-input v-model="getdata.unit" auto-complete="off" style="width: 273px;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="规划户数" class="border" :label-width="formLabelWidth">
+          <el-input v-model="getdata.building" auto-complete="off" style="width: 250px;margin-right: 110px">
+          </el-input>
+
+          车位数
+          <el-input v-model="getdata.unit" auto-complete="off" style="width: 299px;">
+          </el-input>
+        </el-form-item>
+
+
+        <el-form-item label="物业费(元/平米)" class="border" :label-width="formLabelWidth">
+          <el-input v-model="getdata.building" auto-complete="off" style="width: 250px;margin-right: 110px">
+          </el-input>
+
+          产权年限
+          <el-select v-model="getdata.villageName" filterable placeholder="可输入快捷搜索"
+                     style="width: 284px;padding:5px 0px 5px 10px">
+            <el-option
+              v-for="item in villagesList"
+              :key="item.id"
+              :label="item.name"
+              :value='item.name+"_"+item.id'
+            >
+              <span style="float: left">{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="物业类型*" :label-width="formLabelWidth">
+          <el-select v-model="getdata.villageName" filterable placeholder="可输入快捷搜索"
+                     style="width: 250px;padding:5px 110px 5px 10px">
+            <el-option
+              v-for="item in villagesList"
+              :key="item.id"
+              :label="item.name"
+              :value='item.name+"_"+item.id'
+            >
+              <span style="float: left">{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+            </el-option>
+          </el-select>
+          建筑类型*
+          <el-select v-model="getdata.areaName" filterable placeholder="可输入快捷搜索"
+                     style="width: 276px;padding-left: 10px">
+            <el-option
+              v-for="item in areasList"
+              :key="item.id"
+              :label="item.mergername"
+              :value='item.mergername+"_"+item.id'
+            >
+              <span style="float: left">{{ item.mergername }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="建造年代" :label-width="formLabelWidth">
-          <el-input v-model="getdata.buildYear" style="width: 150px; margin-right: 55px" auto-complete="off">
+          <el-input v-model="getdata.buildYear" style="width: 725px; margin-right: 55px" auto-complete="off">
             <template slot="append">年</template>
           </el-input>
 
-          建筑面积
-          <el-input v-model="getdata.areaMeasure" style="width: 150px;  margin-right: 55px" auto-complete="off">
-            <template slot="append">平米</template>
-          </el-input>
-
-          期望总价
-          <el-input v-model="getdata.totalPrice" style="width: 150px;" auto-complete="off">
-            <template slot="append">万</template>
-          </el-input>
         </el-form-item>
 
-        <el-form-item label="朝向" :label-width="formLabelWidth">
-          <el-select v-model="getdata.oriName" filterable placeholder="请选择"
-                     style="width: 170px;padding:5px 0 5px 10px;margin-right: 25px">
-            <el-option
-              v-for="item in houseOrientationList"
-              :key="item.id"
-              :label="item.name"
-              :value='item.name+"_"+item.id'
 
-            >
-              <span style="float: left">{{ item.name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
-            </el-option>
-          </el-select>
-
-          装修程度
-          <el-select v-model="getdata.decorateName" filterable placeholder="请选择"
-                     style="width: 170px;padding-left: 10px;margin-right: 25px">
-            <el-option
-              v-for="item in houseDecorateList"
-              :key="item.id"
-              :label="item.name"
-              :value='item.name+"_"+item.id'
-
-            >
-              <span style="float: left">{{ item.name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
-            </el-option>
-          </el-select>
-
-
-          物业类型
-          <el-select v-model="getdata.houseUsageName" filterable placeholder="请选择"
-                     style="width: 170px;padding-left: 10px;padding-right: 44px">
-            <el-option
-              v-for="item in houseUsageList"
-              :key="item.id"
-              :label="item.name"
-              :value='item.name+"_"+item.id'
-
-            >
-              <span style="float: left">{{ item.name }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.id }}</span>
-            </el-option>
-          </el-select>
-
-        </el-form-item>
 
         <el-form-item label="位置" :label-width="formLabelWidth">
           <div style="padding-left: 10px">
@@ -205,7 +187,7 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="标签" :label-width="formLabelWidth">
+        <el-form-item label="小区特色" :label-width="formLabelWidth">
 
           <el-checkbox-group
             v-model="getdata.tagNames"
@@ -223,20 +205,6 @@
 
         </el-form-item>
 
-        <el-form-item label="配套设施" :label-width="formLabelWidth">
-          <el-checkbox-group
-            v-model="getdata.matchingNames"
-          >
-
-            <el-checkbox
-              v-for="item in matchingList"
-              :key="item.id"
-              :label='item.name+"_"+item.id'
-            >
-              {{item.name }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
 
 
       </el-form>
@@ -270,28 +238,11 @@
 
           <imgUpload :disabled="readOnly" :limit="limit[2]" :myFileList="getdata.VRImgUrl" @sub="getVR"></imgUpload>
         </div>
-        <div class="img_child">
-          户型图【只需要一张】
-          <hr>
-
-          <imgUpload :disabled="readOnly" :limit="limit[3]" :myFileList="getdata.houseImgUrl" @sub="getHouseImg"></imgUpload>
-        </div>
       </div>
 
     </div>
 
 
-    <div class="other" v-show="show===3">
-      <div style="width: 600px;margin:0 auto;padding:20px;font-size: 22px"  >
-        其他补充信息
-        <hr style="margin:10px 0 ">
-        <el-input type="textarea" style="height: 300px;font-size: 20px" rows="10"
-                  v-model="getdata.otherInformation"
-                  :disabled="readOnly"
-        ></el-input>
-      </div>
-
-    </div>
 
   </el-dialog>
 
@@ -310,39 +261,27 @@
             data: {
                 name: '',
                 number: '',
-                compose: '',
-                phone: '',
-                areaName: '',
-                villageName: '',
-                areaMeasure: '',
-                totalPrice: '',
-                is_twoYear: '',
-                houseUsageName: '',
                 id: '',
-                buildYear: '',
-                matchingNames: [],
-                tagNames: [],
                 lng: '',
                 lat: '',
-                decorateName: '',
-                oriName: '',
-                title: '',
-                otherInformation: '',
-                bedroom: '',
-                livingroom: '',
-                washroom: '',
-                balcony: '',
                 building: '',
-                unit: '',
-                house: '',
-                floor: '',
-                floorAll: '',
-                rejectReason: '',
                 status:'',
-                thumbImgUrl:[],
-                imgList:[],
-                VRImgUrl:[],
-                houseImgUrl:[]
+                title:'',
+                areaName:'',
+                address:'',
+                buildArea:'',
+                planArea:'',
+                developName:'',
+                propertyName:'',
+                greenPercent:'',
+                volumePercent:'',
+                propertyType:'',
+                BuildType:'',
+                statFamilyNumus:'',
+                parkingNum:'',
+                HouseRight:'',
+                buildYear:'',
+                speDesc:'',
             },
             dialogFormVisible: '',
             title: '',
@@ -395,42 +334,30 @@
                 getdata: {
                     name: '',
                     number: '',
-                    compose: '',
-                    phone: '',
-                    areaName: '',
-                    villageName: '',
-                    areaMeasure: '',
-                    totalPrice: '',
-                    is_twoYear: '',
-                    houseUsageName: '',
                     id: '',
-                    matchingNames: [],
-                    tagNames: [],
                     lng: '',
                     lat: '',
-                    decorateName: '',
-                    oriName: '',
-                    title: '',
-                    buildYear: '',
-                    otherInformation: '',
-                    bedroom: '',
-                    livingroom: '',
-                    washroom: '',
-                    balcony: '',
                     building: '',
-                    unit: '',
-                    house: '',
-                    floor: '',
-                    floorAll: '',
-                    rejectReason: '',
                     status:'',
-                    thumbImgUrl:[],
-                    imgList:[],
-                    VRImgUrl:[],
-                    houseImgUrl:[]
+                    title:'',
+                    areaName:'',
+                    address:'',
+                    buildArea:'',
+                    planArea:'',
+                    developName:'',
+                    propertyName:'',
+                    greenPercent:'',
+                    volumePercent:'',
+                    propertyType:'',
+                    BuildType:'',
+                    statFamilyNumus:'',
+                    parkingNum:'',
+                    HouseRight:'',
+                    buildYear:'',
+                    speDesc:'',
                 },
                 limit:[1,5,1,1],
-                formLabelWidth: '120px',
+                formLabelWidth: '130px',
                 show: 1,
                 area: '',
                 map: false,
